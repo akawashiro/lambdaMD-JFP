@@ -47,9 +47,9 @@ where stage substitution \([\alpha \mapsto A]\) manipulates the nesting of
 
 % CSP
 
-Cross-stage persistence (CSP), which is an important feature of \LTP,
-is a primitive to embed values (not necessarily code values) into a
-code value.  For example, a \LTP-term
+Cross-stage persistence (CSP), which is an essential feature of \LTP, is a
+primitive operator to embed values (not necessarily code values) into a code
+value. For example, a \LTP-term
 \[
   M_1 = \lambda x:\I.\Lambda\alpha.(\TB_\alpha ((\%_\alpha x) * 2))
 \]
@@ -100,25 +100,24 @@ These are expressed by the following typing rules.
 
 % General explanation of extension
 
-In this paper, we add a simple form of dependent types---{\`a} la
-Edinburgh LF~\cite{harper1993framework} and \LLF~\cite{attapl}---to \LTP.
-Types can be indexed by terms as in \texttt{Vector} in
-Section~\ref{sec:intro} and \(\lambda\)-abstractions can be given
-dependent function types of the form \(\Pi x:\tau. \sigma\) but we do
-not consider type operators (such as $\texttt{list } \tau$) or
-abstraction over type variables.  We introduce kinds to classify
-well-formed types and equivalences for kinds, types, and terms---as
-in other dependent type systems---but we have to address a question
-how the notion of stage (should) interact with kinds and types.
+In this paper, we add a simple form of dependent types---{\`a} la Edinburgh
+LF~\cite{harper1993framework} and \LLF~\cite{attapl}---to \LTP.  Types can be
+indexed by terms as in \texttt{Vector} in Section~\ref{sec:intro} and
+\(\lambda\)-abstractions can be given dependent function types of the form
+\(\Pi x:\tau. \sigma\) but we do not consider type operators (such as
+$\texttt{list } \tau$) or abstraction over type variables.  We introduce kinds
+to classify well-formed types and equivalences for kinds, types, and terms---as
+in other dependent type systems---but we have to address a question of how the
+notion of stages (should) interact with kinds and types.
 
 % Issues around type and stage
 
 On the one hand, base types such as \(\I\) should be able to be used at every
 stage as in \LTP so that \(\lambda x:\I.\Lambda \alpha. \TB_\alpha \lambda
 y:\I.M\) is a valid term (here, \(\I\) is used at \(\varepsilon\) and
-\(\alpha\)).  Similarly for indexed types such as Vector 4. On the other hand,
+\(\alpha\)). Similarly for indexed types such as Vector 4. On the other hand,
 it is not immediately clear how a type indexed by a variable, which can be used
-only at a declared stage, can be used.  For example, consider
+only at a declared stage, can be used. For example, consider
 \[\TB_\alpha (\lambda x:\I. (\TBL_\alpha (\lambda y:\text{Vector
   }x.M)N) )
   \text{ and }
@@ -130,13 +129,13 @@ We will give our answer to this question in two steps.
 
 % Type-level constants and stages
 
-First, type-level constants such as \(\I\) and Vector can be used at
-every stage in \LMD.  Technically, we introduce a signature that
-declares kinds of type-level constants and types of constants.  For
-example, a signature for the Boolean type and constants is given as
-follows $\B::*, \text{true}:\B, \text{false}:\B$ (where $*$ is the
-kind of proper types).  Declarations in a signature are not
-associated to particular stages; so they can be used at every stage.
+First, type-level constants such as \(\I\) and Vector can be used at every
+stage in \LMD. Technically, we introduce a signature that declares kinds of
+type-level constants and types of constants.  For example, a signature for the
+Boolean type and constants is given as follows $\B::*, \text{true}:\B,
+\text{false}:\B$ (where $*$ is the kind of proper types). Declarations in a
+signature are not associated to particular stages; so they can be used at every
+stage.
 
 % Indexed type and stage
 
@@ -166,5 +165,5 @@ for the typical sort of code generators.
 % Foreshadow for \QPercent
 
 Our decision that well-formedness of types takes stages of index terms into
-account will lead to the introduction of CSP at the type level and special
-equivalence rules, as we will see later.
+account leads to the introduction of CSP at the type level and special
+equivalence rules, as we see later.
