@@ -3,10 +3,10 @@
 \section{Formal Definition of \LMD \label{sec:formal-definition}}
 \label{sec:formal}
 
-In this section, we give a formal definition of \LMD, including
-the syntax, full reduction, and type system.  In addition to the full reduction,
-in which any redex at any stage can be reduced, we also give staged reduction,
-which models program execution (at \(\varepsilon\)-stage).
+In this section, we give a formal definition of \LMD, including its syntax,
+full reduction, and type system.  In addition to the full reduction, in which
+any redex at any stage can be reduced, we also give staged reduction, which
+models program execution (at \(\varepsilon\)-stage).
 
 \subsection{Syntax}
 
@@ -38,22 +38,23 @@ of kind $K$.
 
 % Types
 
-A type is a type-level constant $X$, which is declared in the signature with its kind, a dependent function type $\Pi x:\tau.\sigma$,
-an application $\tau\ M$ of a type (operator of $\Pi$-kind) to a term, a code type $\TW_\alpha \tau$, or an $\alpha$-closed type $\F\alpha.\tau$.
-An example of an application of a type (operator) of $\Pi$-kind to a term is $\text{Vector}\ 10$; it is well kinded
-if, say, the type-level constant $\text{Vector}$ has kind $\Pi x:\I.*$.
+A type is a type-level constant $X$, which is declared in the signature with
+its kind, a dependent function type $\Pi x:\tau.\sigma$, an application $\tau\
+M$ of a type (operator of $\Pi$-kind) to a term, a code type $\TW_\alpha \tau$,
+or an $\alpha$-closed type $\F\alpha.\tau$.  An example of an application of a
+type (operator) of $\Pi$-kind to a term is $\text{Vector}\ 10$; it is well
+kinded if, say, the type-level constant $\text{Vector}$ has kind $\Pi x:\I.*$.
 A code type $\TW_\alpha \tau$ is for a code fragment of a term of type $\tau$.
 An $\alpha$-closed type, when used with $\TW_\alpha$, represents runnable code.
 
 % Terms
 
-Terms include ordinary (explicitly typed) \(\lambda\)-terms, constants,
-whose types are declared in signature $\Sigma$, and the following five forms
-related to multi-stage programming:
-$\TB_\alpha M$ represents a code fragment; $\TBL_\alpha M$ represents escape;
-$\Lambda\alpha.M$ is a stage variable abstraction;
-$M\ A$ is an application of a stage abstraction $M$ to stage $A$; and
-$\%_\alpha M$ is an operator for cross-stage persistence.
+Terms include ordinary (explicitly typed) \(\lambda\)-terms, constants, whose
+types are declared in signature $\Sigma$, and the following five forms related
+to multi-stage programming: $\TB_\alpha M$ represents a code fragment;
+$\TBL_\alpha M$ represents escape; $\Lambda\alpha.M$ is a stage variable
+abstraction; $M\ A$ is an application of a stage abstraction $M$ to stage $A$;
+and $\%_\alpha M$ is an operator for cross-stage persistence.
 
 % Signature
 
@@ -160,7 +161,7 @@ The relation $\longrightarrow_\beta$ represents ordinary $\beta$-reduction in
 the \(\lambda\)-calculus; the relation $\longrightarrow_\blacklozenge$
 represents that quotation $\TB_\alpha M$ is canceled by escape and $M$ is
 spliced into the code fragment surrounding the escape; the relation
-$\longrightarrow_\Lambda$ means that a stage abstraction applied to  stage $A$
+$\longrightarrow_\Lambda$ means that a stage abstraction applied to stage $A$
 reduces to the body of the abstraction where $A$ is substituted for the stage
 variable.  There is no reduction rule for CSP as with Hanada and Igarashi
 \cite{Hanada2014}.  The CSP operator $\%_\alpha$ disappears when $\varepsilon$
@@ -168,7 +169,7 @@ is substituted for $\alpha$.
 
 We show an example of a reduction sequence in
 Figure~\ref{fig:example-of-reduction}. Underlines show the redexes.  Please
-notice that terms in type annotaions are also reduced like
+note that terms in type annotations are also reduced like
 Figure~\ref{fig:reduction-in-type-annotations}.
 
 \begin{figure}[tbp]
@@ -199,8 +200,8 @@ In this section, we define the type system of \LMD.  It consists of eight
 judgment forms for signature well-formedness, type environment well-formedness,
 kind well-formedness, kinding, typing, kind equivalence, type equivalence, and
 term equivalence.  We list the judgment forms in
-Figure~\ref{fig:LMD-six-judgments}.  They are all defined in a mutual recursive
-manner.  We will discuss each judgment below.
+Figure~\ref{fig:LMD-six-judgments}. They are all defined in a mutually
+recursive manner. We will discuss each judgment below.
 
 \begin{figure}[tbp]
     \begin{center}
