@@ -262,11 +262,10 @@ shown below:
 \end{center}
 }
 
-To add declarations to a signature, the kind/type of a (type-level)
-constant has to be well-formed at stage \(\varepsilon\) so that it is
-used at any stage.  In what follows, well-formedness is not explicitly
-mentioned but we assume that all signatures and type environments are
-well-formed.
+To add declarations to a signature, the kind/type of a (type-level) constant
+has to be well-formed at stage \(\varepsilon\) so that it is used at any stage.
+In what follows, well-formedness is not explicitly mentioned, but we assume
+that all signatures and type environments are well-formed.
 
 \subsubsection{Kind Well-formedness and Kinding}
 
@@ -355,7 +354,7 @@ CSP is allowed.  We show a few representative rules below.
             }
 \end{center}
 
-We show the rules for term equivalence  in
+We show the rules for term equivalence in
 Figure~\ref{fig:term-equivalence-rules}, omitting straightforward rules for
 reflexivity, symmetry, transitivity, and compatibility.  The rules \QBeta,
 \QTBLTB, and \QLambda{} correspond to $\beta$-reduction,
@@ -373,6 +372,7 @@ $\blacklozenge$-reduction, and $\Lambda$-reduction, respectively.
 \end{figure}
 
 % \QPercentの説明
+
 The only rule that deserves elaboration is the last rule \QPercent.
 Intuitively, it means that the CSP operator applied to term $M$ can be
 removed if $M$ is also well-typed at the next stage \(A\alpha\).
@@ -384,7 +384,6 @@ do depend on stages and so this rule does not apply.
 
 We show an example of a dependently typed code generator in a
 hypothetical language based on \LTP.  
-% This rule is motivated by a practical consideration.
 This language provides definitions by \textbf{let},
 recursive functions (represented by \textbf{fix}), \textbf{if}-expressions,
 and primitives cons, head, and tail to manipulate vectors. We assume that
@@ -410,8 +409,9 @@ function to add two vectors of length $n$.  The generated
 code is run by applying it to \(\varepsilon\) to obtain
 a function of type \(\Vpn\to\Vpn\to\Vpn\) as expected.
 
-We start with the helper function vadd$_1$, which takes a stage, the length $n$ of vectors, and two quoted vectors as arguments and returns code that computes the addition of the given two vectors:
-%
+We start with the helper function vadd$_1$, which takes a stage, the length $n$
+of vectors, and two quoted vectors as arguments and returns code that computes
+the addition of the given two vectors:
 \begin{tabbing}
 	  $\textbf{let}\ \text{vadd}_1 : \F\alpha.\Pi n:\I.\TW_\alpha\Vpn\to\TW_\alpha\Vpn\to\TW_\alpha\Vpn$                                \\
 	  \hspace{6mm} \= $= \textbf{fix}\ f.\Lambda\alpha.\lambda n:\I.\ \lambda v_1:\TW_\alpha\Vpn.\ \lambda v_2:\TW_\alpha\Vpn.$            \\
@@ -421,10 +421,10 @@ We start with the helper function vadd$_1$, which takes a stage, the length $n$ 
           \>\>\> $\text{cons}\ $\= $(\text{head}\ (\TBL_\alpha v_1) + \text{head} \ (\TBL_\alpha v_2))$ \\
           \>\>\>\> $\TBL_\alpha (f\ (n-1)\ (\TB_\alpha t_1)\ (\TB_\alpha t_2)))$
 \end{tabbing}
-Note that the generated code will not contain branching on $n$ or recursion.
+Note that the generated code does not contain branching on $n$ or recursion.
 (Here, we assume that the type system can determine whether $n=0$ when
-\textbf{then}- and \textbf{else}-branches are typechecked so that
-both branches can be given type \(\TW_\alpha \text{Vector }n\).)
+\textbf{then}- and \textbf{else}-branches are type-checked so that both
+branches can be given type \(\TW_\alpha \text{Vector }n\).)
 
 Using vadd$_1$, the main function vadd can be defined as follows:
 \renewcommand{\Vpn}{\text{Vector}\ (\%_\beta n)}
@@ -440,21 +440,20 @@ As we mentioned already, if this function is applied to a
 (nonnegative) integer constant, say 5, it returns function code for adding
 two vectors of size 5.  The type of vadd\ 5, obtained by
 substituting 5 for $n$, is
-$\F\beta.\TW_\beta(\Vpn\to\Vpn\to\Vpn)$.
+\( \F\beta.\TW_\beta(\Vpn\to\Vpn\to\Vpn) \).
 \renewcommand{\Vpn}{\text{Vector}\ 5}
 If the obtained code is run by applying to \(\varepsilon\),
-the type of vadd\ 5\ $\varepsilon$ is
+the type of vadd\ 5\ \(\varepsilon\) is
 \(\Vpn\to\Vpn\to\Vpn\) as expected.
 
-There are other ways to implement the vector addition function:
-by using tuples instead of lists if the length
-for all the vectors is statically known or by checking dynamically the
-lengths of lists for every pair.  However, our method is better than
-these alternatives in two points.  First, our function, $\text{vadd}_1$
-can generate functions for vectors of arbitrary length unlike the one
-using tuples.  Second, $\text{vadd}_1$ has an advantage in speed over
-the one using dynamic checking because it can generate an optimized
-function for a given length.
+There are other ways to implement the vector addition function: by using tuples
+instead of lists if the length for all the vectors is statically known or by
+checking the lengths of lists for every pair dynamically.  However, our method
+is better than these alternatives in two points.  First, our function,
+$\text{vadd}_1$ can generate functions for vectors of arbitrary length unlike
+the one using tuples.  Second, $\text{vadd}_1$ has an advantage in speed over
+the one using dynamic checking because it can generate an optimized function
+for a given length.
 
 \paragraph{Remark:}
 If the generated function code is composed with another piece of code of type, say,
@@ -482,7 +481,7 @@ their premise cannot be decided from the goal. When we implement the type
 inference program of \LMD, it is necessary to make up type derivation trees
 from bottom to up.  So, we need to make all the typing rules syntax-directed so
 that algorithmic typing is equivalent to the original typing. Using this
-algorithmic typing, we can make the a type inference algorithm easily just by
+algorithmic typing, we can make a type inference algorithm easily just by
 applying the unique suitable rule one by one. We show the equivalence in
 Section \ref{sec:properties}.
 
@@ -537,13 +536,25 @@ rules are as follows.
 
 Unlike the original rules, the kind and type equivalence rules of the
 algorithmic typing have no rules for transitivity, symmetry, and reflexivity.
-These rules are omitted because they are non-syntax directed. Instead of
+We omitted these rules because they are non-syntax directed. Instead of
 including them in the rules, we prove transitivity, symmetry, and reflexivity
 as meta theorems.
 
 % Term equivalence rules -- especially on ANF
 
-Unlike all other rules of the algorithmic typing, the term equivalence rules of algorithmic typing are completely different from the original ones. We replaced all rules of term equivalence with \QAANF. Although the original equivalence rules check the equivalence of terms by constructing a derivation tree, the algorithmic equivalence rules calculate the normal form of two terms and compare them with just \( \alpha \)-equivalence. \( \ANF(M) \) is the normal form of \( M \) under algorithmic reduction as defined in Figure \ref{fig:algorithmic-reduction}. Algorithmic reduction is composed of normal reductions of \LMD, which are \textsc{(A-$\beta$)}, \textsc{(A-$\TBL\TB$)}, and \textsc{(A-$\Lambda$)}, and one special reduction \textsc{(A-$\%$)}, which corresponds to \QPercent in the normal term equivalence rules. Just the same as the normal reduction \( M \longrightarrow M' \), we define algorithmic reduction \( M \longrightarrow_{\text{A}} \).  
+Unlike all other rules of the algorithmic typing, the term equivalence rules of
+algorithmic typing are completely different from the original ones. We replaced
+all rules of term equivalence with \QAANF. Although the original equivalence
+rules check the equivalence of terms by constructing a derivation tree, the
+algorithmic equivalence rules calculate the normal form of two terms and
+compare them with just \( \alpha \)-equivalence. \( \ANF(M) \) is the normal
+form of \( M \) under algorithmic reduction as defined in Figure
+\ref{fig:algorithmic-reduction}. Algorithmic reduction is composed of normal
+reductions of \LMD, which are \textsc{(A-$\beta$)}, \textsc{(A-$\TBL\TB$)}, and
+\textsc{(A-$\Lambda$)}, and one special reduction \textsc{(A-$\%$)}, which
+corresponds to \QPercent in the normal term equivalence rules. Just the same as
+the normal reduction \( M \longrightarrow M' \), we define algorithmic
+reduction \( M \longrightarrow_{\text{A}} \).  
 
 \begin{center}
     \infrule[\QAANF]{ \ANF(M) \E_\alpha \ANF(N) }{\G \AV M \E N@A}
@@ -587,11 +598,11 @@ not executed, the grammar is indexed by stages.
 
 Values at stage $\varepsilon$ are $\lambda$-abstractions, quoted pieces of
 code, or $\Lambda$-abstractions. The body of a $\lambda$-abstraction can be any
-term but the body of $\Lambda$-abstraction has to be a value.  It means that
+term, but the body of $\Lambda$-abstraction has to be a value.  It means that
 the body of $\Lambda$-abstraction must be evaluated.  The side condition for
 $\TBL_\alpha v^{A'}$ means that escapes in a value can appear only under nested
-quotations because an escape under a single quotation will splice the code
-value into the surrounding code. See Hanada and Igarashi~\cite{Hanada2014} for
+quotations because an escape under a single quotation splices the code value
+into the surrounding code. See Hanada and Igarashi~\cite{Hanada2014} for
 details.
 
 In order to define staged reduction, we define redex and evaluation contexts.
@@ -620,7 +631,7 @@ In order to define staged reduction, we define redex and evaluation contexts.
 
 The subscripts $A$ and $B$ in $E^A_B$ stand for the stage of the evaluation
 context and of the hole, respectively. The grammar represents that staged
-reduction is left-to-right and call-by-value and terms under \(\Lambda\) are
+reduction is left-to-right and call-by-value, and terms under \(\Lambda\) are
 reduced. Terms at non-$\varepsilon$ stages are not reduced, except redexes of
 the form \(\TBL_\alpha \TB_\alpha v^\alpha\) at stage \(\alpha\).  A few
 examples of evaluation contexts are shown below:
@@ -650,7 +661,7 @@ into the surrounding code---notice that, if \(\TB_\alpha v^\alpha\) is at stage
 \(\varepsilon\), then the redex \(\TBL_\alpha \TB_\alpha v^\alpha\) is at stage
 \(\alpha\). In other words, terms in brackets are not evaluated until the terms
 are run and arguments of a function are evaluated before the application.  We
-show an example of staged reduction. Underlines show the redexes.
+show an example of staged reductions. Underlines show the redexes.
 \begin{align*}
                     & (\Lambda\alpha.(\TB_\alpha \underline{\TBL_\alpha \TB_\alpha ((\lambda x:\I.x)\ 10))})\ \varepsilon \\
   \longrightarrow_s & \underline{(\Lambda\alpha.(\TB_\alpha ((\lambda x:\I.x)\ 10)))\ \varepsilon}                        \\
