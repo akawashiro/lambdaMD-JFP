@@ -1,0 +1,75 @@
+% VS code setting
+% Ctrl + Alt + B -> Build
+% Ctrl + Alt + V -> Preview PDF file
+
+\documentclass[9pt, a4paper]{extarticle}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{bcprules, proof}
+\usepackage{fancybox}
+\usepackage{mathtools}
+\usepackage{float}
+\usepackage{xparse}
+\usepackage{lscape}
+\usepackage{xspace}
+\usepackage{url}
+\usepackage{bcpproof}
+\usepackage{ebproof}
+\usepackage[truedimen,margin=15truemm]{geometry}
+\usepackage{mdframed}
+
+% Used for displaying a sample figure. If possible, figure files should
+% be included in EPS format.
+%
+% If you use the hyperref package, please uncomment the following line
+% to display URLs in blue roman font according to Springer's eBook style:
+\usepackage{cite}
+\usepackage{hyperref}
+\renewcommand\UrlFont{\color{blue}\rmfamily}
+
+\newtheoremstyle{break}
+  {\topsep}{\topsep}%
+  {}{}%
+  {\bfseries}{}%
+  {\newline}{}%
+\theoremstyle{break}
+\newmdtheoremenv{theorem}{Theorem}
+\newmdtheoremenv{lemma}{Lemma}
+\newmdtheoremenv{corollary}{Corollary}
+\newmdtheoremenv{dfn}{Definition}
+\newtheorem{ex}{Example}
+\newtheorem{cm}{Comment}
+
+\newcommand{\rulefbox}[1]{\fbox{\ensuremath{#1}} \hspace{1mm}}
+
+\newcommand{\figheader}[2]{
+  \begin{flushleft}
+    #2 {\bf \normalsize #1}
+\end{flushleft}}
+
+\newcommand{\red}[1]{\textcolor{red}{#1 }}
+\newcommand{\blue}[1]{\textcolor{blue}{#1 }}
+
+\input{fig-src/symbols.tex}
+
+\title{Algorithmic Typing for \LMD}
+
+\author{Akira KAWATA}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Definition of \(\lambda^\text{MD}\)}
+\input{fig-src/definition.tex}
+
+\section{Properties of Original Typing}
+\input{fig-src/proofs-of-normal-typing}
+
+\section{Properties of Algorithmic Typing}
+\input{fig-src/proofs-of-algorithmic-typing.tex}
+
+\end{document}
