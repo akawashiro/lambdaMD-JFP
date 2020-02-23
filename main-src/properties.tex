@@ -372,10 +372,10 @@ Progress is a corollary of Unique Decomposition.
 
 \subsection{Properties of Algorithmic Typing}
 
-In this subsection, we prove properties of algorithmic typing of \LMD. The main
-purpose of this subsection is prove the completeness and soundness of
-algorithmic typing which gives the equivalence with the original typing. We
-start from proving properties of algorithmic reduction because it is used to
+In this subsection, we prove the properties of algorithmic typing of \LMD. The
+main purpose of this subsection is proving the completeness and soundness of
+algorithmic typing, which gives the equivalence with the original typing. We
+start by proving the properties of algorithmic reduction because it is used to
 define term equivalence in \QAANF. \ANF is a function which returns normal form
 of a term in algorithmic reduction and \( \E_\alpha \) means \( \alpha \)
 equivalence.
@@ -386,7 +386,7 @@ equivalence.
 
 First, we prove the uniqueness of \( \ANF(M) \) for all typed term \( M \)
 using Strong Normalization and Confluence of algorithmic reduction.
-Fortunately, we can prove these two properties similarly to the original
+Fortunately, we can prove these two properties similar to the original
 reduction.
 
 \begin{lemma}[Strong Normalization of Algorithmic Reduction]
@@ -589,10 +589,10 @@ Now, we can say term \( M \) and \( \ANF(M) \) are equivalent.
     \ref{lemma:AlgorithmicReductionandTermEquivalence}.
 \end{proof}
 
-Finally, we prove the soundness of algorithmic typing. It means that if a term is
-typed in algorithmic typing then the term is also typed in the original typing.
-Because algorithmic typing is defined mutually involving other algorithmic
-judgements, we use simultaneous induction for proof.
+Finally, we prove the soundness of algorithmic typing. It means that if a term
+is typed in algorithmic typing then the term is also typed in the original
+typing.  Because algorithmic typing is defined mutually involving other
+algorithmic judgments, we use simultaneous induction for proof.
 
 \begin{theorem}[Soundness of Algorithmic Typing]
     \label{theorem:SoundnessOfAlgorithmicTyping}
@@ -653,8 +653,8 @@ judgements, we use simultaneous induction for proof.
     \end{rneqncase}
 \end{proof}
 
-Next theorem is the completeness of algorithmic typing. First, we prove
-symmetricity, reflexivity and transitivity of algorithmic typing which are
+The next theorem is the completeness of algorithmic typing. First, we prove
+symmetricity, reflexivity and transitivity of algorithmic typing, which are
 indispensable for the proof.
 
 \begin{lemma}[Symmetricity in Algorithmic Equivalence]
