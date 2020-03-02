@@ -542,13 +542,13 @@ as meta theorems.
 
 % Term equivalence rules -- especially on ANF
 
-Unlike all other rules of the algorithmic typing, the term equivalence rules of
-algorithmic typing are completely different from the original ones. We replaced
-all rules of term equivalence with \QAANF. Although the original equivalence
-rules check the equivalence of terms by constructing a derivation tree, the
-algorithmic equivalence rules calculate the normal form of two terms and
-compare them with just \( \alpha \)-equivalence. \( \ANF(M) \) is the normal
-form of \( M \) under algorithmic reduction as defined in Figure
+Dissimilar to all other rules of the algorithmic typing, the term equivalence
+rules of algorithmic typing are completely different from the original ones. We
+replaced all rules of term equivalence with \QAANF. Although the original
+equivalence rules check the equivalence of terms by constructing a derivation
+tree, the algorithmic equivalence rules calculate the normal form of two terms
+and compare them with just \( \alpha \)-equivalence. \( \ANF(M) \) is the
+normal form of \( M \) under algorithmic reduction as defined in Figure
 \ref{fig:algorithmic-reduction}. Algorithmic reduction is composed of normal
 reductions of \LMD, which are \textsc{(A-$\beta$)}, \textsc{(A-$\TBL\TB$)}, and
 \textsc{(A-$\Lambda$)}, and one special reduction \textsc{(A-$\%$)}, which
@@ -572,6 +572,15 @@ reduction \( M \longrightarrow_{\text{A}} \).
     \caption{Algorithmic Basic Reduction}
     \label{fig:algorithmic-reduction}
 \end{figure}
+
+% % Type inference algorithm
+%
+% Now, we can construct an algorithm for type inference using this algorithmic
+% typing. In a conventional pseudocode notation, the algorithm looks like this:
+%
+% \begin{tabbing}
+%     gettype(\( \Gamma, \Sigma, M, A \)) = if there is a algorithmic 
+% \end{tabbing}
 
 \subsection{Staged Semantics}
 
