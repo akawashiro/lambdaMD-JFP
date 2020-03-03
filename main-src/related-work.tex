@@ -38,6 +38,18 @@ investigated by Tsukada and Igarashi~\cite{TsukadaIgarashi2010Logical}. Hanada
 and Igarashi extended it with Cross Stage Persistence in
 \cite{HanadaIgarashi2014CSP}, which is the basis of our calculus \LMD.
 
+We can runtime-specialization~\cite{ConselNoel1996Runtime},
+dynamic compile~\cite{AuslanderPhiliposeChambersEggersBershad1996DynamicCompilation, EnglerHsiehKaashoek1996TickC, PolettoHsiehEnglerKaashoek1999CandTcc, GrantPhiliposeMockChambersEggers1999DyC} or
+partial evalutation~\cite{JonesGomardSestoft1993partial} as applications of
+multi-stage programming. Although there was no concept of multi-stage
+programming in this time, they generated efficient code using runtime
+information and execute the code at runtime. Quasiquotation in
+Lisp~\cite{Bawden1999Lisp} also can be a kind of multi-stage programming
+because it can generate and evaluate code although there is no type system for
+safety. As I know, MacroML~\cite{GanzAmrTaha2001MacroML} is the first explicit
+application of multi-stage programming. They realize hygenic macro function by
+seeing macros as a specialization of multi-stage programming.
+
 \AK{========== UNTIL HERE ==========}
 
 % Practical research on multi-stage programming
@@ -68,7 +80,7 @@ constructs for composing and running code values have been studied by Kim,
 Yi, and Calcagno~\cite{DBLP:conf/popl/KimYC06} and Nanevski and
 Pfenning~\cite{DBLP:journals/jfp/NanevskiP05}.
 
-Later, Tsukada and Igarashi~\cite{Tsukada} found correspondence
+Later, Tsukada and Igarashi~\cite{TsukadaIgarashi2010Logical} found correspondence
 between a variant of \(\lambda^\alpha\) called $\lambda^\TW$
 and modal logic and showed that run could be represented as a special
 case of application of a transition abstraction ($\Lambda\alpha.M$) to
