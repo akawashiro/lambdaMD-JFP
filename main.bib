@@ -2,6 +2,62 @@
 @string{lncs = "Lecture Notes in Computer Science"}
 @string{POPL = "ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages"}
 
+
+@inproceedings{IwakiIgarashi2007CompilerAndVMforML,
+    title={Deriving compilers and virtual machines for a multi-level language},
+    author={Igarashi, Atsushi and Iwaki, Masashi},
+    booktitle={Asian Symposium on Programming Languages and Systems},
+    pages={206--221},
+    year={2007},
+    organization={Springer},
+    memo = "多段階計算のための仮想機械の実現。命令生成のための特殊命令を使用するorしないの比較。"
+}
+
+@BOOK{Kiselyov2018Reconcilong,
+    author={O. {Kiselyov}},
+    booktitle={Reconciling Abstraction with High Performance: A MetaOCaml approach},
+    title={Reconciling Abstraction with High Performance: A MetaOCaml approach},
+    year={2018},
+    volume={},
+    number={},
+    pages={},
+    keywords={Partial Evaluation;Program Transformations and Optimizations;Compilation and Interpretation Techniques;Domain Specific Languages},
+    doi={},
+    ISSN={},
+    publisher={NOW Publishing},
+    isbn={9781680834369},
+    url={https://ieeexplore.ieee.org/document/8384206},
+    memo = "MetaOCamlの応用例いろいろ。信号処理のフィルタに使うとかおもしろかった。"
+}
+
+@inproceedings{Oleg2014BER,
+    author    = {Oleg Kiselyov},
+    title     = {The Design and Implementation of {BER} MetaOCaml - System Description},
+    booktitle = {Functional and Logic Programming - 12th International Symposium, {FLOPS}
+        2014, Kanazawa, Japan, June 4-6, 2014. Proceedings},
+    pages     = {86--102},
+    year      = {2014},
+    timestamp = {Sun, 21 May 2017 00:19:14 +0200},
+    url       = {https://doi.org/10.1007/978-3-319-07151-0\_6},
+    doi       = {10.1007/978-3-319-07151-0\_6},
+    biburl    = {https://dblp.org/rec/bib/conf/flops/Kiselyov14},
+    bibsource = {dblp computer science bibliography, https://dblp.org},
+    crossref  = {DBLP:conf/flops/2014},
+    memo = "BER MetaOCaml (MetaOCamlの再実装) の詳細。MetaOCamlはEnvironment
+        Classifiersを使っているが、BER MetaOCamlはDynamicに検査してるらしい。
+        そのほうが検出できるエラーが多いとか(それはそう)"
+}
+
+@inproceedings{CalcagnoTahaHuang2003MetaOCaml,
+    title={Implementing multi-stage languages using {ASTs}, gensym, and reflection},
+    author={Calcagno, Cristiano and Taha, Walid and Huang, Liwen and Leroy, Xavier},
+    booktitle={International Conference on Generative Programming and Component Engineering},
+    pages={57--76},
+    year={2003},
+    organization={Springer},
+    memo = "多段階計算可能な言語をどうやって実装するか。MetaOCamlの実装"
+}
+
 @inproceedings{GanzAmrTaha2001MacroML,
     author = {Ganz, Steven E. and Sabry, Amr and Taha, Walid},
     title = {Macros As Multi-stage Computations: Type-safe, Generative, Binding Macros in MacroML},
@@ -436,7 +492,7 @@
     booktitle={Trends in Functional Programming}
 }
 
-@inproceedings{taha2007gentle,
+@inproceedings{Taha2007Gentle,
     author    = {Walid Taha},
     title     = {A Gentle Introduction to Multi-stage Programming, Part {II}},
     booktitle = {Generative and Transformational Techniques in Software Engineering

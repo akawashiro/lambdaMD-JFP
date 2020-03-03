@@ -38,7 +38,7 @@ investigated by Tsukada and Igarashi~\cite{TsukadaIgarashi2010Logical}. Hanada
 and Igarashi extended it with Cross Stage Persistence in
 \cite{HanadaIgarashi2014CSP}, which is the basis of our calculus \LMD.
 
-We can runtime-specialization~\cite{ConselNoel1996Runtime},
+We can see runtime-specialization~\cite{ConselNoel1996Runtime},
 dynamic compile~\cite{AuslanderPhiliposeChambersEggersBershad1996DynamicCompilation, EnglerHsiehKaashoek1996TickC, PolettoHsiehEnglerKaashoek1999CandTcc, GrantPhiliposeMockChambersEggers1999DyC} or
 partial evalutation~\cite{JonesGomardSestoft1993partial} as applications of
 multi-stage programming. Although there was no concept of multi-stage
@@ -49,6 +49,12 @@ because it can generate and evaluate code although there is no type system for
 safety. As I know, MacroML~\cite{GanzAmrTaha2001MacroML} is the first explicit
 application of multi-stage programming. They realize hygenic macro function by
 seeing macros as a specialization of multi-stage programming.
+MetaOCaml~\cite{CalcagnoTahaHuang2003MetaOCaml, Taha2007Gentle} is implemented
+first by Calcagno, Taha and Huang. BER MetaOCaml~\cite{Oleg2014BER} is a
+reimplementation of MetaOCaml by Kiselyov. You can find many applications in
+MetaOCaml to real problems in \cite{Taha2007Gentle, Kiselyov2018Reconcilong}.
+Iwaki and Igarashi~\cite{IwakiIgarashi2007CompilerAndVMforML} designed virtual
+machine and compiler for a multi-level programming language.
 
 \AK{========== UNTIL HERE ==========}
 
