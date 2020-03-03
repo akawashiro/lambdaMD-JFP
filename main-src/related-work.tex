@@ -24,11 +24,19 @@ et.al.~\cite{MoggiTahaBenaissaSheard99ESOP} formzalied the type system which
 can handle both of open and closed code and Benaissa, et.al. analyzed it from
 categorical viewpoint in \cite{BenaissaMoggiTahaSheard1999Logical}. You can
 find more precise ealrly history of multi-stage programming in Taha's
-dissertion~\cite{taha1999multi}.
-
-\begin{itemize}
-    \item \cite{Nielson1992TwoLevel}
-\end{itemize}
+dissertion~\cite{Taha1999Multi}. Finally, Taha forumulate the environment
+classifiers~\cite{TahaNielsen2003Environment}. It can handle not only open and
+closed code but also code of medium state. Calcagno, Moggi and
+Taha~\cite{CalcagnoMoggiTaha2004InferenceClassifiers} found that we cannot
+infer types of terms without classifier annotations. Therefore, our type
+inference algorithm takes stages(classifiers) as its input. Taha's environment
+classifiers~\cite{TahaNielsen2003Environment} was extended with mutable
+cells~\cite{KiselyovKameyamaSudo2016Refined} and with control
+operators~\cite{OishiKameyama2017ControlOperators} by Oishi and Kameyama.
+Curry-Howard isomorphism of a calculus with environment classifiers is
+investigated by Tsukada and Igarashi~\cite{TsukadaIgarashi2010Logical}. Hanada
+and Igarashi extended it with Cross Stage Persistence in
+\cite{HanadaIgarashi2014CSP}, which is the basis of our calculus \LMD.
 
 \AK{========== UNTIL HERE ==========}
 
@@ -115,7 +123,27 @@ generation such as run and CSP, as \LMD{} does.
 
 %%%% index/dependent types for MSP
 
-We discuss earlier attempts at incorporating dependent types into multi-stage programming.  Pasalic and Taha~\cite{pasalic2002tagless} designed \(\lambda_{H\circ}\) by introducing the concept of stage into an existing dependent type system \(\lambda_H\)~\cite{zhong2002certified}.  However, \(\lambda_{H\circ}\) is equipped with neither run nor CSP.  Forgarty, Pasalic, Siek and Taha~\cite{fogarty2007concoqtion} extended the type system of MetaOCaml with indexed types.  With this extension, types can be indexed with a Coq term.  Chen and Xi~\cite{chen2003meta} introduced code types augmented with information on types of free variables in code values in order to prevent code with free variables from being evaluated.  These systems separate the language of type indices from the term language.  As a result, they do not enjoy full-spectrum dependent types but are technically simpler because there is no need to take the stage of types into account.  Brady and Hammond~\cite{brady2006dependently} have discussed a combination of (full-spectrum) dependently typed programming with staging in the style of MetaOCaml to implement a staged interpreter, which is statically guaranteed to generate well-typed code.  However, they focused on concrete programming examples and there is no theoretical investigation of the programming language they used. Gratzer et al. introduced modalities in dependent type theory in \cite{gratzer2019modaldependent}. It helps us to find the logic which corresponds to \LMD.
+We discuss earlier attempts at incorporating dependent types into multi-stage
+programming.  Pasalic and Taha~\cite{pasalic2002tagless} designed
+\(\lambda_{H\circ}\) by introducing the concept of stage into an existing
+dependent type system \(\lambda_H\)~\cite{zhong2002certified}.  However,
+\(\lambda_{H\circ}\) is equipped with neither run nor CSP.  Forgarty, Pasalic,
+Siek and Taha~\cite{fogarty2007concoqtion} extended the type system of
+MetaOCaml with indexed types.  With this extension, types can be indexed with a
+Coq term.  Chen and Xi~\cite{chen2003meta} introduced code types augmented with
+information on types of free variables in code values in order to prevent code
+with free variables from being evaluated.  These systems separate the language
+of type indices from the term language.  As a result, they do not enjoy
+full-spectrum dependent types but are technically simpler because there is no
+need to take the stage of types into account.  Brady and
+Hammond~\cite{brady2006dependently} have discussed a combination of
+(full-spectrum) dependently typed programming with staging in the style of
+MetaOCaml to implement a staged interpreter, which is statically guaranteed to
+generate well-typed code.  However, they focused on concrete programming
+examples and there is no theoretical investigation of the programming language
+they used. Gratzer et al. introduced modalities in dependent type theory in
+\cite{gratzer2019modaldependent}. It helps us to find the logic which
+corresponds to \LMD.
 
 Berger and Tratt~\cite{martin2015HGRTMP} gave program logic for
 \(\text{Mini-ML}^\square_e\)~\cite{DaviesPfenning01JACM}, which would

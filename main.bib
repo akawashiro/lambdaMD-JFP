@@ -3,6 +3,182 @@
 @string{POPL = "ACM SIGPLAN-SIGACT Symposium on Principles of Programming
                   Languages"}
 
+@InProceedings{HanadaIgarashi2014CSP,
+    author="Hanada, Yuichiro and Igarashi, Atsushi",
+    editor="Codish, Michael and Sumii, Eijiro",
+    title="On Cross-Stage Persistence in Multi-Stage Programming",
+    booktitle="Functional and Logic Programming",
+    year="2014",
+    publisher="Springer International Publishing",
+    address="Cham",
+    pages="103--118",
+    isbn="978-3-319-07151-0",
+    memo = "Cross Stage Persistenceについて。Program
+        Residualization(部分評価したプログラムをファイルにダンプして他で利用すること)にも詳細な議論がある。"
+}
+
+@inproceedings{OishiKameyama2017ControlOperators,
+    author = {Oishi, Junpei and Kameyama, Yukiyoshi},
+    title = {Staging with Control: Type-safe Multi-stage Programming with Control Operators},
+    booktitle = {Proc.\ of the 16th ACM SIGPLAN Conference on Generative Programming: Concepts and Experiences (GPCE 2017)},
+    year = {2017},
+    isbn = {978-1-4503-5524-7},
+    location = {Vancouver, BC, Canada},
+    pages = {29--40},
+    numpages = {12},
+    acmid = {3136049},
+    OPTpublisher = {ACM},
+    OPTaddress = {New York, NY, USA},
+    keywords = {code generation, generative programming, language design, program transformation, staging, type system},
+    url = {http://doi.acm.org/10.1145/3136040.3136049},
+    doi = {10.1145/3136040.3136049},
+    memo = "限定継続を多段階計算に入れる話"
+} 
+
+@inproceedings{KiselyovKameyamaSudo2016Refined,
+    title={Refined Environment Classifiers},
+    author={Kiselyov, Oleg and Kameyama, Yukiyoshi and Sudo, Yuto},
+    booktitle={Asian Symposium on Programming Languages and Systems},
+    pages={271--291},
+    year={2016},
+    organization={Springer}
+}
+
+@InProceedings{CalcagnoMoggiTaha2004InferenceClassifiers,
+    author="Calcagno, Cristiano
+        and Moggi, Eugenio
+        and Taha, Walid",
+    editor="Schmidt, David",
+    title="ML-Like Inference for Classifiers",
+    booktitle="Programming Languages and Systems",
+    year="2004",
+    publisher="Springer Berlin Heidelberg",
+    address="Berlin, Heidelberg",
+    pages="79--93",
+    abstract="Environment classifiers were proposed as a new approach to typing
+        multi-stage languages. Safety was established in the simply-typed and
+        let-polymorphic settings. While the motivation for classifiers was the
+        feasibility of inference, this was in fact not established. This paper
+        starts with the observation that inference for the full
+        classifier-based system fails. We then identify a subset of the
+        original system for which inference is possible. This subset, which
+        uses implicit classifiers, retains significant expressivity (e.g. it
+                can embed the calculi of Davies and Pfenning) and eliminates
+        the need for classifier names in terms. Implicit classifiers were
+        implemented in MetaOCaml, and no changes were needed to make an
+        existing test suite acceptable by the new type checker.",
+    isbn="978-3-540-24725-8",
+    memo = "Type inference for environment classifiers. It includes let
+        polymorphism. It exaplains also that type inference for lambda^alpha in
+        Curry style (without type annotations) is difficult. This is because we
+        cannot infere priciple typing. In the case of lambda^MD, we adopted
+        Church style (with type annotations) in order to this problem."
+}
+
+@inproceedings{YuseIgarashi2006Modal,
+  author    = {Yosihiro Yuse and
+               Atsushi Igarashi},
+  editor    = {Annalisa Bossi and
+               Michael J. Maher},
+  title     = {A modal type system for multi-level generating extensions with persistent
+               code},
+  booktitle = {Proceedings of the 8th International {ACM} {SIGPLAN} Conference on
+               Principles and Practice of Declarative Programming, July 10-12, 2006,
+               Venice, Italy},
+  pages     = {201--212},
+  publisher = {{ACM}},
+  year      = {2006},
+  url       = {https://doi.org/10.1145/1140335.1140360},
+  doi       = {10.1145/1140335.1140360},
+  timestamp = {Tue, 06 Nov 2018 16:57:24 +0100},
+  biburl    = {https://dblp.org/rec/conf/ppdp/YuseI06.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+
+@inproceedings{BenaissaMoggiTahaSheard1999Logical,
+    title={Logical Modalities and Multi-Stage Programming},
+    author={Benaissa, Zine El-Abidine and Moggi, Eugenio and Taha, Walid and Sheard, Tim},
+    booktitle={Federated logic conference (FLoC) satellite workshop on intuitionistic modal logics and applications (IMLA)},
+    year={1999},
+    memo = "Open and closed code."
+}
+
+@inproceedings{TahaSheard1997MetaML,
+    author = {Taha, Walid and Sheard, Tim},
+    title = {Multi-Stage Programming with Explicit Annotations},
+    year = {1997},
+    isbn = {0897919173},
+    publisher = {Association for Computing Machinery},
+    address = {New York, NY, USA},
+    url = {https://doi.org/10.1145/258993.259019},
+    doi = {10.1145/258993.259019},
+    booktitle = {Proceedings of the 1997 ACM SIGPLAN Symposium on Partial Evaluation and Semantics-Based Program Manipulation},
+    pages = {203–217},
+    numpages = {15},
+    location = {Amsterdam, The Netherlands},
+    series = {PEPM ’97},
+    memo = "MetaML and CSP."
+}
+
+@InProceedings{DaviesPfenning1996Modal,
+author = {Davies, Rowan and Pfenning, Frank},
+title = {A Modal Analysis of Staged Computation},
+year = {1996},
+isbn = {0897917693},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/237721.237788},
+doi = {10.1145/237721.237788},
+booktitle = {Proceedings of the 23rd ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages},
+pages = {258–270},
+numpages = {13},
+location = {St. Petersburg Beach, Florida, USA},
+series = {POPL ’96}
+}
+
+@InProceedings{GluckJorgensen1995Efficient,
+    author="Gl{\"u}ck, Robert
+        and J{\o}rgensen, Jesper",
+    editor="Hermenegildo, Manuel
+        and Swierstra, S. Doaitse",
+    title="Efficient multi-level generating extensions for program specialization",
+    booktitle="Programming Languages: Implementations, Logics and Programs",
+    year="1995",
+    publisher="Springer Berlin Heidelberg",
+    address="Berlin, Heidelberg",
+    pages="259--278",
+    abstract="Multiple program specialization can stage a computation into several computation phases. This paper presents an effective solution for multiple program specialization by generalizing conventional off-line partial evaluation and integrating the ``cogen approach'' with a multi-level binding-time analysis. This novel ``multi-cogen approach'' solves two fundamental problems of self-applicable partial evaluation: the generation-time problem and the generator-size problem. The multilevel program generator has been implemented for a higher-order subset of Scheme. Experimental results show a remarkable reduction of generation time and generator size compared to previous attempts of multiple self-application.",
+    isbn="978-3-540-45048-1"
+}
+
+@InProceedings{GluckJorgensen1996Fast,
+    author="Gl{\"u}ck, Robert
+        and J{\o}rgensen, Jesper",
+    editor="Bj{\o}rner, Dines
+        and Broy, Manfred
+        and Pottosin, Igor V.",
+    title="Fast binding-time analysis for multi-level specialization",
+    booktitle="Perspectives of System Informatics",
+    year="1996",
+    publisher="Springer Berlin Heidelberg",
+    address="Berlin, Heidelberg",
+    pages="261--272",
+    abstract="Program specialization can divide a computation into several computation stages. We present the key ingredient of our approach to multi-level specialization: an accurate and fast multi-level binding-time analysis. Three efficient program analyses for higher-order, functional languages are presented which are based on constraint systems and run almost-linear in the size of the analyzed programs. The three constraint normalizations have been proven correct (soundness, completeness, termination, existence of best solution). The analyses have all been implemented for a substantial, higher-order subset of Scheme. Experiments with widely-available example programs confirm the excellent run-time behavior of the normalization algorithms.",
+    isbn="978-3-540-49637-3"
+}
+
+@book{Nielson1992TwoLevel,
+    author = {Nielson, Flemming and Nielson, Hanne Riis},
+    title = {Two-Level Functional Languages},
+    year = {1992},
+    isbn = {0521403847},
+    publisher = {Cambridge University Press},
+    address = {USA},
+    memo = "In functional programming languages, we devide terms into two
+        types. One is bound at compile time and another is bound at runtime.
+        This bool introduce binding time analysis to classify them."
+}
+
 @article{gratzer2019modaldependent,
 author = {Gratzer, Daniel and Sterling, Jonathan and Birkedal, Lars},
 title = {Implementing a Modal Dependent Type Theory},
@@ -133,11 +309,12 @@ keywords = {dependent types, normalization by evaluation, Modal types, type-chec
  doi = {10.1145/2364527.2364572},
 } 
 
-@phdthesis{taha1999multi,
+@phdthesis{Taha1999Multi,
   title={Multi-stage programming: Its theory and applications},
   author={Taha, Walid},
   year={1999},
-  school={Oregon Graduate Institute of Science and Technology}
+  school={Oregon Graduate Institute of Science and Technology},
+  memo = "Tahaさんの博士論文"
 }
 
 @inproceedings{calcagno2003implementing,
@@ -412,7 +589,7 @@ volume={23},
     Year = {1985}}
 
 
-@article{Tsukada,
+@article{TsukadaIgarashi2010Logical,
   title  = {{A Logical Foundation for Environment Classifiers}},
   author = {Tsukada, Takeshi and Igarashi, Atsushi},
   journal = {{Logical Methods in Computer Science}},
@@ -427,23 +604,42 @@ volume={23},
   doi = {10.2168/LMCS-6(4:8)2010},
 }
 
+
+@inproceedings{TahaNielsen2003Environment,
+    author = {Taha, Walid and Nielsen, Michael Florentin},
+    title = {Environment Classifiers},
+    booktitle = proc # POPL # { (POPL'03)},
+    year = {2003},
+    isbn = {1-58113-628-5},
+    location = {New Orleans, Louisiana, USA},
+    pages = {26--37},
+    numpages = {12},
+    acmid = {604134},
+    publisher = {ACM},
+    address = {New York, NY, USA},
+    keywords = {linear temporal logic, modal logic, multi-stage programming, type safety, type systems},
+    url = {http://doi.acm.org/10.1145/604131.604134},
+    doi = {10.1145/604131.604134},
+    memo = "Environment Classifiersの初出の論文。整理されていなくて読みにくい印象を受ける。"
+} 
+
 @inproceedings{taha2003environment,
- author = {Taha, Walid and Nielsen, Michael Florentin},
- title = {Environment Classifiers},
- booktitle = proc # POPL # { (POPL'03)},
- year = {2003},
- isbn = {1-58113-628-5},
- location = {New Orleans, Louisiana, USA},
- pages = {26--37},
- numpages = {12},
- acmid = {604134},
- publisher = {ACM},
- address = {New York, NY, USA},
- keywords = {linear temporal logic, modal logic, multi-stage programming, type safety, type systems},
+    author = {Taha, Walid and Nielsen, Michael Florentin},
+    title = {Environment Classifiers},
+    booktitle = proc # POPL # { (POPL'03)},
+    year = {2003},
+    isbn = {1-58113-628-5},
+    location = {New Orleans, Louisiana, USA},
+    pages = {26--37},
+    numpages = {12},
+    acmid = {604134},
+    publisher = {ACM},
+    address = {New York, NY, USA},
+    keywords = {linear temporal logic, modal logic, multi-stage programming, type safety, type systems},
 } 
 @comment{
- url = {http://doi.acm.org/10.1145/604131.604134},
- doi = {10.1145/604131.604134},
+    url = {http://doi.acm.org/10.1145/604131.604134},
+    doi = {10.1145/604131.604134},
 }
 
 @article{harper1993framework,
@@ -518,13 +714,19 @@ volume={23},
   publisher={MIT press}
 }
 
-@inproceedings{davies1996temporal,
-  title={A temporal-logic approach to binding-time analysis},
-  author={Davies, Rowan},
-  booktitle={Logic in Computer Science, 1996. LICS'96. Proceedings., Eleventh Annual IEEE Symposium on},
-  pages={184--195},
-  year={1996},
-  organization={IEEE}
+@INPROCEEDINGS{davis1996temporal,
+    author={R. {Davies}},
+    booktitle={Proceedings 11th Annual IEEE Symposium on Logic in Computer Science},
+    title={A Temporal-Logic Approach to Binding-Time Analysis},
+    year={1996},
+    volume={},
+    number={},
+    pages={184-195},
+    keywords={temporal logic;binding-time analysis;temporal logic;Curry-Howard isomorphism;typed lambda-calculus;functional programming languages;normalization;operational semantics;Computer science;Logic programming;Functional programming;Data analysis},
+    doi={10.1109/LICS.1996.561317},
+    ISSN={1043-6871},
+    month={July},
+    memo = "時相論理と束縛時解析の関係"
 }
 
 @book{sorensen2006lectures,
@@ -649,6 +851,7 @@ url={https://ieeexplore.ieee.org/document/8384206},}
   annote =	 {D-7},
   file =         {/d/Davies/jacm00.ps.gz}
 }
+
 @string{ESOP = "European Symposium on Programming"}
 @InProceedings{MoggiTahaBenaissaSheard99ESOP,
   author = 	 {Eugenio Moggi and Walid Taha and Zine El-Abidine
