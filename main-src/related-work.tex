@@ -56,6 +56,67 @@ MetaOCaml to real problems in \cite{Taha2007Gentle, Kiselyov2018Reconcilong}.
 Iwaki and Igarashi~\cite{IwakiIgarashi2007CompilerAndVMforML} designed virtual
 machine and compiler for a multi-level programming language.
 
+The history of dependent type is start from AUTOMATH
+project\cite{DeBruijnNicolaas1970AUTOMATH} which is a language for expressing
+mathmatics. The pioneering work by
+Martin-L\"{o}f~\cite{martin1973intuitionistic} affected many latter works. Type
+checking of dependent types is discussed in 
+\cite{Cardelli1988Typechecking, Coquand1996Typechecking}.
+Among many dependent type systems such as
+$\lambda^\Pi$~\cite{MeyerReinhold1986Type}, The Calculus of
+Constructions~\cite{Coquand1988CoC}, and Edinburgh
+LF~\cite{HarperHonsellPlotkin1993Framework}, we base our work on
+\LLF~\cite{benjamin2005attapldependent}
+(which is quite close to $\lambda^\Pi$ and Edinburgh LF) due to its simplicity.
+
+It is well known that dependent types are useful to express detailed properties
+of data structures at the type level such as the size of data
+structures~\cite{XiPfenning1998Eliminating,Xi1999Dependent,XiHarper2001DTAL}
+and typed abstract syntax
+trees~\cite{LeijenMeijer1999DSEC,XiChenChen2003Guarded}.  The vector addition
+discussed in Section~\ref{sec:formal} is also such an example.
+
+
+%%%%%% dependent types for (compile-time) code generation
+
+The use of dependent types for code generation is studied by
+Chlipala~\cite{chlipala2010ur} and Ebner et
+al.~\cite{DBLP:journals/pacmpl/EbnerURAM17}.  They use inductive types to
+guarantee the well-formedness of generated code.  Aside from the lack of
+quasi-quotation, their systems are for heterogeneous meta-programming and
+compile-time code generation and they do not support features for run-time code
+generation such as run and CSP, as \LMD{} does.
+
+%%%% index/dependent types for MSP
+
+We discuss earlier attempts at incorporating dependent types into multi-stage
+programming.  Pasalic and Taha~\cite{pasalic2002tagless} designed
+\(\lambda_{H\circ}\) by introducing the concept of stage into an existing
+dependent type system \(\lambda_H\)~\cite{zhong2002certified}.  However,
+\(\lambda_{H\circ}\) is equipped with neither run nor CSP.  Forgarty, Pasalic,
+Siek and Taha~\cite{fogarty2007concoqtion} extended the type system of
+MetaOCaml with indexed types.  With this extension, types can be indexed with a
+Coq term.  Chen and Xi~\cite{chen2003meta} introduced code types augmented with
+information on types of free variables in code values in order to prevent code
+with free variables from being evaluated.  These systems separate the language
+of type indices from the term language.  As a result, they do not enjoy
+full-spectrum dependent types but are technically simpler because there is no
+need to take the stage of types into account.  Brady and
+Hammond~\cite{brady2006dependently} have discussed a combination of
+(full-spectrum) dependently typed programming with staging in the style of
+MetaOCaml to implement a staged interpreter, which is statically guaranteed to
+generate well-typed code.  However, they focused on concrete programming
+examples and there is no theoretical investigation of the programming language
+they used. Gratzer et al. introduced modalities in dependent type theory in
+\cite{gratzer2019modaldependent}. It helps us to find the logic which
+corresponds to \LMD.
+
+Berger and Tratt~\cite{martin2015HGRTMP} gave program logic for
+\(\text{Mini-ML}^\square_e\)~\cite{DaviesPfenning01JACM}, which would
+allow fine-grained reasoning about the behavior of code generators.
+However, it cannot manipulate open code which ours can deal with.
+
+
 \AK{========== UNTIL HERE ==========}
 
 % Practical research on multi-stage programming
@@ -96,19 +157,17 @@ $\lambda^\TW$ with CSP.
 
 % The history of dependent types
 
-There is much work on dependent types and most of it is affected by
-the pioneering work by Martin-L\"{o}f~\cite{martin1973intuitionistic}.
-Among many dependent type systems such as
-$\lambda^\Pi$~\cite{Meyer1986}, The Calculus of
+There is much work on dependent types and most of it is affected by the
+pioneering work by Martin-L\"{o}f~\cite{martin1973intuitionistic}.  Among many
+dependent type systems such as $\lambda^\Pi$~\cite{Meyer1986}, The Calculus of
 Constructions~\cite{coquand:inria-00076024}, and Edinburgh
-LF~\cite{harper1993framework}, we base our work on \LLF~\cite{attapl}
-(which is quite close to $\lambda^\Pi$ and Edinburgh LF) due to its
-simplicity.  It is well known that dependent types are useful to
-express detailed properties of data structures at the type level such
-as the size of data structures~\cite{Xi98} and typed abstract syntax
-trees~\cite{DBLP:conf/dsl/LeijenM99,DBLP:conf/popl/XiCC03}.  The
-vector addition discussed in Section~\ref{sec:formal} is also such an
-example.
+LF~\cite{harper1993framework}, we base our work on \LLF~\cite{attapl} (which is
+        quite close to $\lambda^\Pi$ and Edinburgh LF) due to its simplicity.
+It is well known that dependent types are useful to express detailed properties
+of data structures at the type level such as the size of data
+structures~\cite{XiPfenning1998Eliminating} and typed abstract syntax
+trees~\cite{LeijenMeijer1999DSEC, XiChenChen2003Guarded}. The vector addition
+discussed in Section~\ref{sec:formal} is also such an example.
 
 % Applications of dependent types
 
