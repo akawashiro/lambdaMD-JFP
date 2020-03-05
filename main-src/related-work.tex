@@ -38,6 +38,8 @@ investigated by Tsukada and Igarashi~\cite{TsukadaIgarashi2010Logical}. Hanada
 and Igarashi extended it with Cross Stage Persistence in
 \cite{HanadaIgarashi2014CSP}, which is the basis of our calculus \LMD.
 
+% Applications of Multi-stage programming
+
 We can see runtime-specialization~\cite{ConselNoel1996Runtime},
 dynamic compile~\cite{AuslanderPhiliposeChambersEggersBershad1996DynamicCompilation, EnglerHsiehKaashoek1996TickC, PolettoHsiehEnglerKaashoek1999CandTcc, GrantPhiliposeMockChambersEggers1999DyC} or
 partial evalutation~\cite{JonesGomardSestoft1993partial} as applications of
@@ -80,8 +82,8 @@ discussed in Section~\ref{sec:formal} is also such an example.
 %%%%%% dependent types for (compile-time) code generation
 
 The use of dependent types for code generation is studied by
-Chlipala~\cite{chlipala2010ur} and Ebner et
-al.~\cite{DBLP:journals/pacmpl/EbnerURAM17}.  They use inductive types to
+Chlipala~\cite{Chlipala2010Ur} and Ebner et
+al.~\cite{EbnerUllrichRoeschAvigadMoura2017meta}. They use inductive types to
 guarantee the well-formedness of generated code.  Aside from the lack of
 quasi-quotation, their systems are for heterogeneous meta-programming and
 compile-time code generation and they do not support features for run-time code
@@ -115,7 +117,6 @@ Berger and Tratt~\cite{martin2015HGRTMP} gave program logic for
 \(\text{Mini-ML}^\square_e\)~\cite{DaviesPfenning01JACM}, which would
 allow fine-grained reasoning about the behavior of code generators.
 However, it cannot manipulate open code which ours can deal with.
-
 
 \AK{========== UNTIL HERE ==========}
 
@@ -191,7 +192,7 @@ discussed in Section~\ref{sec:formal} is also such an example.
 %%%%%% dependent types for (compile-time) code generation
 
 The use of dependent types for code generation is studied by
-Chlipala~\cite{chlipala2010ur} and Ebner et
+Chlipala~\cite{Chlipala2010Ur} and Ebner et
 al.~\cite{DBLP:journals/pacmpl/EbnerURAM17}.  They use inductive types to
 guarantee the well-formedness of generated code.  Aside from the lack of
 quasi-quotation, their systems are for heterogeneous meta-programming and
