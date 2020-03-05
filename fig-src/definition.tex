@@ -16,8 +16,7 @@
 
 \subsection{Reduction}
 
-\figheader{Basic reduction}{\rulefbox{M \longrightarrow_\text{basic} M'}}
-There are theree basic reductions.
+    The relations $M \longrightarrow_\beta N$, $M \longrightarrow_\blacklozenge N$, and $M \longrightarrow_\Lambda N$ are the least compatible relations closed under the rules below.
 \begin{center}
   \begin{align*}
      & (\lambda x:\tau.M) N \longrightarrow_\beta M[x \mapsto N]         \\
@@ -26,28 +25,8 @@ There are theree basic reductions.
   \end{align*}
 \end{center}
 
-\figheader{Leveled reduction}{\rulefbox{M \longrightarrow_i M'}}
-\begin{center}
-    \infrule{M\longrightarrow_\text{basic}M'}{M\longrightarrow_0 M'} \\[2mm]
-    \infrule{M \longrightarrow_i M'}{\lambda x:\tau.M \longrightarrow_i \lambda x:\tau.M'} \hfil
-    \infrule{\tau \longrightarrow_i \tau'}{\lambda x:\tau.M \longrightarrow_{i+1} \lambda x:\tau'.M} \hfil
-    \infrule{M \longrightarrow_i M'}{M\ N \longrightarrow_i M'\ N} \hfil
-    \infrule{N \longrightarrow_i N'}{M\ N \longrightarrow_i M\ N'} \hfil
-    \infrule{M \longrightarrow_i M'}{\TB_\alpha M \longrightarrow_i \TB_\alpha M'} \\[2mm]
-    \infrule{M \longrightarrow_i M'}{\TBL_\alpha M \longrightarrow_i \TBL_\alpha M'} \hfil
-    \infrule{M \longrightarrow_i M'}{\Lambda\alpha.M \longrightarrow_i \Lambda\alpha.M'} \hfil
-    \infrule{M \longrightarrow_i M'}{M\ A \longrightarrow_i M'\ A} \hfil
-    \infrule{M \longrightarrow_i M'}{\%_\alpha M \longrightarrow_i \%_\alpha M'} \\[2mm]
-    \infrule{\tau \longrightarrow_i \tau'}{\Pi x:\tau \longrightarrow_{i+1} \Pi x:\tau'} \hfil
-    \infrule{\tau \longrightarrow_i \tau'}{\tau\ M \longrightarrow_i \tau'\ M} \hfil
-    \infrule{M \longrightarrow_i M'}{\tau\ M \longrightarrow_i \tau\ M'} \hfil
-    \infrule{\tau \longrightarrow_i \tau'}{\TW_\alpha\tau \longrightarrow_i \TW_\alpha\tau'} \hfil
-    \infrule{\tau \longrightarrow_i \tau'}{\forall\alpha.\tau \longrightarrow_i \forall\alpha.\tau'}
-\end{center}
-
-\figheader{Term reduction}{\rulefbox{M \longrightarrow M'}}
-\( M \longrightarrow M' \) if and only if there is \( i \) such that \( M
-\longrightarrow_i M' \).
+We write \( M \longrightarrow M' \) iff \( M \longrightarrow_{\beta} M' \), \(
+M \longrightarrow_\blacklozenge \) or \( M \longrightarrow_\Lambda \).
 
 \subsection{Type System}
 
@@ -65,7 +44,7 @@ There are theree basic reductions.
     }{
       \vdash \Sigma, X::K
     }
-    \\[2mm]
+    \hfil
     \infrule{
       \vdash \Sigma \andalso
       \V \tau :: * @ \varepsilon \andalso
@@ -113,10 +92,10 @@ There are theree basic reductions.
     }{
       \G \V X::K@A
     } \hfil
-    \infrule[{\KAbs}]{
-      \G\V \tau :: *@A \andalso \G,x:\tau@A\V \sigma::J@A
+    \infrule[{\KPi}]{
+      \G\V \tau :: *@A \andalso \G,x:\tau@A\V \sigma::*@A
     }{
-      \G\V(\Pi x:\tau.\sigma) :: (\Pi x:\tau.J)@A
+      \G\V(\Pi x:\tau.\sigma) :: *@A
     } \\[2mm]
     \infrule[{\KApp}]{
     \G\V \sigma:: (\Pi x:\tau.K)@A \andalso \G\V M:\tau@A
@@ -204,7 +183,7 @@ There are theree basic reductions.
 
 \figheader{Kind Equivalence}{\rulefbox{\G\V K\E J@A}}
 \begin{center}
-  \infrule[{\QKAbs}]{
+  \infrule[{\QKPi}]{
     \G\V \tau \E \sigma :: *@A \andalso
     \G,x:\tau@A \V K \E J@A
   }{
@@ -422,7 +401,7 @@ I don't want to append \( \G\AVS \tau' :: * @ A \) to the pre-condition of \KAAp
     }{
         \G \AVS X::K@A
     } \hfil
-    \infrule[{\KAAbs}]{
+    \infrule[{\KAPi}]{
         \G\AVS \tau :: *@A \andalso \G,x:\tau@A\AVS \sigma::J@A
     }{
         \G\AVS(\Pi x:\tau.\sigma) :: (\Pi x:\tau.J)@A
@@ -515,7 +494,7 @@ I don't want append \( \G\AVS \sigma' :: * @ A \) to \TAApp.
 
 \figheader{Algorithmic Kind Equivalence}{\rulefbox{\G\AVS K\E J@A}}
 \begin{center}
-    \infrule[{\QKAAbs}]{
+    \infrule[{\QKAPi}]{
         \G\AVS \tau \E \sigma @ A \andalso
         \G,x:\tau \AVS K \E J @ A
     }{
@@ -559,22 +538,15 @@ I don't want append \( \G\AVS \sigma' :: * @ A \) to \TAApp.
     } \hfil
 \end{center}
 
-\figheader{Algorithmic basic reduction}{\rulefbox{M \longrightarrow_{\text{Abasic}} M'}}
+\figheader{Algorithmic reduction}{\rulefbox{M \longrightarrow_{\text{A}} M'}}
 \begin{center}
     \begin{align*}
-        & (\lambda x:\tau.M) N \longrightarrow_{\text{A}\beta} M[x \mapsto N]       &  & \textsc{(A-$\beta$)}   \\
-        & \TBL_\alpha (\TB_\alpha M) \longrightarrow_{\text{A}\blacklozenge} M              &  & \textsc{(A-$\TBL\TB$)} \\
-        & (\Lambda \alpha.M)\ A \longrightarrow_{\text{A}\Lambda} M[\alpha \mapsto A] &  & \textsc{(A-$\Lambda$)} \\
-        & \%_\alpha M \longrightarrow_{\text{A}\%} M \qquad (\emptyset = \text{FV}(\%_\alpha M)) &  & \textsc{(A-$\%$)}
+        & (\lambda x:\tau.M) N \longrightarrow_{\text{A}} M[x \mapsto N]       &  & \textsc{(A-$\beta$)}   \\
+        & \TBL_\alpha (\TB_\alpha M) \longrightarrow_{\text{A}} M              &  & \textsc{(A-$\TBL\TB$)} \\
+        & (\Lambda \alpha.M)\ A \longrightarrow_{\text{A}} M[\alpha \mapsto A] &  & \textsc{(A-$\Lambda$)} \\
+        & \%_\alpha M \longrightarrow_{\text{A}} M \qquad (\emptyset = \text{FV}(\%_\alpha M)) &  & \textsc{(A-$\%$)}
     \end{align*}
 \end{center}
-
-\figheader{Algorithmic labeled reduction}{\rulefbox{M \longrightarrow_{\text{A}D} M'}}
-Defined just same as basic labeled reduction.
-
-\figheader{Algorithmic reduction}{\rulefbox{M \longrightarrow_\text{A} M'}}
-\( M \longrightarrow_\text{A} M' \) if and only if there is \( D \) such that \( M
-\longrightarrow_{\text{A}D} M' \).
 
 \figheader{Algorithmic Term Equivalence}{\rulefbox{\G \AV M \longrightarrow_A M'@A \ \text{and} \ \G \AV M \E M'@A}}
 \ANF is a function which returns the normal form of \( M \) under the algorithmic reduction.

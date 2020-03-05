@@ -8,6 +8,7 @@ $\mathcal{J}$ is a meta-variable for judgments.
 We say type environment \(\G\) is a sub-sequence of type environment \(\D\)
 if and only if we can get \(\G\) from \(\D\) by deleting some or no variables without changing the order of the remaining elements.
 \begin{lemma}[Weakening]
+    \label{lemma:Weakening}
     If \(\G \V \mathcal{J}@A\) and \(\G\) is a sub-sequence of \(\D\), then \(\D \V J@A\).
 \end{lemma}
 
@@ -16,31 +17,31 @@ if and only if we can get \(\G\) from \(\D\) by deleting some or no variables wi
     term equivalence, type equivalence or kind equivalence.
     We show only representative cases.
 
-    \begin{rneqncase}{\WAbs{}}{
-            \mathcal{J} = (\Pi x:\tau.K)\iskind @A \\
+    \begin{rneqncase}{\WPi{}}{
+            \mathcal{J} = (\Pi x:\tau.K)\iskind @A &
             \G \V \tau :: * @ A & \G,x:\tau@A \V K \iskind @A
             }
             By the induction hypothesis, we have
             \begin{align*}
-                & \D \V \tau::*@A &  & \D, x:\tau@A \V K \iskind @ A
+                & \D \V \tau::*@A & \D, x:\tau@A \V K \iskind @ A
             \end{align*}
             from which $\D\V (\Pi x:\tau.K) \iskind @ A$ follows by $\WAbs$.
     \end{rneqncase}
 
-    \begin{rneqncase}{\KAbs{}}{
-            \mathcal{J} = (\Pi x:\tau.) :: (\Pi x:\tau.J)@A \\
-            \G \V \tau::*@A &  & \G,x:\tau@A\V \sigma :: J @ A.
+    \begin{rneqncase}{\KPi{}}{
+            \mathcal{J} = (\Pi x:\tau.\sigma) :: *@A &
+            \G \V \tau::*@A & \G,x:\tau@A\V \sigma :: * @ A.
             }
             By the induction hypothesis, we have
             \begin{align*}
-                & \D \V \tau::*@A &  & \D,x:\tau@A\V \sigma :: J @ A
+                & \D \V \tau::*@A &  & \D,x:\tau@A\V \sigma :: * @ A
             \end{align*}
             from which $\D \V (\Pi x:\tau.) :: (\Pi x:\tau.J)@A$ follows.
     \end{rneqncase}
 
     \begin{rneqncase}{
             \QTAbs{}}{
-            \mathcal{J} = \rho \E \pi :: * @ A \\
+            \mathcal{J} = \rho \E \pi :: * @ A &
             \G\V \tau \E \sigma :: *@A  & \G,x:\tau@A \V \rho \E \pi :: *@A.
             }
             By the induction hypothesis, we have
@@ -232,7 +233,7 @@ if and only if we can get \(\G\) from \(\D\) by deleting some or no variables wi
 % 	      {\GGV X :: K\SB @A}
 % 	      {X::K\SB@A \in \GG \andalso \mathcal{D}_1}
 
-% 	\item \KAbs
+% 	\item \KPi
 
 % 	      From the induction hypothesis, we can get $\mathcal{D}_1$ and $\mathcal{D}_2$.
 
@@ -244,15 +245,15 @@ if and only if we can get \(\G\) from \(\D\) by deleting some or no variables wi
 % 	      {\GG, x:\tau\SB@A\V \sigma\SB::J\SB@A}
 % 	      {\vdots}
 
-% 	      Use \KAbs,
+% 	      Use \KPi,
 
-% 	      $\mathcal{D}_3$ = \infer[\KAbs]
+% 	      $\mathcal{D}_3$ = \infer[\KPi]
 % 	      {\GGV (\Pi x:\tau\SB.\sigma\SB)::(\Pi x:\tau\SB.J\SB)@A}
 % 	      {\mathcal{D}_1 \andalso \mathcal{D}_2}
 
 % 	      We can arrange the substitution.
 
-% 	      $\mathcal{D}'_3$ = \infer[\KAbs]
+% 	      $\mathcal{D}'_3$ = \infer[\KPi]
 % 	      {\GGV (\Pi x:\tau.\sigma)\SB::(\Pi x:\tau.J)\SB@A}
 % 	      {\mathcal{D}_1 \andalso \mathcal{D}_2}
 
@@ -554,11 +555,11 @@ if and only if we can get \(\G\) from \(\D\) by deleting some or no variables wi
 % 	      {\GGV (\%_\alpha M)\SB:\tau\SB@A\alpha}
 % 	      {\mathcal{D}_1}
 
-% 	\item \QKAbs
+% 	\item \QKPi
 
-% 	      From the induction hypothesis and \QKAbs, we get $\mathcal{D}_1$.
+% 	      From the induction hypothesis and \QKPi, we get $\mathcal{D}_1$.
 
-% 	      $\mathcal{D}_1$ = \infer[\QKAbs]
+% 	      $\mathcal{D}_1$ = \infer[\QKPi]
 % 	      {\GGV (\Pi x:\tau.K)\SB \E (\Pi x:\sigma.J)\SB@A}
 % 	      {\infer[]{\GGV \tau\SB \E \sigma\SB :: *@A}{\vdots} \andalso
 % 	      	\infer[]{\GG,x:\tau@A \V K\SB\E J\SB@A}{\vdots} }
@@ -960,7 +961,7 @@ if and only if we can get \(\G\) from \(\D\) by deleting some or no variables wi
 % 	      {\GGV X :: K\SB @A\SB}
 % 	      {X::K\SB \in \GG \andalso \ID{\GGV K\SB \iskind @A\SB}}
 
-% 	\item \KAbs
+% 	\item \KPi
 
 % 	      From the induction hypothesis, we can get $\mathcal{D}_1$ and $\mathcal{D}_2$.
 
@@ -972,15 +973,15 @@ if and only if we can get \(\G\) from \(\D\) by deleting some or no variables wi
 % 	      {\GG, x:\tau\SB@A\V \sigma\SB::J\SB@A\SB}
 % 	      {\vdots}
 
-% 	      Use \KAbs,
+% 	      Use \KPi,
 
-% 	      $\mathcal{D}_3$ = \infer[\KAbs]
+% 	      $\mathcal{D}_3$ = \infer[\KPi]
 % 	      {\GGV (\Pi x:\tau\SB.\sigma\SB)::(\Pi x:\tau\SB.J\SB)@A\SB}
 % 	      {\mathcal{D}_1 \andalso \mathcal{D}_2}
 
 % 	      We can arrange the substitution.
 
-% 	      $\mathcal{D}'_3$ = \infer[\KAbs]
+% 	      $\mathcal{D}'_3$ = \infer[\KPi]
 % 	      {\GGV (\Pi x:\tau.\sigma)\SB::(\Pi x:\tau.J)\SB@A\SB}
 % 	      {\mathcal{D}_1 \andalso \mathcal{D}_2}
 
@@ -1255,11 +1256,11 @@ if and only if we can get \(\G\) from \(\D\) by deleting some or no variables wi
 
 % 	      \end{itemize}
 
-% 	\item \QKAbs
+% 	\item \QKPi
 
-% 	      From the induction hypothesis and \QKAbs, we get $\mathcal{D}_1$.
+% 	      From the induction hypothesis and \QKPi, we get $\mathcal{D}_1$.
 
-% 	      $\mathcal{D}_1$ = \infer[\QKAbs]
+% 	      $\mathcal{D}_1$ = \infer[\QKPi]
 % 	      {\GGV (\Pi x:\tau.K)\SB \E (\Pi x:\sigma.J)\SB@A\SB}
 % 	      {\infer[]{\GGV \tau\SB \E \sigma\SB :: *@A\SB}{\vdots} \andalso
 % 	      	\infer[]{\GG,x:\tau@A \V K\SB\E J\SB@A\SB}{\vdots} }
