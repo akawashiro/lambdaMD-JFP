@@ -1907,49 +1907,71 @@ We generalize Inversion Lemma to use induction.
 \end{proof}
 
 \begin{dfn}[$\natural$ translation]
-    The $\natural$ translation is a translation from $\lambda^\text{MD}$ to $\lambda^\to$.
-    \begin{itemize}
-        \item Term
-            \begin{flalign*}
-                \natural(x) &= x & \\
-                \natural(\lambda x:\tau.M) &= \lambda x:\natural(\tau).\natural(M) & \\
-                \natural(M\ N) &= \natural(M)\ \natural(N)& \\
-                \natural(\TB_\alpha M) &= \natural(M) & \\
-                \natural(\TBL_\alpha M) &= \natural(M)& \\
-                \natural(\Lambda\alpha.M) &= \natural(M)& \\
-                \natural(M\ B) &= \natural(M) &
-            \end{flalign*}
-        \item Type
-            \begin{flalign*}
+The $\natural$ translation is a translation from $\lambda^\text{MD}$ to \text{LF}.
+    \begin{multicols}{2}
+        \begin{itemize}
+            \item Kind
+                \begin{align*}
+                    \natural(*) &= \operatorname{Type} & \\
+                    \natural(\Pi x:\tau.K) &= \Pi x:\natural(\tau).\natural(K) &
+                \end{align*}
+            \item Term
+                \begin{align*}
+                    \natural(c) &= c & \\
+                    \natural(x) &= x & \\
+                    \natural(\lambda x:\tau.M) &= \lambda x:\natural(\tau).\natural(M) & \\
+                    \natural(M\ N) &= \natural(M)\ \natural(N)& \\
+                    \natural(\TB_\alpha M) &= \natural(M) & \\
+                    \natural(\TBL_\alpha M) &= \natural(M)& \\
+                    \natural(\Lambda\alpha.M) &= \natural(M)& \\
+                    \natural(M\ B) &= \natural(M) &
+                \end{align*}
+            \item Type
+            \begin{align*}
                 \natural(X) &= X & \\
-                \natural(\Pi x:\tau.\sigma) &= \natural(\tau) \to \natural(\sigma) & \\
-                \natural(\tau\ x) &= \natural(\tau) & \\
+                \natural(\Pi x:\tau.\sigma) &= \Pi x:(\tau). \natural(\sigma) & \\
+                \natural(\tau\ M) &= \natural(\tau) \natural(M) & \\
                 \natural(\TW_\alpha \tau) &= \natural(\tau) & \\
                 \natural(\forall \alpha.\tau) &= \natural(\tau) &
-            \end{flalign*}
-        \item Kind
-            \begin{flalign*}
-                \natural(K) &= * &
-            \end{flalign*}
+            \end{align*}
         \item Context
-            \begin{flalign*}
+            \begin{align*}
                 \natural(\phi) &= \phi & \\
-                \natural(\G, x:T@A) &= \natural(\G), \natural(x):\natural(\tau) & \\
-                \natural(\G, X:K@A) &= \natural(\G) &
-            \end{flalign*}
+                \natural(\G, x:\tau@A) &= \natural(\G), \natural(x):\natural(\tau) & \\
+            \end{align*}
+        \item Signature
+            \begin{align*}
+                \natural(\phi) &= \phi & \\
+                \natural(\Sigma, c:\tau) &= \natural(\Sigma),\natural(c):\natural(\tau) & \\
+                \natural(\Sigma, X:K) &= \natural(\Sigma), \natural(X):\natural(K) &
+            \end{align*}
     \end{itemize}
+    \end{multicols}
 \end{dfn}
 
-\begin{lemma}[Preservation of Equality in $\natural$]
-    If $\G \V \tau \E \sigma :: K @ A$ then $\natural(\tau) = \natural(\sigma)$.
+\begin{lemma}[Substitution and $\natural$]\
+    \label{lemma:SubstitutionAndNatural}
+    If \( \G, x:\sigma \D \V M:\tau@A \) and \( \G \V N:\sigma@A\) in \LMD
+    then $\natural(M[x \mapsto N])$ = $\natural(M)[x\mapsto\natural(N)]$
 \end{lemma}
 
 \begin{proof}
-    We can prove using induction on the type derivation tree.
+    By induction on the type derivation tree of $\G, x:\sigma \D \V M:\tau@A$.
 \end{proof}
 
-\begin{lemma}[Preservation of Typing in $\natural$]
-    If $\G \V M:\tau@A$ in $\lambda^{\text{MD}}$ then $\natural(\G) \V \natural(M): \natural(\tau)$ in $\lambda^\to$.
+\begin{lemma}[Preservation of Judgements in $\natural$]\
+    \label{lemma:PreservationOfJudgementsInNatural}
+    There are following relations between judgments in \LMD and \text{LF}.
+    \begin{itemize}
+        \item If \( \vdash \Sigma \) then \( \natural(\Sigma)\ \operatorname{sig} \).
+        \item If \( \V \Gamma \) then \( \vdash_{\natural(\Sigma)} \natural(\Gamma) \).
+        \item If \( \G \V K \iskind@A \) then \( \natural(\G) \vdash_{\natural(\Sigma)} \natural(K) \).
+        \item If \( \G \V \tau : K @ A \) then \( \natural(\G) \vdash_{\natural(\Sigma)} \natural(\tau) : \natural(K) \).
+        \item If \( \G \V M : \tau @ A \) then \( \natural(\G) \vdash_{\natural(\Sigma)} \natural(M) : \natural(\tau) \).
+        \item If \( \G \V K \E K' @ A \) then \( \natural(\G) \vdash_{\natural(\Sigma)} \natural(K) \E \natural(K') \), \( \natural(\G) \vdash_{\natural(\Sigma)} \natural(K) \) and \( \natural(\G) \vdash_{\natural(\Sigma)} \natural(K') \).
+        \item If \( \G \V \tau \E \tau' : K @ A \) then \( \natural(\G) \vdash_{\natural(\Sigma)} \natural(\tau) \E \natural(\tau') \), \( \natural(\G) \vdash_{\natural(\Sigma)} \natural(\tau) : \natural(K) \) and \( \natural(\G) \vdash_{\natural(\Sigma)} \natural(\tau') : \natural(K) \).
+        \item If \({ \G \V M \E M' : \tau @ A }\) then \({ \natural(\G) \vdash_{\natural(\Sigma)} \natural(M) \E \natural(M') }\), \({ \natural(\G) \vdash_{\natural(\Sigma)} \natural(M) : \natural(\tau) }\) and \({ \natural(\G) \vdash_{\natural(\Sigma)} \natural(M') : \natural(\tau) }\).
+    \end{itemize}
 \end{lemma}
 
 \begin{proof}
@@ -1959,208 +1981,154 @@ We generalize Inversion Lemma to use induction.
     \begin{rneqncase}{\TApp{}}{
             \G \V M : (\Pi(x:\sigma).\tau) @ A \text{ and } \G \V N :\sigma @A
         }
-        From the induction hypothesis, we have $\natural(\G) \V \natural(M) : \natural(\sigma) \to \natural(\tau)$ and $\natural(\G) \V \natural(N) : \natural(\sigma)$.
-        Use the Application rule in $\lambda^\to$, we get $\natural(\G) \V \natural(M)\ \natural(N) : \natural(\tau)$.
-        Because $\natural(M)\ \natural(N) = \natural(M\ N)$ from the definition of $\natural$, $\natural(\G) \V \natural(M\ N) : \natural(\tau)$ in $\lambda^\to$.
+        From the induction hypothesis, we have \({ \natural(\G)
+        \vdash_{\natural(\sigma)} \natural(M) : \Pi
+        x:\natural(\sigma).\natural(\tau) }\) and \({ \natural(\G)
+        \vdash_{\natural(\sigma)} \natural(N) : \natural(\sigma) }\).  Using
+        \textsc{B-APP-OBJ} rule in LF, we get \\ \({ \natural(\G)
+        \vdash_{\natural(\sigma)} \natural(M)\ \natural(N) : \natural(\tau)[x
+        \mapsto \natural(N)] }\).  Because \({ \natural(M)\ \natural(N) =
+        \natural(M\ N) }\) from the definition of $\natural$ and \({ \natural(\tau)[x \mapsto \natural(N)] = \natural(\tau[x \mapsto N]) }\) from Lemma~\ref{lemma:SubstitutionAndNatural}, \\
+        ${ \natural(\G) \vdash_{\natural(\sigma)} \natural(M\ N) :
+        \natural(\tau[x \mapsto N]) }$ in LF.
     \end{rneqncase}
     \begin{rneqncase}{\TConv{}}{
-            \G\V M:\tau@A \text{ and } \G\V \tau\E\sigma@A
+            \G\V M:\tau@A \text{ and } \G\V \tau \E \tau' : K @A
         }
-        By using Preservation of typing in $\natural$ to $\G\V \tau\E\sigma@A$, we get $\natural(\tau) = \natural(\sigma)$.
-        $\natural(\G) \V \natural(M):\natural(\tau)$ from the induction hypothesis.
-        Then, $\natural(\G) \V \natural(M):\natural(\sigma)$.
+        By the induction hypothesis, \( \natural(\G) \vdash_{\natural(\Sigma)}
+        \natural(M):\natural(\tau) \), \( \natural(\G)
+        \vdash_{\natural(\Sigma)} \natural(\tau) \E \natural(\tau') \), \(
+        \natural(\G) \vdash_{\natural(\Sigma)} \natural(\tau) : \natural(K) \)
+        and \( \natural(\G) \vdash_{\natural(\Sigma)} \natural(\tau') :
+        \natural(K) \). From Lemma~\ref{lemma:Agreement}, \( K \) is \( * \).
+        Therefore, \( \natural(\G) \vdash_{\natural(\Sigma)} \natural(\tau') :
+        \text{Type} \). Now, we can use \textsc{B-CONV-OBJ} and get \(
+        \natural(\G) \vdash_{\natural(\Sigma)} \natural(M) : \natural(\tau')
+        \).
     \end{rneqncase}
-
-\end{proof}
-
-\begin{lemma}[Preservation of Substitution in $\natural$]
-    If $\G, x:\sigma \V M:\tau@A$ and $\G \V N:\sigma@A$ in $\lambda^{\text{MD}}$
-    then $\natural(M[x \mapsto N])$ = $\natural(M)[x\mapsto\natural(N)]$
-\end{lemma}
-
-\begin{proof}
-    We prove by induction on the type derivation tree of $\G, x:\sigma \V M:\tau@A$.
 \end{proof}
 
 \begin{lemma}[Preservation of $\beta$-Reduction in $\natural$]
+    \label{lemma:PreservationOfBetaReductionInNatural}
     If $\G \V M:\tau@A$ and $M \longrightarrow_\beta N$ in $\lambda^{\text{MD}}$
     then $\natural(M) \longrightarrow_\beta^+ \natural(N)$.
 \end{lemma}
 
 \begin{proof}
-    {
-        We prove by induction on the derivation of $\beta$ reduction of \LMD.
-        We show only the main case.
-        \newcommand{\R}{\longrightarrow_{\beta}}
-        \begin{rneqncase}{$(\lambda x:\tau.M)\ N \R M[x \mapsto N]$}{}
-            From the definition of $\natural$,
-            $\natural((\lambda x:\tau.M)\ N)$ = $\lambda x:\natural(\tau).\natural(M)\ \natural(N)$.
-            Because $\lambda x:\natural(\tau).\natural(M)\ \natural(N)$ is a typed term in $\lambda^\to$,
-            we can do $\beta$ reduction from it.
-            As a result of the reduction, we get $\natural(M)[x\mapsto\natural(N)]$.
-            From Preservation of substitution in $\natural$, $\natural(M[x \mapsto N])$ = $\natural(M)[x\mapsto\natural(N)]$.
-        \end{rneqncase}
-
-    }
+    By induction on the derivation of $\beta$-reduction of \LMD.
+    We show only the main case.
+    \newcommand{\R}{\longrightarrow_{\beta}}
+    \begin{rneqncase}{$(\lambda x:\tau.M)\ N \R M[x \mapsto N]$}{}
+        From the definition of $\natural$, $\natural((\lambda x:\tau.M)\ N)$ =
+        $\lambda x:\natural(\tau).\natural(M)\ \natural(N)$.  Because $\lambda
+        x:\natural(\tau).\natural(M)\ \natural(N)$ is a typed term in LF by
+        Lemma~\ref{lemma:PreservationOfJudgementsInNatural}, we can perform
+        $\beta$-reduction from it.  As a result of the reduction, we get
+        $\natural(M)[x\mapsto\natural(N)]$.  From
+        \ref{lemma:SubstitutionAndNatural}, $\natural(M[x \mapsto N])$ =
+        $\natural(M)[x\mapsto\natural(N)]$.
+    \end{rneqncase}
 \end{proof}
 
 \begin{lemma}[Preservation of $\Lambda$-Reduction in $\natural$]
-    If $\G \V M:\tau@A$ and $M \longrightarrow_\beta N$ in $\lambda^{\text{MD}}$
+    \label{lemma:PreservationOfLambdaReductionInNatural}
+    If $\G \V M:\tau@A$ and $M \longrightarrow_\Lambda N$ in $\lambda^{\text{MD}}$
     then $\natural(M)$ =  $\natural(N)$.
 \end{lemma}
 
 \begin{proof}
     We prove by induction on the derivation of $\Lambda$-reduction of \LMD.
     We show only the main case.
-    \begin{itemize}
-        \item \textit{Case} \( (\Lambda\alpha.M)\ A \longrightarrow_\Lambda M[\alpha\mapsto A] \).\\
-            By the definition of $\natural$, \(\natural((\Lambda\alpha.M)\ A) = \natural(M)\).
-            Because \(\natural(M)\) does not contain \(\alpha\), \(\natural(M[\alpha\mapsto A]) = \natural(M)\).
-    \end{itemize}
-
+    \begin{rneqncase}{\( (\Lambda\alpha.M)\ A \longrightarrow_\Lambda M[\alpha\mapsto A] \)}{}
+            By the definition of $\natural$, \(\natural((\Lambda\alpha.M)\ A) =
+            \natural(M)\).  Because \(\natural(M)\) does not contain
+            \(\alpha\), \(\natural(M[\alpha\mapsto A]) = \natural(M)\).
+    \end{rneqncase}
 \end{proof}
 
 \begin{lemma}[Preservation of $\blacklozenge$-Reduction in $\natural$]
-    If $\G \V M:\tau@A$ and $M \longrightarrow_\blacklozenge N$ in $\lambda^{\text{MD}}$
+    \label{lemma:PreservationOfBlacklozengeReductionInNatural}
+    If $\G \V M:\tau@A$ and ${M \longrightarrow_\blacklozenge N}$ in $\lambda^{\text{MD}}$
     then $\natural(M)$ =  $\natural(N)$.
 \end{lemma}
 
 \begin{proof}
-    We prove by induction on the derivation of $\blacklozenge$-reduction of \LMD.
-    We show only the main case.
-    \begin{itemize}
-        \item \textit{Case} \( \TBL_\alpha \TB_\alpha M \longrightarrow_\blacklozenge M \).\\
-            By the definition of $\natural$, \(\natural(\TBL_\alpha \TB_\alpha M) = \natural(M)\).
-    \end{itemize}
-
+    We prove by induction on the derivation of $\blacklozenge$-reduction of
+    \LMD.  We show only the main case.
+    \begin{rneqncase}{ \( \TBL_\alpha \TB_\alpha M \longrightarrow_\blacklozenge M \) }{}
+        By the definition of $\natural$, \(\natural(\TBL_\alpha \TB_\alpha M) =
+        \natural(M)\).
+    \end{rneqncase}
 \end{proof}
 
-\begin{lemma}[Strong Normalization of Level 0 Reduction]
-    \label{lemma:StrongNormalizationOfLevel0Reduction}
-    If \( \G\V M:\tau@A \) then there is no infinite sequence of terms $(M_i)_{i\ge1}$ and $M_i \longrightarrow_\varepsilon M_{i+1}$ for $i\ge 1$
+To prove Strong Normalization, we prove that there is no infinite sequence composed of \( \Lambda \) and \( \blacklozenge \)-reductions, first.
+
+\begin{lemma}[Strong Normalization without \( \beta \)-reduction]
+    \label{lemma:StrongNormalizationWithoutBetaReduction}
+    If \( \G\V M_1:\tau@A \) then there is no infinite sequence of terms $\{M_i\}_{i\ge1}$ which satisfies $M_i \longrightarrow_\Lambda M_{i+1}$ or $M_i \longrightarrow_\blacklozenge M_{i+1}$ for $i\ge 1$.
 \end{lemma}
 
 \begin{proof}
-    If there is an infinite reduction sequence in $\lambda^{\text{MD}}$ then
-    there are infinite beta reductions in the sequence.  This is because
-    reductions other than $\beta$-reduction reduce the size of a term.  Then,
-    we show Strong Normalization by proof by contradiction.  We assume that
-    there is an infinite reduction in a typed \LMD from typed term $M$.  We can
-    construct a typed term of simply typed lambda calculus $\natural(M)$ from
-    Preservation of Typing in $\natural$ and $\natural(M)$ has infinite
-    reductions from Preservation of Reduction in $\natural$.  However,
-    $\lambda^\to$ has a property of Strong Normalization, so there is no
-    infinite reductions.
+    % Prove by lexicographical order.
+    We write the number of \( \Lambda \) in term \( M \) as \( \#\Lambda_M \) and the number of \( \TB \) in term \( M \) as \( \#\TB_M \). For \( i \ge 1 \), the pair \( ( \sharp \Lambda_{M_i}, \sharp \TB_{M_i} ) \) is strictly greater than the pair \( (\#\Lambda_{M_{i+1}}, \#\TB_{M_{i+1}}) \) in lexicographical order because \( \Lambda \)-reduction reduces the number of \( \Lambda \) by one and \( \blacklozenge \)-reduction reduces the number of \( \TB \) by one preserving the number of \( \Lambda \). Now, the lemma follows from well-foundedness of pairs of natural number.
+
+    % Prove not by lexicographical order
+    % Prove by contradiction. If there is a such infinite sequence \( \{M_i\}_{i\ge1} \), there is another infinite sequence \( \{ N_i \}_{ i \ge 1 } \) which satisfies $N_i \longrightarrow_\blacklozenge N_{i+1}$ for \( i \ge 1 \). This is because both \( \Lambda \) and \( \blacklozenge \)-reductions reduce or preserve the number of \( \Lambda \) in the term, therefore we can perform \( \Lambda \)-reduction only a finite number of times. However, \( \blacklozenge \)-reduction always reduces the size of the term, thus we can perform \( \blacklozenge \)-reduction only finite a finite number of times also. 
 \end{proof}
 
-\begin{lemma}[Strong Normalization of Level \( n \) Reduction]
-    \label{lemma:StrongNormalizationOfLevelnReduction}
-    \( n \) is a arbitary natural number.
-    If \( \G\V M:\tau@A \) then there is no infinite sequence of terms $\{M_i\}$ which satisfies that $M_i \longrightarrow_n M_{i+1}$ for any natural number \( i \).
-\end{lemma}
-
-\begin{proof}
-    By induction on \( n \).
-    \begin{itemize}
-        \item When \( n = 0 \), \\
-            it is clear from Lemma \ref{lemma:StrongNormalizationOfLevel0Reduction}.
-        \item When \( n = k + 1 \), \\
-            we can assume it is true for the case of \( n = k \).  Prove by
-            contradiction. We assume such \(\{M_i\}\) exists. From the
-            definition of level \( n \) reductions, there is another term
-            sequence \( \{ N_i \} \) which satisfies that \( N_i
-            \longrightarrow_k N_{i+1} \). This contradicts to the induction
-            hypothesis.
-    \end{itemize}
-\end{proof}
-
-\begin{lemma}[Commutablity of Leveled Reductions]
-    \label{lemma:CommutablityOfLeveledReductions}
-    If \( M \longrightarrow_n M' \longrightarrow_m M'' \) and \( n < m \) then there is \( M''' \) such that \( M \longrightarrow_m M''' \longrightarrow_n M'' \).
-\end{lemma}
-
-\begin{proof}
-    When \( n < m \), label \( m \)
-    reductions have no effect to label \( n \) reductions. So, we can get the
-    same result \( M'' \) after the conversion.
-\end{proof}
+Then, we can prove Strong Normalization of \LMD.
 
 \begin{theorem}[Strong Normalization]
     \label{theorem:StrongNormalization}
-    If \( \G\V M:\tau@A \) then there is no infinite sequence of terms $(M_i)_{i\ge1}$ and $M_i \longrightarrow M_{i+1}$ for $i\ge 1$
+    If \( \G\V M_1:\tau@A \) then there is no infinite sequence of terms $\{M_i\}_{i\ge1}$ which satisfies $M_i \longrightarrow M_{i+1}$ for $i\ge 1$.
 \end{theorem}
 
 \begin{proof}
-    We write \( M \longrightarrow_{\le n} M' \) if and only if there is a integer \( m \) such that \( M \longrightarrow_m M' \).
-    If the relation of \( M \longrightarrow_{\le n} M' \) is strong normalizing for any \( n \) then \( M \longrightarrow M' \) is strong normalizing.
-    We prove it by induction on \( n \).
-    \begin{itemize}
-        \item When \( n = 0 \), \\
-            it is clear from Lemma \ref{lemma:StrongNormalizationOfLevel0Reduction}.
-        \item When \( n = k + 1 \), \\
-            we can assume it is true for \( n = k \) from the induction
-            hypothesis. Prove by contradiction. Assume there is a infinite
-            sequence terms $\{M_i\}$ which satisfies that $M_i
-            \longrightarrow_{\le k+1} M_{i+1}$ for any natural number \( i \).
-            From the induction hypothesis, there are infinite level \( k + 1 \)
-            reductions. Using Lemma
-            \ref{lemma:CommutablityOfLeveledReductions}, we can make another
-            infinite sequence terms $\{N_i\}$ which satisfies that $N_i
-            \longrightarrow_D N_{i+1}$ for any natural number \( i \) by
-            swapping all level \( k + 1 \) reductions in \( \{ M_i \} \) toward
-            the front. This contradicts to Lemma
-            \ref{lemma:StrongNormalizationOfLevelnReduction}.
-    \end{itemize}
+
+    If there is an infinite reduction sequence in \LMD then there are infinite \( \beta \)-reductions in the sequence. If there are only finite \( \beta \)-reductions in the sequence, we can construct another infinite reduction sequence which is composed only of \( \Lambda \)-reduction and \( \blacklozenge \)-reduction. However, it contradicts Lemma~\ref{lemma:StrongNormalizationWithoutBetaReduction}.
+    
+    Then, we show Strong Normalization by proof by contradiction. 
+    
+    We assume that there is an infinite reduction sequence \( \{ M_i \} \) of \LMD and \( \G\V M_1:\tau@A \). Thanks to discussion above, we can assume it contains infinite \( \beta \)-reductions. From \( \{ M_i \} \), we can construct another infinite reduction sequence \( \{ \natural(M_i) \} \). From Lemma~\ref{lemma:PreservationOfBetaReductionInNatural}, \ref{lemma:PreservationOfLambdaReductionInNatural}, \ref{lemma:PreservationOfBlacklozengeReductionInNatural}, there are infinite \( \beta \)-reductions in \( \{ \natural(M_i) \} \).
+    
+    However, \( \natural(\G) \vdash_{\natural(\Sigma)} \natural(M_1):\natural(\tau) \) from Lemma~\ref{lemma:PreservationOfJudgementsInNatural} therefore the existence of \( \{ \natural(M_i) \} \) contradicts Strong Normalization of LF.
 \end{proof}
 
-% \begin{lemma}[Confluence of Level 0 Reduction]
-%     \label{lemma:ConfluenceofLevel0Reduction}
-%     For any term $M$, if $M \longrightarrow_0^* M'$ and $M \longrightarrow_0^* M''$,
-%     there exists $M'''$ that satisfies $M' \longrightarrow_0^* M'''$ and $M'' \longrightarrow_0^* M'''$.
-% \end{lemma}
-%
-% \begin{proof}
-%     Because we show the Strong Normalization of $\lambda^{\text{MD}}$, we can
-%     use Newman's lemma to prove Church-Rosser Property of
-%     $\lambda^{\text{MD}}$.  Then, what we must show is Weak Church-Rosser
-%     Property.  When we consider two different redexes in a
-%     $\lambda^{\text{MD}}$ term, they can only be disjoint, or one is a part of
-%     the other.  In short, they never overlap each other.  So, we can reduce one
-%     of them after we reduce another.
-% \end{proof}
-%
-% \begin{lemma}[Confluence of Level n Reduction]
-%     \label{lemma:ConfluenceofLevelnReduction}
-%     For any term $M$, if $M \longrightarrow_n^* M'$ and $M \longrightarrow_n^* M''$,
-%     there exists $M'''$ that satisfies $M' \longrightarrow_n^* M'''$ and $M'' \longrightarrow_n^* M'''$.
-% \end{lemma}
-%
-% \begin{proof}
-%     Same as Lemma \ref{lemma:StrongNormalizationOfLevelnReduction}.
-% \end{proof}
+Confluence is a property that any reduction sequences from one typed term
+converge.  Since we have proved Strong Normalization, we can use Newman's
+Lemma~\cite{DBLP:books/daglib/0092409} to prove Confluence.
 
 \begin{theorem}[Confluence]
-    \label{theorem:Confluence}
-    For any term $M$, if $M \longrightarrow^* M'$ and $M \longrightarrow^* M''$,
-    there exists $M'''$ that satisfies $M' \longrightarrow^* M'''$ and $M'' \longrightarrow^* M'''$.
+    \label{theorem:confluence}
+	For any term $M$, if $M \longrightarrow^* M'$ and $M \longrightarrow^* M''$ then
+	there exists $M'''$ that satisfies $M' \longrightarrow^* M'''$ and $M'' \longrightarrow^* M'''$.
 \end{theorem}
 
 \begin{proof}
-    Because we show the Strong Normalization of $\lambda^{\text{MD}}$, we can
-    use Newman's lemma to prove Church-Rosser Property of
-    $\lambda^{\text{MD}}$.  Then, what we must show is Weak Church-Rosser
-    Property. When we consider two different redexes in a
-    $\lambda^{\text{MD}}$ term, they can only be disjoint, or one is a part of
-    the other. In short, they never overlap each other.  So, we can reduce one
-    of them after we reduce another.
+  We can easily show Weak Church-Rosser. Use Newman's Lemma.
+	% Because we proved Strong Normalization of \LMD, 
+	% we can use Newman's lemma to prove Confluence of \LMD.
+	% Then, what we must show is Weak Church-Rosser Property now.
+	% When we consider two different redexes in a \LMD term, they can only be disjoint, or one is a part of the other.
+	% In short, they are never overlapped each other.
+	% So, we can reduce one of them after we reduce another.
 \end{proof}
 
-\begin{theorem}[Staged Semantics is Subrelation of Normal Semantics]
-    If $M \longrightarrow_s M'$, then $M \longrightarrow M'$.
-\end{theorem}
+Now, we turn our attention to staged semantics.  First, the staged
+reduction relation is a subrelation of full reduction, so Subject
+Reduction holds also for the staged reduction.
+
+\begin{lemma}[Staged Reduction and Normal Reduction]
+  If $M \longrightarrow_s M'$, then $M \longrightarrow M'$.
+\end{lemma}
 \begin{proof}
     Easy from the definition of \( M \longrightarrow_s M' \).
 \end{proof}
+
+The following theorem Unique Decomposition ensures that every typed
+term is either a value or can be uniquely decomposed to an evaluation
+context and a redex, ensuring that a well-typed term is not
+immediately stuck and the staged semantics is deterministic.
 
 \begin{lemma}[Unique Decomposition]
     If $\G$ does not have any variable declared at stage $\varepsilon$
