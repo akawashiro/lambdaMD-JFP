@@ -846,6 +846,7 @@ if and only if we can get \(\G\) from \(\D\) by deleting some or no variables wi
 % \fi
 
 \begin{lemma}[Stage Substitution]
+    \label{lemma:StageSubstitution}
     If $\G \V \mathcal{J}$, then $\G[\beta\mapsto B] \V \mathcal{J}[\beta\mapsto B]$.  Similarly, if $\V \G$, then $\V \G[\beta\mapsto B]$.
 \end{lemma}
 
@@ -1693,7 +1694,8 @@ We generalize Inversion Lemma to use induction.
 
 \end{proof}
 
-\begin{lemma}[Inversion Lemma for $\TW$ type]
+\begin{lemma}[Inversion Lemma for $\TW$ Type]
+    \label{lemma:InversionLemmaForTWType}
     \begin{item}
     \item If $\G \V \TB_\alpha M : \tau@A$, then
         there is $\sigma$ such that $\tau = \TW_\alpha \sigma$ and $\G \V M : \sigma@A$.
@@ -1724,6 +1726,7 @@ We generalize Inversion Lemma to use induction.
 \end{proof}
 
 \begin{lemma}[Inversion for $\forall$ Type]
+    \label{lemma:InversionForForallType}
     \begin{item}
     \item If $\G \V \Lambda\alpha.M : \tau$, then
         there is $\sigma$ such that $\tau = \forall\alpha.\sigma$ and $\G \V M : \sigma@A$.% and $\alpha \notin \FTV(\G) \cup \FV(A)$.
@@ -1788,12 +1791,12 @@ We generalize Inversion Lemma to use induction.
         From the definition of \( \beta \)-reduction, the reduction should be
         $(\lambda x:\sigma.N)\ L \LB N[x\mapsto L]$.  Because the last rule of
         the type derivation tree is \TApp, we have $\G \V (\lambda x:\sigma.N)
-        : (\Pi x:\sigma'.\tau')@A$ and $\G \V L:\sigma' @A$.  By using
-        Inversion Lemma for $\Pi$ type to $\G \V (\lambda x:\sigma.N) : (\Pi
-        x:\sigma'.\tau')@A$, we get $\G, x:\sigma \V N:\tau$ and $\G \V \sigma
-        \E \sigma'$ and $\G ,x:\sigma \V \tau \E \tau'@A$.  By \TConv , $\G \V
-        L:\sigma @A$.  By Term Substitution Lemma, we get $\G \V N[x\mapsto
-        L]:\tau[x\mapsto L]$.
+        : (\Pi x:\sigma'.\tau')@A$ and $\G \V L:\sigma' @A$.  By using Lemma
+        \ref{lemma:InversionLemmaForPiType} to $\G \V (\lambda x:\sigma.N) :
+        (\Pi x:\sigma'.\tau')@A$, we get $\G, x:\sigma \V N:\tau$ and $\G \V
+        \sigma \E \sigma'$ and $\G ,x:\sigma \V \tau \E \tau'@A$.  By \TConv ,
+        $\G \V L:\sigma @A$.  By Lemma \ref{lemma:TermSubstitution}, we get $\G \V
+        N[x\mapsto L]:\tau[x\mapsto L]$.
     }
 
 \end{proof}
@@ -1860,10 +1863,11 @@ We generalize Inversion Lemma to use induction.
 \begin{proof}
     {
         \newcommand{\R}{\longrightarrow_{\blacklozenge}}
-        From the definition of \( \blacklozenge \)-reduction, the reduction should be
-        $\TBL\TB M \R M$ Because the last rule is \TTBL, we have $\G \V \TB M :
-        \TW_\alpha \tau @A$.  By using Inversion Lemma for $\TW$ type to $\G \V
-        \TB M : \TW_\alpha \tau @A$, we get $\G \V M : \tau @A$.
+        From the definition of \( \blacklozenge \)-reduction, the reduction
+        should be $\TBL\TB M \R M$ Because the last rule is \TTBL, we have $\G
+        \V \TB M : \TW_\alpha \tau @A$.  By using Lemma
+        \ref{lemma:InversionLemmaForTWType} type to $\G \V \TB M : \TW_\alpha
+        \tau @A$, we get $\G \V M : \tau @A$.
     }
 \end{proof}
 
@@ -1878,37 +1882,16 @@ We generalize Inversion Lemma to use induction.
         From the definition of \( \Lambda \)-reduction, the reduction should be
         $(\Lambda\alpha.M)\ B \R M[\alpha \mapsto B]$.  Because the last rule
         is \TIns{}, we have $\G \V \Lambda\alpha.M\ : \forall\alpha.\tau @ A$.
-        By using Inversion Lemma for $\Lambda$ type to $\G \V \Lambda\alpha.M\
-        : \forall\alpha.\tau @ A$, we obtain $\G \V M : \tau @ A$.  By using
-        Stage Substitution Lemma to $\G \V M : \tau @ A$, we obtain $\G[\alpha
-        \mapsto B] \V M[\alpha \mapsto B] : \tau[\alpha \mapsto B] @ A[\alpha
-        \mapsto B]$.  $\alpha$ is a bound variable therefore we can assume
-        $\alpha \notin \FTV(\G) \cup \FTV(A)$.  So, we can rewrite $\G[\alpha
-        \mapsto B] \V M[\alpha \mapsto B] : \tau[\alpha \mapsto B] @ A[\alpha
-        \mapsto B]$ to $\G \V M[\alpha \mapsto B] : \tau[\alpha \mapsto B] @
-        A$.
+        By using Lemma \ref{lemma:InversionForForallType} to $\G \V
+        \Lambda\alpha.M\ : \forall\alpha.\tau @ A$, we obtain $\G \V M : \tau @
+        A$.  By using Lemma \ref{lemma:StageSubstitution} to $\G \V M : \tau @
+        A$, we obtain $\G[\alpha \mapsto B] \V M[\alpha \mapsto B] :
+        \tau[\alpha \mapsto B] @ A[\alpha \mapsto B]$.  $\alpha$ is a bound
+        variable therefore we can assume $\alpha \notin \FTV(\G) \cup \FTV(A)$.
+        So, we can rewrite $\G[\alpha \mapsto B] \V M[\alpha \mapsto B] :
+        \tau[\alpha \mapsto B] @ A[\alpha \mapsto B]$ to $\G \V M[\alpha
+        \mapsto B] : \tau[\alpha \mapsto B] @ A$.
     }
-\end{proof}
-
-\begin{lemma}[Type Preservation on Level 0 Reduction]
-    \label{lemma:TypePreservationOnLevel0Reduction}
-    If \( \G \V M : \tau @ A \) and \( M \longrightarrow_0 M' \), then \( \G \V M' : \tau @ A \).
-\end{lemma}
-
-\begin{proof}
-    Straightforward induction on typing derivations using
-    \ref{lemma:PreservationOnBetaReduction},
-    \ref{lemma:PreservationOnLambdaReduction} and
-    \ref{lemma:PreservationOnBlackReduction}.
-\end{proof}
-
-\begin{lemma}[Equivalence Preservation on Level 0 Reduction]
-    \label{lemma:EquivalencePreservationOnLevel0Reduction}
-    If \( \G \V M \E M' : \tau @ A \) and \( M \longrightarrow_0 M'' \), then \( \G \V M'' \E M' : \tau @ A \).
-\end{lemma}
-
-\begin{proof}
-    By case analysis on \( M \longrightarrow_0 M'' \) using \QTrans.
 \end{proof}
 
 \begin{theorem}[Type Preservation]
@@ -1916,12 +1899,11 @@ We generalize Inversion Lemma to use induction.
     If \( \G \V M : \tau @ A \) and \( M \longrightarrow M' \), then \( \G \V M' : \tau @ A \).
 \end{theorem}
 
-\begin{proof} 
-    By induction on \( \G \V M : \tau @ A \), all subterms are typed including
-    terms in types. So, we can prove all type and equivalence is preserved by
-    induction on \( M \longrightarrow M' \) by Lemma
-    \ref{lemma:TypePreservationOnLevel0Reduction} and
-    \ref{lemma:EquivalencePreservationOnLevel0Reduction}.
+\begin{proof}
+    Straightforward induction on typing derivations using
+    \ref{lemma:PreservationOnBetaReduction},
+    \ref{lemma:PreservationOnBlackReduction} and 
+    \ref{lemma:PreservationOnLambdaReduction}.
 \end{proof}
 
 \begin{dfn}[$\natural$ translation]
