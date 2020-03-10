@@ -28,6 +28,15 @@ if and only if we can get \(\G\) from \(\D\) by deleting some or no variables wi
             from which $\D\V (\Pi x:\tau.K) \iskind @ A$ follows by $\WAbs$.
     \end{rneqncase}
 
+    \begin{rneqncase}{
+            \TGen{}}{
+            \G\V\Lambda\alpha.M:\forall\alpha.\tau@A \text{ is derived from }
+            \G \V M : \tau @ A \text{ and } \alpha \not\in \FTV(\G) \cup \FTV(A).
+        }
+            By the induction hypothesis, we have \( \D \V M : \tau @ A \).
+            \( \alpha \not\in \FTV(\D) \cup \FTV(A) \) also holds because we can rename \( \alpha \) arbitrarily.
+    \end{rneqncase}
+
     \begin{rneqncase}{\KPi{}}{
             \mathcal{J} = (\Pi x:\tau.\sigma) :: *@A &
             \G \V \tau::*@A & \G,x:\tau@A\V \sigma :: * @ A.
@@ -80,12 +89,12 @@ if and only if we can get \(\G\) from \(\D\) by deleting some or no variables wi
                         Therefore, $\tau\SB = \xi\SB = \xi$.
                         It is obvious that $y\SB = z\SB = P$.
                         Thus, $\G \V y\SB : \tau\SB@A$.
-                        By Weakening, $\G,\D\SB \V y\SB : \tau\SB@A$
+                        By Lemma \ref{lemma:Weakening}, $\G,\D\SB \V y\SB : \tau\SB@A$
 
                 \end{itemize}
         \end{rneqncase}
 
-        \begin{rneqncase}{\WAbs{}}{
+        \begin{rneqncase}{\WPi{}}{
                 \mathcal{J} =  (\Pi x:\tau.K) \iskind @A\\
                 \G, z:\xi@B, \D \V \tau::*@A & \G, z:\xi@B, \D, x:\tau \V K \iskind@A.
                 }
@@ -1636,20 +1645,21 @@ if and only if we can get \(\G\) from \(\D\) by deleting some or no variables wi
             \G,x:\sigma@A\V M:\tau@A \text{ and } \G\V N:\sigma@A.
             }
             From \TAbs{} and \TApp, \( \G\V(\lambda x:\sigma.M)\ N : \tau[x \mapsto N]@A \).
-            From Term Substitution, \( \G\V M[x\mapsto N] : \tau[x \mapsto N]@A \).
+            From Lemma \ref{lemma:TermSubstitution}, \( \G\V M[x\mapsto N] : \tau[x \mapsto N]@A \).
     \end{rneqncase}
 
 \end{proof}
 
 We generalize Inversion Lemma to use induction.
 \begin{lemma}[Inversion Lemma for $\Pi$ Type]
+    \label{lemma:InversionLemmaForPiType}
     \begin{enumerate}
         \item If $\G \V (\lambda x:\sigma.M) : \rho$, then there are $\sigma'$ and $\tau'$ such that
             $\rho = \Pi x:\sigma'.\tau'$, $\G \V \sigma \E \sigma'@A$ and $\G ,x:\sigma'@A\V M:\tau'@A$.
-        \item If $\G \V \rho \E (\Pi x:\sigma.\tau) : K @A$, then there are $\sigma', \tau', K$, and $J$ such that
-            $\rho = \Pi x:\sigma'.\tau'$, $\G \V \sigma \E \sigma' : K @A$, and $\G, x:\sigma@A\V \tau \E \tau' : J @A$.
-        \item If $\G \V (\Pi x:\sigma.\tau) \E \rho : K @A$, then there are $\sigma', \tau', K$, and $J$ such that
-            $\rho = \Pi x:\sigma'.\tau'$, $\G \V \sigma \E \sigma' : K @A$, and $\G, x:\sigma@A\V \tau \E \tau' : J @A$.
+        \item If $\G \V \rho \E (\Pi x:\sigma.\tau) : K @A$, then there are $\sigma', \tau', K'$, and $J$ such that
+            $\rho = \Pi x:\sigma'.\tau'$, $\G \V \sigma \E \sigma' : K' @A$, and $\G, x:\sigma@A\V \tau \E \tau' : J @A$.
+        \item If $\G \V (\Pi x:\sigma.\tau) \E \rho : K @A$, then there are $\sigma', \tau', K'$, and $J$ such that
+            $\rho = \Pi x:\sigma'.\tau'$, $\G \V \sigma \E \sigma' : K' @A$, and $\G, x:\sigma@A\V \tau \E \tau' : J @A$.
     \end{enumerate}
 \end{lemma}
 
@@ -1687,10 +1697,10 @@ We generalize Inversion Lemma to use induction.
     \begin{item}
     \item If $\G \V \TB_\alpha M : \tau@A$, then
         there is $\sigma$ such that $\tau = \TW_\alpha \sigma$ and $\G \V M : \sigma@A$.
-    \item If $\G \V \rho \E \TW_\alpha \tau : K @A$, then there are $\tau', K$, and $J$ such that
-        $\rho = \TW_\alpha \tau'$ and $\G \V \tau \E \tau' : K @A$.
-    \item If $\G \V \TW_\alpha \tau \E \rho : K @A$, then there are $\tau', K$, and $J$ such that
-        $\rho = \TW_\alpha \tau'$ and $\G \V \tau \E \tau' : K @A$.
+    \item If $\G \V \rho \E \TW_\alpha \tau : K @A$, then there are $\tau'$ and $J$ such that
+        $\rho = \TW_\alpha \tau'$ and $\G \V \tau \E \tau' : J @A$.
+    \item If $\G \V \TW_\alpha \tau \E \rho : K @A$, then there are $\tau'$ and $J$ such that
+        $\rho = \TW_\alpha \tau'$ and $\G \V \tau \E \tau' : J @A$.
     \end{item}
 \end{lemma}
 
@@ -1713,47 +1723,59 @@ We generalize Inversion Lemma to use induction.
 
 \end{proof}
 
-\begin{lemma}[Inversion for $\Lambda$ Type]
+\begin{lemma}[Inversion for $\forall$ Type]
     \begin{item}
     \item If $\G \V \Lambda\alpha.M : \tau$, then
-        there is $\sigma$ such that $\sigma = \forall\alpha.\sigma$ and $\G \V M : \sigma@A$.% and $\alpha \notin \FTV(\G) \cup \FV(A)$.
-    \item If $\G \V \rho \E \forall\alpha.\tau : K @A$, then there are $\tau', K$ such that
-        $\rho = \forall\alpha.\tau'$ and $\G \V \tau \E \tau' : K @A$.
-    \item If $\G \V \forall\alpha.\tau \E \rho : K @A$, then there are $\tau', K$ such that
-        $\rho = \forall\alpha.\tau'$ and $\G \V \tau \E \tau' : K @A$.
+        there is $\sigma$ such that $\tau = \forall\alpha.\sigma$ and $\G \V M : \sigma@A$.% and $\alpha \notin \FTV(\G) \cup \FV(A)$.
+    \item If $\G \V \rho \E \forall\alpha.\tau : K @A$, then there are $\tau'$ and $J$ such that
+        $\rho = \forall\alpha.\tau'$ and $\G \V \tau \E \tau' : J @A$.
+    \item If $\G \V \forall\alpha.\tau \E \rho : K @A$, then there are $\tau'$ and $J$ such that
+        $\rho = \forall\alpha.\tau'$ and $\G \V \tau \E \tau' : J @A$.
     \end{item}
 \end{lemma}
 
 \begin{proof}
     We can prove using induction on the derivation tree.
-    % We show some cases as examples.
-
-    % \begin{itemize}
-    % 	\newcommand{\MC}[1]{\mathcal{#1}}
-    % 	\item \textit{Case} \TGen\ where $\G\V M:\sigma'@A$.\\
-    % 	      We can take $\sigma'$ as $\sigma$.	      	      		      	      	      	      
-    % \end{itemize}
-
-\end{proof}
+    \begin{rneqncase}{\TGen{}}{
+            \G\V\Lambda\alpha.M:\forall\alpha.\tau@A
+            \text{ is derived from }
+            \G\V M:\tau@A \text{ and } \alpha\notin\rm{FTV}(\G)\cup\rm{FTV}(A)}
+        We can take \( \tau \) as \( \sigma \) in the statement.
+    \end{rneqncase}
+    \begin{rneqncase}{\TConv{}}{
+            \G \V \Lambda\alpha.M : \tau
+            \text{ is derived from }
+            \G \V \Lambda\alpha.M : \tau' \text{ and } \G \V \tau \E \tau' : K @ A}
+        From the induction hypothesis, there is \( \sigma \) such that \( \tau'
+        = \forall\alpha.\sigma \) and \( \G \V M : \sigma \). Then, \( \G \V
+        \tau \E \forall\alpha.\sigma : K @ A \). From the induction hypothesis,
+        there are \( \sigma' \) and \( J \) such that \( \tau =
+        \forall\alpha.\sigma' \) and \( \G \V \sigma \E \sigma' : J @ A \).
+        Now, we can take \( \sigma' \) as \( \sigma \) in the statement because
+        \( \G \V M : \sigma' @ A \) from \TConv.
+    \end{rneqncase}
+    \end{proof}
 
 \begin{lemma}[Inversion Lemma for Application]
     \begin{item}
-    \item If $\G \V (\lambda x:\sigma.M)\ N: \tau@A$ then there are $x$ and $\rho$ such that
+    \item If $\G \V (\lambda x:\sigma.M)\ N: \tau@A$ then there are $\sigma'$ and $\rho$ such that
         $\G, x:\sigma \V M : \rho @A$ and $\G \V N:\sigma @ A$.
     \end{item}
 \end{lemma}
 
 \begin{proof}
     We can prove using induction on the derivation tree.
-    % We show some cases as examples.
-    % \begin{itemize}
-    % 	\item \textit{Case} \TConv{} where $\G \V (\lambda x:\sigma.M)\ N: \rho@A$ and $\G \V \rho \E \tau : K @A$.
-    % 		  By using the induction hypothesis to $\G \V (\lambda x:\sigma.M)\ N: \rho@A$, 
-    % 		  we get $\G, x:\sigma \V M : \pi @A$ and $\G \V N:\sigma @ A$.
-    % 	      Then, we can fix $x, \pi$ as $x, \rho$ in the statement correspondingly.
-    % \end{itemize}
-
-\end{proof}
+    \begin{rneqncase}{\TApp{}}{
+            \G\V (\lambda x:\sigma.M)\ N : \tau[x\mapsto N]@A
+            \text{ is derived from }
+            \G\V (\lambda x:\sigma.M):(\Pi (x:\sigma).\tau)@A \text{ and }
+            \G\V N:\sigma@A
+        }
+        Using Lemma \ref{lemma:InversionLemmaForPiType} to \( \G\V (\lambda
+        x:\sigma.M):(\Pi (x:\sigma).\tau)@A \), there are \( \sigma' \) and \(
+        \tau' \) such that \( \G, x:\sigma' @ A \V M : \tau' \).
+    \end{rneqncase}
+    \end{proof}
 
 \begin{lemma}[Preservation on $\beta$-Reduction]
     \label{lemma:PreservationOnBetaReduction}
