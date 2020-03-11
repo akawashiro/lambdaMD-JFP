@@ -115,11 +115,11 @@
     ISSN={},
     publisher={NOW Publishing},
     isbn={9781680834369},
-    url={https://ieeexplore.ieee.org/document/8384206},
+    url={https://ieeexplore.ieee.org/document/Kisekyov2018Reconciling},
     memo = "MetaOCamlの応用例いろいろ。信号処理のフィルタに使うとかおもしろかった。"
 }
 
-@inproceedings{Oleg2014BER,
+@inproceedings{Kisekyov2014BERMetaOCamlBER,
     author    = {Oleg Kiselyov},
     title     = {The Design and Implementation of {BER} MetaOCaml - System Description},
     booktitle = {Functional and Logic Programming - 12th International Symposium, {FLOPS}
@@ -342,14 +342,6 @@
     bibsource = {dblp computer science bibliography, https://dblp.org}
 }
 
-@inproceedings{BenaissaMoggiTahaSheard1999Logical,
-    title={Logical Modalities and Multi-Stage Programming},
-    author={Benaissa, Zine El-Abidine and Moggi, Eugenio and Taha, Walid and Sheard, Tim},
-    booktitle={Federated logic conference (FLoC) satellite workshop on intuitionistic modal logics and applications (IMLA)},
-    year={1999},
-    memo = "Open and closed code."
-}
-
 @inproceedings{TahaSheard1997MetaML,
     author = {Taha, Walid and Sheard, Tim},
     title = {Multi-Stage Programming with Explicit Annotations},
@@ -426,7 +418,7 @@
         This bool introduce binding time analysis to classify them."
 }
 
-@article{gratzer2019modaldependent,
+@article{GratzerSterlingBirkedal2019ModalDependent,
     author = {Gratzer, Daniel and Sterling, Jonathan and Birkedal, Lars},
     title = {Implementing a Modal Dependent Type Theory},
     year = {2019},
@@ -444,7 +436,7 @@
     keywords = {dependent types, normalization by evaluation, Modal types, type-checking}
 }
 
-@inproceedings{chen2003meta,
+@inproceedings{ChenXi2003Meta,
     author = {Chen, Chiyan and Xi, Hongwei},
     title = {Meta-programming Through Typeful Code Representation},
     booktitle = {Proceedings of the Eighth ACM SIGPLAN International Conference on Functional Programming},
@@ -454,14 +446,21 @@
     location = {Uppsala, Sweden},
     pages = {275--286},
     numpages = {12},
+    url = {http://doi.acm.org/10.1145/944705.944730},
+    doi = {10.1145/944705.944730},
     acmid = {944730},
     publisher = {ACM},
     address = {New York, NY, USA},
     keywords = {meta-programming, multi-level staged programming, typeful code representation},
+    memo = "メタプログラミングにおいて束縛されていない変数を含むコードをevalしてしまうのは大きな問題である。
+        この研究ではそのようなevalを防ぐためにコード型に含まれる自由変数の型のリストGをコード型に付加する。
+        つまりコード型は<G, tau>のようになる。
+        感想: Environment Classifiersとは別のアプローチでopen code problemを解決しようとしている。
+        東大萩谷研究室の村瀬さんの修士論文が似ている気がする。"
 } 
 
-@inproceedings{pasalic2002tagless,
-    author = {Pasalic, Emir and Taha, Walid and Sheard, Tim},
+@inproceedings{PasalicTahaSheard2002Tagless,
+    author = {Pa\v{s}ali\&\#917;, Emir and Taha, Walid and Sheard, Tim},
     title = {Tagless Staged Interpreters for Typed Languages},
     booktitle = {Proceedings of the Seventh ACM SIGPLAN International Conference on Functional Programming},
     series = {ICFP '02},
@@ -470,13 +469,18 @@
     location = {Pittsburgh, PA, USA},
     pages = {218--229},
     numpages = {12},
+    url = {http://doi.acm.org/10.1145/581478.581499},
+    doi = {10.1145/581478.581499},
     acmid = {581499},
     publisher = {ACM},
     address = {New York, NY, USA},
     keywords = {calculus of constructions, definitional interpreters, domain-specific languages, multi-stage programming},
+    memo = "依存型を使って多段階計算インタプリタのコードタグを外す話。
+        この中に\lambda_{H\circ}という多段階計算に依存型を組み合わせたものが出てくるんだけど、
+        何故かevalがない。evalがあるとopen code problemが起きてしまうからか?"
 } 
 
-@inproceedings{fogarty2007concoqtion,
+@inproceedings{FogartyPasalicSiekTaha2007Concoqtion,
     author = {Fogarty, Seth and Pasalic, Emir and Siek, Jeremy and Taha, Walid},
     title = {Concoqtion: Indexed Types Now!},
     booktitle = {Proceedings of the 2007 ACM SIGPLAN Symposium on Partial Evaluation and Semantics-based Program Manipulation},
@@ -486,12 +490,17 @@
     location = {Nice, France},
     pages = {112--121},
     numpages = {10},
+    url = {http://doi.acm.org/10.1145/1244381.1244400},
+    doi = {10.1145/1244381.1244400},
     acmid = {1244400},
     publisher = {ACM},
     address = {New York, NY, USA},
+    memo =
+        "既存のプログラミング言語の型システムを拡張する一般的な方法とその例。この論文ではMetaOCamlを普遍的量子化(Universal
+        quantification), index type expressions, kind system, type declaration, proofletsで拡張している。"
 } 
 
-@inproceedings{zhong2002certified,
+@inproceedings{ShaoSahaTrifonovPapaspyrou2002Certified,
     author = {Shao, Zhong and Saha, Bratin and Trifonov, Valery and Papaspyrou, Nikolaos},
     title = {A Type System for Certified Binaries},
     booktitle = {Proceedings of the 29th ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages},
@@ -501,14 +510,32 @@
     location = {Portland, Oregon},
     pages = {217--232},
     numpages = {16},
+    url = {http://doi.acm.org/10.1145/503272.503293},
+    doi = {10.1145/503272.503293},
     acmid = {503293},
     publisher = {ACM},
     address = {New York, NY, USA},
+    memo = "Tagless Staged Interpreters for Typed Languagesの拡張元"
 }
 
 @article{martin2015HGRTMP,
     TITLE = {{Program Logics for Homogeneous Generative Run-Time Meta-Programming}},
     AUTHOR = {Berger, Martin and Tratt, Laurence},
+    JOURNAL = {{Logical Methods in Computer Science}},
+    VOLUME = {{Volume 11, Issue 1}},
+    YEAR = {2015},
+    MONTH = Mar,
+    KEYWORDS = {Computer Science - Logic in Computer Science},
+    memo = "HGRTMPとはHomogeneous Generative Run-Time Meta-Programmingのことである(長いわ)。
+        Only code without free variables can be run.
+        Variables free in code cannot beλ-abstracted or be recursion variables."
+}
+
+@article{BergerTratt2015HGRTMP,
+    TITLE = {{Program Logics for Homogeneous Generative Run-Time Meta-Programming}},
+    AUTHOR = {Berger, Martin and Tratt, Laurence},
+    URL = {https://lmcs.episciences.org/929},
+    DOI = {10.2168/LMCS-11(1:5)2015},
     JOURNAL = {{Logical Methods in Computer Science}},
     VOLUME = {{Volume 11, Issue 1}},
     YEAR = {2015},
@@ -536,7 +563,7 @@
     memo = "System F_omega ベースの型システムを使ってメタプログラミングにまつわる型関係の問題を解決した。"
 }
 
-@inproceedings{mainland2012metahaskell,
+@inproceedings{Mainland2012MetaHaskell,
     author = {Mainland, Geoffrey},
     title = {Explicitly Heterogeneous Metaprogramming with MetaHaskell},
     booktitle = {Proceedings of the 17th ACM SIGPLAN International Conference on Functional Programming},
@@ -550,11 +577,11 @@
     publisher = {ACM},
     address = {New York, NY, USA},
     keywords = {linear languages, metaprogramming, open terms, quasiquotation, type systems},
-}
-@comment{
     url = {http://doi.acm.org/10.1145/2364527.2364572},
     doi = {10.1145/2364527.2364572},
-} 
+    memo = "多段階計算で扱う問題では生成される言語がC, CUDA,
+    アセンブリと言った低級言語であったほうが良い。この論文ではMetaHaskellという新しい言語を設計し、MLのサブセットやCのコードを生成した。正規表現をCにコンパイルする例が挙げられている。"
+}
 
 @phdthesis{Taha1999Multi,
     title={Multi-stage programming: Its theory and applications},
@@ -564,7 +591,7 @@
     memo = "Tahaさんの博士論文"
 }
 
-@inproceedings{calcagno2003implementing,
+@inproceedings{CalcagnoTahaHuangKeroy2003Implementing,
     title={Implementing multi-stage languages using {ASTs}, gensym, and reflection},
     author={Calcagno, Cristiano and Taha, Walid and Huang, Liwen and Leroy, Xavier},
     booktitle={International Conference on Generative Programming and Component Engineering},
@@ -573,7 +600,7 @@
     organization={Springer}
 }
 
-@inproceedings{brady2006dependently,
+@inproceedings{BradyHammond2006Dependently,
     title={Dependently Typed Meta-programming},
     author={Edwin Brady and Kevin Hammond},
     year={2006},
@@ -599,7 +626,7 @@
     bibsource = {dblp computer science bibliography, https://dblp.org}
 }
 
-@article{martin1973intuitionistic,
+@article{MartinLof1973Intuitionistic,
     author = {Martin-L{\"o}f, P.},
     year = {1973},
     month = {01},
@@ -624,14 +651,14 @@
     errata = {http://www.cis.upenn.edu/~bcpierce/tapl/errata.txt}
 }
 
-@inproceedings{benaissa1999logical,
+@inproceedings{BenaissaMoggiTahaSheard1999Logical,
     title={Logical modalities and multi-stage programming},
     author={Benaissa, Zine El-Abidine and Moggi, Eugenio and Taha, Walid and Sheard, Tim},
     booktitle={Federated logic conference (FLoC) satellite workshop on intuitionistic modal logics and applications (IMLA)},
     year={1999}
 }
 
-@inproceedings{marlet1999efficient,
+@inproceedings{MarletConselBoinot1999Efficient,
     title={Efficient incremental run-time specialization for free},
     author={Marlet, Renaud and Consel, Charles and Boinot, Philippe},
     booktitle={ACM SIGPLAN Notices},
@@ -642,7 +669,7 @@
     organization={ACM}
 }
 
-@book{lee1996optimizing,
+@book{LeeLeone1996Optimizing,
     title={Optimizing ML with run-time code generation},
     author={Lee, Peter and Leone, Mark},
     volume={31},
@@ -651,7 +678,7 @@
     publisher={ACM}
 }
 
-@article{consel2004tour,
+@article{ConselLawallLeMeur2004Tour,
     title={A tour of Tempo: A program specializer for the C language},
     author={Consel, Charles and Lawall, Julia L and Le Meur, Anne-Fran{\c{c}}oise},
     journal={Science of Computer Programming},
@@ -663,7 +690,7 @@
 }
 
 
-@inproceedings{masuhara2001run,
+@inproceedings{Masuhara2001RunTime,
     title={Run-time bytecode specialization},
     author={Masuhara, Hidehiko and Yonezawa, Akinori},
     booktitle={Symposium on Program as Data Objects},
@@ -672,7 +699,7 @@
     organization={Springer}
 }
 
-@article{poletto1999c,
+@article{Poletto1999CandTcc,
     title={C and tcc: a language and compiler for dynamic code generation},
     author={Poletto, Massimiliano and Hsieh, Wilson C and Engler, Dawson R and Kaashoek, M Frans},
     journal={ACM Transactions on Programming Languages and Systems (TOPLAS)},
@@ -683,7 +710,7 @@
     publisher={ACM}
 }
 
-@book{wickline1998run,
+@book{WicklineLeePfenning1998RunTime,
     title={Run-time code generation and Modal-ML},
     author={Wickline, Philip and Lee, Peter and Pfenning, Frank},
     volume={33},
@@ -692,7 +719,7 @@
     publisher={ACM}
 }
 
-@inproceedings{xi2001dependently,
+@inproceedings{XiHarpaer2001Dependently,
     author = {Xi, Hongwei and Harper, Robert},
     title = {A Dependently Typed Assembly Language},
     booktitle = {Proceedings of the Sixth ACM SIGPLAN International Conference on Functional Programming},
@@ -720,36 +747,6 @@
     organization={ACM}
 }
 
-@inproceedings{gluck1995efficient,
-    title={Efficient multi-level generating extensions for program specialization},
-    author={Gl{\"u}ck, Robert and J{\o}rgensen, Jesper},
-    booktitle={International Symposium on Programming Language Implementation and Logic Programming},
-    pages={259--278},
-    year={1995},
-    organization={Springer}
-}
-
-@book{jones1993partial,
-    title={Partial evaluation and automatic program generation},
-    author={Jones, Neil D and Gomard, Carsten K and Sestoft, Peter},
-    year={1993},
-    publisher={Peter Sestoft}
-}
-
-@InProceedings{Hanada2014,
-    author="Hanada, Yuichiro
-        and Igarashi, Atsushi",
-    editor="Codish, Michael
-        and Sumii, Eijiro",
-    title="On Cross-Stage Persistence in Multi-Stage Programming",
-    booktitle="Functional and Logic Programming",
-    year="2014",
-    publisher="Springer International Publishing",
-    address="Cham",
-    pages="103--118",
-    isbn="978-3-319-07151-0"
-}
-
 @inproceedings{XiPfenning1998Eliminating,
     author = {Xi, Hongwei and Pfenning, Frank},
     title = {Eliminating Array Bound Checking Through Dependent Types},
@@ -767,15 +764,15 @@
     memo = "依存型を使って配列の範囲チェックを外して高速化した話。"
 }
 
-@MISC{09thecoq,
+@MISC{2009Coq,
     author = {{The Coq Development Team}},
     title = {The {C}oq Proof Assistant Reference Manual},
     year = {2009}
 }
 
-@inproceedings{agda,
+@inproceedings{2009agda,
     author = {Bove, Ana and Dybjer, Peter and Norell, Ulf},
-    title = {A Brief Overview of Agda --- A Functional Language with Dependent Types},
+    title = {A Brief Overview of 2009agda --- A Functional Language with Dependent Types},
     booktitle = {Proceedings of the 22nd International Conference on Theorem Proving in Higher Order Logics},
     series = {TPHOLs '09},
     year = {2009},
@@ -814,7 +811,7 @@
     doi = {10.1016/S0304-3975(00)00053-0},
 }
 
-@article{brady2013idris,
+@article{Brady2013Idris,
     title={Idris, a general-purpose dependently typed programming language: Design and implementation},
     author={Brady, Edwin},
     journal={Journal of Functional Programming},
@@ -871,25 +868,6 @@
     memo = "Environment Classifiersの初出の論文。整理されていなくて読みにくい印象を受ける。"
 } 
 
-@inproceedings{taha2003environment,
-    author = {Taha, Walid and Nielsen, Michael Florentin},
-    title = {Environment Classifiers},
-    booktitle = proc # POPL # { (POPL'03)},
-    year = {2003},
-    isbn = {1-58113-628-5},
-    location = {New Orleans, Louisiana, USA},
-    pages = {26--37},
-    numpages = {12},
-    acmid = {604134},
-    publisher = {ACM},
-    address = {New York, NY, USA},
-    keywords = {linear temporal logic, modal logic, multi-stage programming, type safety, type systems},
-} 
-@comment{
-    url = {http://doi.acm.org/10.1145/604131.604134},
-    doi = {10.1145/604131.604134},
-}
-
 @article{HarperHonsellPlotkin1993Framework,
     title={A framework for defining logics},
     author={Harper, Robert and Honsell, Furio and Plotkin, Gordon},
@@ -918,7 +896,7 @@
     address = {Berlin, Heidelberg},
 } 
 
-@inproceedings{oleg2014,
+@inproceedings{Kisekyov2014BERMetaOCaml,
     author    = {Oleg Kiselyov},
     title     = {The Design and Implementation of {BER} MetaOCaml - System Description},
     booktitle = {Functional and Logic Programming - 12th International Symposium, {FLOPS}
@@ -962,7 +940,7 @@
     publisher={MIT press}
 }
 
-@INPROCEEDINGS{davis1996temporal,
+@INPROCEEDINGS{Davis1996Temporal,
     author={R. {Davies}},
     booktitle={Proceedings 11th Annual IEEE Symposium on Logic in Computer Science},
     title={A Temporal-Logic Approach to Binding-Time Analysis},
@@ -977,7 +955,7 @@
     memo = "時相論理と束縛時解析の関係"
 }
 
-@book{sorensen2006lectures,
+@book{SorensenUrzyczyn2006Lectures,
     title={Lectures on the Curry-Howard isomorphism},
     author={S{\o}rensen, Morten Heine and Urzyczyn, Pawel},
     volume={149},
@@ -1021,16 +999,6 @@ Coquand:1988:CC:47724.47725
         doi = {10.1016/0890-5401(88)90005-3},
 }
 
-@article{LLVM,
-    title={高レベル LLVM マクロとしての MetaOCaml},
-    author={高島尚希 and キセリョーヴオレッグ and 亀山幸義},
-    journal={日本ソフトウェア科学会大会論文集},
-    volume={31},
-    pages={454--461},
-    year={2014},
-    publisher={[日本ソフトウェア科学会]}
-}
-
 @inproceedings{kiselyov2016refined,
     title={Refined Environment Classifiers},
     author={Kiselyov, Oleg and Kameyama, Yukiyoshi and Sudo, Yuto},
@@ -1040,7 +1008,7 @@ Coquand:1988:CC:47724.47725
     organization={Springer}
 }
 
-@inproceedings{oishi2017staging,
+@inproceedings{OishiKameyama2017Staging,
     author = {Oishi, Junpei and Kameyama, Yukiyoshi},
     title = {Staging with Control: Type-safe Multi-stage Programming with Control Operators},
     booktitle = {Proc.\ of the 16th ACM SIGPLAN Conference on Generative Programming: Concepts and Experiences (GPCE 2017)},
@@ -1059,7 +1027,7 @@ Coquand:1988:CC:47724.47725
     doi = {10.1145/3136040.3136049},
 }
 
-@BOOK{8384206,
+@BOOK{Kisekyov2018Reconciling,
     author={O. {Kiselyov}},
     booktitle={Reconciling Abstraction with High Performance: A MetaOCaml approach},
     title={Reconciling Abstraction with High Performance: A MetaOCaml approach},
@@ -1073,7 +1041,7 @@ Coquand:1988:CC:47724.47725
     publisher={NOW Publishing},
     isbn={9781680834369},}
     @comment{
-        url={https://ieeexplore.ieee.org/document/8384206},}
+        url={https://ieeexplore.ieee.org/document/Kisekyov2018Reconciling},}
         }
 
 @article{Milner78JCSS,
@@ -1135,7 +1103,7 @@ Coquand:1988:CC:47724.47725
     biburl    = {https://dblp.org/rec/bib/conf/dsl/LeijenM99},
     bibsource = {dblp computer science bibliography, https://dblp.org}
 }
-@TechReport{CheneyHinze,
+@TechReport{CheneyHinze2003PhantomTypes,
     author =       {James Cheney and Ralf Hinze},
     title =        {First-Class Phantom Types},
     institution =  {Cornell University},
@@ -1166,7 +1134,7 @@ Coquand:1988:CC:47724.47725
 
 @string{PEPM = "ACM Symposium on Partial Evaluation and
     Semantics-Based Program Manipulation"}
-    @InProceedings{KameyamaKiselyovShan09PEPM,
+    @InProceedings{KameyamaKiselyovShan09Shifting,
         author = 	 {Yukiyoshi Kameyama and Oleg Kiselyov and Chung-chieh
             Shan},
         title = 	 {Shifting the Stage: Staging with Delimited Control},
@@ -1186,7 +1154,7 @@ Coquand:1988:CC:47724.47725
         OPTnote = 	 {},
         OPTannote = 	 {K-40}
     }
-@inproceedings{DBLP:conf/popl/KimYC06,
+@inproceedings{KimYi2006PolymorphicModal,
     author    = {Ik{-}Soon Kim and
         Kwangkeun Yi and
             Cristiano Calcagno},
@@ -1198,7 +1166,7 @@ Coquand:1988:CC:47724.47725
     biburl    = {https://dblp.org/rec/bib/conf/popl/KimYC06},
     bibsource = {dblp computer science bibliography, https://dblp.org}
 }
-@article{DBLP:journals/jfp/NanevskiP05,
+@article{NanevskiPfenning2005Staged,
     author    = {Aleksandar Nanevski and
         Frank Pfenning},
     title     = {Staged computation with names and necessity},
@@ -1213,7 +1181,7 @@ Coquand:1988:CC:47724.47725
     biburl    = {https://dblp.org/rec/bib/journals/jfp/NanevskiP05},
     bibsource = {dblp computer science bibliography, https://dblp.org}
 }
-@book{DBLP:books/daglib/0092409,
+@book{BaaderTobias1998TermRewriting,
     author    = {Franz Baader and
         Tobias Nipkow},
     title     = {Term rewriting and all that},

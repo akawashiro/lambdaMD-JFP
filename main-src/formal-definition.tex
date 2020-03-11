@@ -67,7 +67,7 @@ triples of a variable, its type, and its stage. We write
 \(\textit{dom}(\Sigma)\) and \(\textit{dom}(\Gamma)\) for the set of
 (type-level) constants and variables declared in \(\Sigma\) and \(\Gamma\),
 respectively. As in other multi-stage
-calculi~\cite{taha2003environment,Tsukada,Hanada2014}, a variable declaration
+calculi~\cite{TahaNielsen2003Environment,Tsukada,HanadaIgarashi2014CSP}, a variable declaration
 is associated with a stage so that a variable can be referenced only at the
 declared stage. On the contrary, constants and type-level constants are
 \emph{not} associated with stages; so, they can appear at any stage. We
@@ -103,7 +103,7 @@ dependent types. One notable difference is that \LMD has only one kind of
 \(\forall\alpha.\tau\) and \(\forall^\varepsilon\alpha.\tau\).  We have omitted
 the first kind, for simplicity, and dropped the superscript $\varepsilon$ from
 the second. It would not be difficult to recover the distinction to show
-properties related to program residualization~\cite{Hanada2014}, although they
+properties related to program residualization~\cite{HanadaIgarashi2014CSP}, although they
 are left as conjectures.
 
 \subsection{Reduction}
@@ -164,7 +164,7 @@ spliced into the code fragment surrounding the escape; the relation
 $\longrightarrow_\Lambda$ means that a stage abstraction applied to stage $A$
 reduces to the body of the abstraction where $A$ is substituted for the stage
 variable.  There is no reduction rule for CSP as with Hanada and Igarashi
-\cite{Hanada2014}.  The CSP operator $\%_\alpha$ disappears when $\varepsilon$
+\cite{HanadaIgarashi2014CSP}.  The CSP operator $\%_\alpha$ disappears when $\varepsilon$
 is substituted for $\alpha$.
 
 We show an example of a reduction sequence in
@@ -461,7 +461,7 @@ If the generated function code is composed with another piece of code of type, s
 \(\text{Vector }5\) and \(\text{Vector }(\%_\gamma 5)\), which would occur
 by applying the generated code to \(\gamma\) (instead of \(\varepsilon\)), are syntactically
 different types but \QPercent{} enables to equate them.
-Interestingly, Hanada and Igarashi~\cite{Hanada2014} rejected the idea of
+Interestingly, Hanada and Igarashi~\cite{HanadaIgarashi2014CSP} rejected the idea of
 reduction that removes $\%_\alpha$ when they developed \LTP{}, as such
 reduction does not match the operational behavior of the CSP operator in
 implementations. However, as an equational system for multi-stage programs,
@@ -586,7 +586,7 @@ reduction \( M \longrightarrow_{\text{A}} \).
 
 The reduction given above is full reduction and any redexes---even under
 $\TB_\alpha$---can be reduced in an arbitrary order.  Following previous
-work~\cite{Hanada2014}, we introduce (small-step, call-by-value) staged
+work~\cite{HanadaIgarashi2014CSP}, we introduce (small-step, call-by-value) staged
 semantics, where only $\beta$-reduction or $\Lambda$-reduction at stage
 $\varepsilon$ or the outer-most $\blacklozenge$-reduction are allowed, modeling
 an implementation.
@@ -611,7 +611,7 @@ term, but the body of $\Lambda$-abstraction has to be a value.  It means that
 the body of $\Lambda$-abstraction must be evaluated.  The side condition for
 $\TBL_\alpha v^{A'}$ means that escapes in a value can appear only under nested
 quotations because an escape under a single quotation splices the code value
-into the surrounding code. See Hanada and Igarashi~\cite{Hanada2014} for
+into the surrounding code. See Hanada and Igarashi~\cite{HanadaIgarashi2014CSP} for
 details.
 
 In order to define staged reduction, we define redex and evaluation contexts.

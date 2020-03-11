@@ -13,11 +13,11 @@ composing and running pieces of code as first-class values. A promising
 application of multi-stage programming is (run-time) code specialization, which
 generates program code specialized to partial inputs to the program and such
 applications are studied in the
-literature~\cite{8384206,mainland2012metahaskell,Taha2007Gentle}.
+literature~\cite{Kisekyov2018Reconciling,Mainland2012MetaHaskell,Taha2007Gentle}.
 
 % MetaOCaml
 
-MetaOCaml~\cite{calcagno2003implementing,oleg2014} is an extension of
+MetaOCaml~\cite{CalcagnoTahaHuangKeroy2003Implementing,Kisekyov2014BERMetaOCaml} is an extension of
 OCaml\footnote{\url{http://ocaml.org}} with special constructs for multi-stage
 programming, including brackets and escape, which are (hygienic)
 quasi-quotation, and \texttt{run}, which is similar to \texttt{eval} in Lisp,
@@ -32,7 +32,7 @@ is given type \texttt{int code -> int code} so that it cannot be applied to,
 say, a quotation of \texttt{"Hello"}, which is given type \texttt{string code}.
 Ensuring safety for \verb|run| is more challenging because code types by
 themselves do not guarantee that the execution of code values never results in
-unbound variable errors.  Taha and Nielsen~\cite{taha2003environment}
+unbound variable errors.  Taha and Nielsen~\cite{TahaNielsen2003Environment}
 introduced the notion of environment classifiers to address the problem,
 developed a type system to ensure not only type-safe composition but also
 type-safe execution of code values, and proved a type soundness theorem (for a
@@ -42,7 +42,7 @@ formal calculus \(\lambda^\alpha\) modeling a pure subset of MetaOCaml).
 
 However, the type system, which is based on the Hindley--Milner
 polymorphism~\cite{Milner78JCSS}, is not strong enough to guarantee invariant
-beyond simple types.  For example, Kiselyov~\cite{8384206} demonstrates
+beyond simple types.  For example, Kiselyov~\cite{Kisekyov2018Reconciling} demonstrates
 specialization of vector/matrix computation with respect to the sizes of
 vectors and matrices in MetaOCaml but the type system of MetaOCaml cannot
 prevent such specialized functions from being applied to vectors and matrices
@@ -71,11 +71,11 @@ and generates a piece of function code of type
 
 \subsection{Our Work}
 In this paper, we develop a new multi-stage calculus \LMD by extending the
-existing multi-stage calculus \LTP\cite{Hanada2014} with dependent types and
+existing multi-stage calculus \LTP\cite{HanadaIgarashi2014CSP} with dependent types and
 study its properties.  We base our work on \LTP, in which the four multi-stage
 constructs are handled slightly differently from MetaOCaml, because its type
 system and semantics are arguably simpler than
-\(\lambda^\alpha\)~\cite{taha2003environment}, which formalizes the design of
+\(\lambda^\alpha\)~\cite{TahaNielsen2003Environment}, which formalizes the design of
 MetaOCaml more faithfully.  Dependent types are based on \LLF~\cite{attapl},
 which has one of the simplest forms of dependent types.  Our technical
 contributions are summarized as follows:
@@ -93,8 +93,8 @@ contributions are summarized as follows:
         normal typing.
 \end{itemize}
 The combination of multi-stage programming and dependent types has been
-discussed by Pasalic, Taha, and Sheard~\cite{pasalic2002tagless} and Brady and
-Hammond~\cite{brady2006dependently} but, to our knowledge, our work is a first
+discussed by Pasalic, Taha, and Sheard~\cite{PasalicTahaSheard2002Tagless} and Brady and
+Hammond~\cite{BradyHammond2006Dependently} but, to our knowledge, our work is a first
 formal calculus of full-spectrum dependently typed multi-stage programming with
 all the key constructs mentioned above.
 
