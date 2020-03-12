@@ -2,6 +2,23 @@
 @string{lncs = "Lecture Notes in Computer Science"}
 @string{POPL = "ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages"}
 
+@inproceedings{GrantPhiliposeMockChambersEggers1999DyC,
+    author = {Grant, Brian and Philipose, Matthai and Mock, Markus and Chambers, Craig and Eggers, Susan J.},
+    title = {An Evaluation of Staged Run-Time Optimizations in DyC},
+    year = {1999},
+    isbn = {1581130945},
+    publisher = {Association for Computing Machinery},
+    address = {New York, NY, USA},
+    url = {https://doi.org/10.1145/301618.301683},
+    doi = {10.1145/301618.301683},
+    booktitle = {Proceedings of the ACM SIGPLAN 1999 Conference on Programming Language Design and Implementation},
+    pages = {293–304},
+    numpages = {12},
+    location = {Atlanta, Georgia, USA},
+    series = {PLDI ’99},
+    memo = "They use binding-time analysis in dynamic compilation. Dynamic
+        compilation optmize code using runtime information."
+}
 
 @inproceedings{XiHarper2001DTAL,
     author = {Xi, Hongwei and Harper, Robert},
@@ -119,7 +136,7 @@
     memo = "MetaOCamlの応用例いろいろ。信号処理のフィルタに使うとかおもしろかった。"
 }
 
-@inproceedings{Kisekyov2014BERMetaOCamlBER,
+@inproceedings{Kiselyov2014BERMetaOCamlBER,
     author    = {Oleg Kiselyov},
     title     = {The Design and Implementation of {BER} MetaOCaml - System Description},
     booktitle = {Functional and Logic Programming - 12th International Symposium, {FLOPS}
@@ -135,16 +152,6 @@
     memo = "BER MetaOCaml (MetaOCamlの再実装) の詳細。MetaOCamlはEnvironment
         Classifiersを使っているが、BER MetaOCamlはDynamicに検査してるらしい。
         そのほうが検出できるエラーが多いとか(それはそう)"
-}
-
-@inproceedings{CalcagnoTahaHuang2003MetaOCaml,
-    title={Implementing multi-stage languages using {ASTs}, gensym, and reflection},
-    author={Calcagno, Cristiano and Taha, Walid and Huang, Liwen and Leroy, Xavier},
-    booktitle={International Conference on Generative Programming and Component Engineering},
-    pages={57--76},
-    year={2003},
-    organization={Springer},
-    memo = "多段階計算可能な言語をどうやって実装するか。MetaOCamlの実装"
 }
 
 @inproceedings{GanzAmrTaha2001MacroML,
@@ -591,7 +598,7 @@
     memo = "Tahaさんの博士論文"
 }
 
-@inproceedings{CalcagnoTahaHuangKeroy2003Implementing,
+@inproceedings{CalcagnoTahaHuangLeroy2003Implementing,
     title={Implementing multi-stage languages using {ASTs}, gensym, and reflection},
     author={Calcagno, Cristiano and Taha, Walid and Huang, Liwen and Leroy, Xavier},
     booktitle={International Conference on Generative Programming and Component Engineering},
@@ -896,23 +903,6 @@
     address = {Berlin, Heidelberg},
 } 
 
-@inproceedings{Kisekyov2014BERMetaOCaml,
-    author    = {Oleg Kiselyov},
-    title     = {The Design and Implementation of {BER} MetaOCaml - System Description},
-    booktitle = {Functional and Logic Programming - 12th International Symposium, {FLOPS}
-        2014, Kanazawa, Japan, June 4-6, 2014. Proceedings},
-    pages     = {86--102},
-    year      = {2014},
-    timestamp = {Sun, 21 May 2017 00:19:14 +0200},
-}
-@comment{
-    url       = {https://doi.org/10.1007/978-3-319-07151-0\_6},
-    doi       = {10.1007/978-3-319-07151-0\_6},
-    biburl    = {https://dblp.org/rec/bib/conf/flops/Kiselyov14},
-    bibsource = {dblp computer science bibliography, https://dblp.org}
-    crossref  = {DBLP:conf/flops/2014},
-}
-
 @proceedings{DBLP:conf/flops/2014,
     editor    = {Michael Codish and
         Eijiro Sumii},
@@ -928,16 +918,6 @@
     timestamp = {Sun, 21 May 2017 00:19:14 +0200},
     biburl    = {https://dblp.org/rec/bib/conf/flops/2014},
     bibsource = {dblp computer science bibliography, https://dblp.org}
-}
-
-@incollection{attapl,
-    title={Dependent Types},
-    author={David Aspinall and Martin Hofmann},
-    booktitle={Advanced topics in types and programming languages},
-    editor = {Benjamin C. Pierce},
-    chapter={2},
-    year={2005},
-    publisher={MIT press}
 }
 
 @INPROCEEDINGS{Davis1996Temporal,
@@ -1026,23 +1006,6 @@ Coquand:1988:CC:47724.47725
     url = {http://doi.acm.org/10.1145/3136040.3136049},
     doi = {10.1145/3136040.3136049},
 }
-
-@BOOK{Kisekyov2018Reconciling,
-    author={O. {Kiselyov}},
-    booktitle={Reconciling Abstraction with High Performance: A MetaOCaml approach},
-    title={Reconciling Abstraction with High Performance: A MetaOCaml approach},
-    year={2018},
-    volume={},
-    number={},
-    pages={},
-    keywords={Partial Evaluation;Program Transformations and Optimizations;Compilation and Interpretation Techniques;Domain Specific Languages},
-    doi={},
-    ISSN={},
-    publisher={NOW Publishing},
-    isbn={9781680834369},}
-    @comment{
-        url={https://ieeexplore.ieee.org/document/Kisekyov2018Reconciling},}
-        }
 
 @article{Milner78JCSS,
     Author = {Robin Milner},

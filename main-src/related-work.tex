@@ -51,7 +51,7 @@ because it can generate and evaluate code although there is no type system for
 safety. As I know, MacroML~\cite{GanzAmrTaha2001MacroML} is the first explicit
 application of multi-stage programming. They realize hygenic macro function by
 seeing macros as a specialization of multi-stage programming.
-MetaOCaml~\cite{CalcagnoTahaHuang2003MetaOCaml, Taha2007Gentle} is implemented
+MetaOCaml~\cite{CalcagnoTahaHuangLeroy2003Implementing, Taha2007Gentle} is implemented
 first by Calcagno, Taha and Huang. BER MetaOCaml~\cite{Kisekyov2014BERMetaOCamlBER} is a
 reimplementation of MetaOCaml by Kiselyov. You can find many applications in
 MetaOCaml to real problems in \cite{Taha2007Gentle, Kiselyov2018Reconcilong}.
@@ -122,15 +122,34 @@ However, it cannot manipulate open code which ours can deal with.
 
 % Practical research on multi-stage programming
 
+We can see runtime-specialization~\cite{ConselNoel1996Runtime},
+dynamic compile~\cite{AuslanderPhiliposeChambersEggersBershad1996DynamicCompilation, EnglerHsiehKaashoek1996TickC, PolettoHsiehEnglerKaashoek1999CandTcc, GrantPhiliposeMockChambersEggers1999DyC} or
+partial evalutation~\cite{JonesGomardSestoft1993partial} as applications of
+multi-stage programming. Although there was no concept of multi-stage
+programming in this time, they generated efficient code using runtime
+information and execute the code at runtime. Quasiquotation in
+Lisp~\cite{Bawden1999Lisp} also can be a kind of multi-stage programming
+because it can generate and evaluate code although there is no type system for
+safety. As I know, MacroML~\cite{GanzAmrTaha2001MacroML} is the first explicit
+application of multi-stage programming. They realize hygenic macro function by
+seeing macros as a specialization of multi-stage programming.
+
+% MetaOCaml
+
 MetaOCaml is a programming language with quoting, unquoting, run, and CSP.
-Kiselyov~\cite{Kisekyov2018Reconciling} describes many applications of MetaOCaml, including
-filtering in signal processing, matrix-vector product, and a DSL compiler.
+MetaOCaml~\cite{CalcagnoTahaHuangLeroy2003Implementing, Taha2007Gentle} is implemented
+first by Calcagno, Taha and Huang. BER
+MetaOCaml~\cite{Kiselyov2014BERMetaOCamlBER} is a reimplementation of MetaOCaml
+by Kiselyov. Kiselyov~\cite{Kiselyov2018Reconcilong} describes many
+applications of MetaOCaml, including filtering in signal processing,
+matrix-vector product, and a DSL compiler.
 
 % The history of multi-stage programming
 
-Theoretical studies on multi-stage programming owe a lot to seminal work by
-Davies and Pfenning~\cite{DaviesPfenning01JACM} and
-Davies~\cite{Davis1996Temporal}, who found Curry-Howard correspondence
+Theoretical studies on multi-stage programming owe a lot to seminal work by two works.
+Davies and Pfenning~\cite{DaviesPfenning1996Modal} found the relation between the
+intuitionistic modal logic S4 and computation with stages.
+Davies~\cite{Davis1996Temporal} found Curry-Howard correspondence
 between multi-stage calculi and modal logic. In particular, Davies'
 $\lambda^\circ$~\cite{Davis1996Temporal} has been a basis for several
 multi-stage calculi with quasi-quotation. $\lambda^\circ$ did not have
@@ -142,7 +161,13 @@ Sheard as constructs for multi-stage programming~\cite{MetaML}.
 Finally, Taha and Nielsen invented the concept of environment
 classifiers~\cite{TahaNielsen2003Environment} and developed a typed calculus
 $\lambda^\alpha$, which was equipped with all the features above in a type
-sound manner and formed a basis of earlier versions of MetaOCaml. Different
+sound manner and formed a basis of earlier versions of MetaOCaml. Taha's environment
+classifiers~\cite{TahaNielsen2003Environment} was extended with mutable
+cells~\cite{KiselyovKameyamaSudo2016Refined} and with control
+operators~\cite{OishiKameyama2017ControlOperators} by Oishi and Kameyama. Calcagno, Moggi and
+Taha~\cite{CalcagnoMoggiTaha2004InferenceClassifiers} found that we cannot
+infer types of terms without classifier annotations. Therefore, our type
+inference algorithm takes stages(classifiers) as its input. Different
 approaches to type-safe multi-stage programming with slightly different
 constructs for composing and running code values have been studied by Kim,
 Yi, and Calcagno~\cite{KimYi2006PolymorphicModal} and Nanevski and
@@ -158,15 +183,19 @@ $\lambda^\TW$ with CSP.
 
 % The history of dependent types
 
-There is much work on dependent types and most of it is affected by the
-pioneering work by Martin-L\"{o}f~\cite{MartinLof1973Intuitionistic}.  Among many
-dependent type systems such as $\lambda^\Pi$~\cite{MeyerReinhold1986Type}, The Calculus of
-Constructions~\cite{Coquand1988CoC}, and Edinburgh
-LF~\cite{HarperHonsellPlotkin1993Framework}, we base our work on \LLF~\cite{attapl} (which is
-        quite close to $\lambda^\Pi$ and Edinburgh LF) due to its simplicity.
-It is well known that dependent types are useful to express detailed properties
-of data structures at the type level such as the size of data
-structures~\cite{XiPfenning1998Eliminating} and typed abstract syntax
+The history of dependent type is start from AUTOMATH
+project\cite{DeBruijnNicolaas1970AUTOMATH} which is a language for expressing
+mathmatics. The pioneering work by
+Martin-L\"{o}f~\cite{MartinLof1973Intuitionistic} affected many latter works.
+Type checking of dependent types is discussed in
+\cite{Cardelli1988Typechecking, Coquand1996Typechecking}.  Among many dependent
+type systems such as $\lambda^\Pi$~\cite{MeyerReinhold1986Type}, The Calculus
+of Constructions~\cite{Coquand1988CoC}, and Edinburgh
+LF~\cite{HarperHonsellPlotkin1993Framework}, we base our work on
+\LLF~\cite{attapl} (which is quite close to $\lambda^\Pi$ and Edinburgh LF) due
+to its simplicity.  It is well known that dependent types are useful to express
+detailed properties of data structures at the type level such as the size of
+data structures~\cite{XiPfenning1998Eliminating} and typed abstract syntax
 trees~\cite{LeijenMeijer1999DSEC, XiChenChen2003Guarded}. The vector addition
 discussed in Section~\ref{sec:formal} is also such an example.
 
@@ -193,7 +222,7 @@ discussed in Section~\ref{sec:formal} is also such an example.
 
 The use of dependent types for code generation is studied by
 Chlipala~\cite{Chlipala2010Ur} and Ebner et
-al.~\cite{DBLP:journals/pacmpl/EbnerURAM17}.  They use inductive types to
+al.~\cite{EbnerUllrichRoeschAvigadMoura2017meta}. They use inductive types to
 guarantee the well-formedness of generated code.  Aside from the lack of
 quasi-quotation, their systems are for heterogeneous meta-programming and
 compile-time code generation and they do not support features for run-time code
