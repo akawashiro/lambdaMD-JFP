@@ -13,11 +13,11 @@ composing and running pieces of code as first-class values. A promising
 application of multi-stage programming is (run-time) code specialization, which
 generates program code specialized to partial inputs to the program and such
 applications are studied in the
-literature~\cite{Kisekyov2018Reconciling,Mainland2012MetaHaskell,Taha2007Gentle}.
+literature~\cite{Kiselyov2018Reconcilong,Mainland2012MetaHaskell,Taha2007Gentle}.
 
 % MetaOCaml
 
-MetaOCaml~\cite{CalcagnoTahaHuangKeroy2003Implementing,Kisekyov2014BERMetaOCaml} is an extension of
+MetaOCaml~\cite{CalcagnoTahaHuangLeroy2003Implementing,Kiselyov2014BERMetaOCamlBER} is an extension of
 OCaml\footnote{\url{http://ocaml.org}} with special constructs for multi-stage
 programming, including brackets and escape, which are (hygienic)
 quasi-quotation, and \texttt{run}, which is similar to \texttt{eval} in Lisp,
@@ -42,7 +42,7 @@ formal calculus \(\lambda^\alpha\) modeling a pure subset of MetaOCaml).
 
 However, the type system, which is based on the Hindley--Milner
 polymorphism~\cite{Milner78JCSS}, is not strong enough to guarantee invariant
-beyond simple types.  For example, Kiselyov~\cite{Kisekyov2018Reconciling} demonstrates
+beyond simple types.  For example, Kiselyov~\cite{Kiselyov2018Reconcilong} demonstrates
 specialization of vector/matrix computation with respect to the sizes of
 vectors and matrices in MetaOCaml but the type system of MetaOCaml cannot
 prevent such specialized functions from being applied to vectors and matrices
@@ -53,7 +53,7 @@ of different sizes.
 % 依存型とは何か?
 
 One natural idea to address this problem is the introduction of dependent types
-to express the size of data structures in static types~\cite{Xi98}.  For
+to express the size of data structures in static types~\cite{XiPfenning1998Eliminating}.  For
 example, we could declare vector types indexed by the size of vectors as
 follows.
 \begin{verbatim}
@@ -76,7 +76,7 @@ study its properties.  We base our work on \LTP, in which the four multi-stage
 constructs are handled slightly differently from MetaOCaml, because its type
 system and semantics are arguably simpler than
 \(\lambda^\alpha\)~\cite{TahaNielsen2003Environment}, which formalizes the design of
-MetaOCaml more faithfully.  Dependent types are based on \LLF~\cite{attapl},
+MetaOCaml more faithfully.  Dependent types are based on \LLF~\cite{benjamin2005attapldependent},
 which has one of the simplest forms of dependent types.  Our technical
 contributions are summarized as follows:
 \begin{itemize}

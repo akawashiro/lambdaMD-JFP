@@ -67,7 +67,7 @@ triples of a variable, its type, and its stage. We write
 \(\textit{dom}(\Sigma)\) and \(\textit{dom}(\Gamma)\) for the set of
 (type-level) constants and variables declared in \(\Sigma\) and \(\Gamma\),
 respectively. As in other multi-stage
-calculi~\cite{TahaNielsen2003Environment,Tsukada,HanadaIgarashi2014CSP}, a variable declaration
+calculi~\cite{TahaNielsen2003Environment,TsukadaIgarashi2010Logical,HanadaIgarashi2014CSP}, a variable declaration
 is associated with a stage so that a variable can be referenced only at the
 declared stage. On the contrary, constants and type-level constants are
 \emph{not} associated with stages; so, they can appear at any stage. We
@@ -503,7 +503,7 @@ Kinding and typing rules are almost the same as the original typing, but there
 are no conversion rules, such as \TConv and \KConv. Conversion rules are not
 syntax-directed because we can apply them at any typing or kinding judgments.
 Thus, we must remove them from algorithmic typing.  As you can see in
-\cite{attapl}, all uses of conversion rules in a dependent type system can be
+\cite{benjamin2005attapldependent}, all uses of conversion rules in a dependent type system can be
 put into application rules. The simplification is possible because only
 application rules check the equivalence between the actual argument and formal
 argument, but all other rules don't check the equality of types. Therefore, the
