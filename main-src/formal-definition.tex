@@ -486,6 +486,22 @@ applying the unique appropriate rule one by one. When there is no such rule,
 the algorithm returns failure. We show the equivalence ot the original typing
 rules and the algorithmic typing rules in Section \ref{sec:properties}.
 
+\begin{algorithm}
+\caption{Type inference algorithm}\label{euclid}
+\begin{algorithmic}[1]
+    \Procedure{type-inference}{$\G, \Sigma, M, A$}
+    \If{$M=c$}
+        \If{there is $\tau$ such that $c:\tau$ is in $\Sigma$}
+        \State \textbf{return} $\tau$
+        \Else
+        \State \textbf{return} \textbf{Fail}
+        \EndIf
+    \EndIf
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+
 % Judgements
 
 In algorithmic typing, there are 8 judgments as with original typing in Figure
