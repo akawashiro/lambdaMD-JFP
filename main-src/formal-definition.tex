@@ -476,18 +476,24 @@ program which takes an environment \( \Gamma \), a signature \( \Sigma \), a
 term \( M \), and a stage \( A \) and returns a type \( \tau \) which satisfies
 \( \G \V M : \tau @ A \). If there is no such \( \tau \), the algorithm tells
 failure.  We already defined typing rules for \LMD in Section \ref{sec:typing},
-but they include some non-syntax directed rules. Non-syntax directed rules mean
-their premise cannot be decided from the goal. When we implement the type
-inference program of \LMD, it is necessary to make up type derivation trees
-from bottom to up.  So, we need to make all the typing rules syntax-directed so
-that algorithmic typing is equivalent to the original typing. Using this
-algorithmic typing rules, we can make a type inference algorithm easily just by
-applying the unique appropriate rule one by one. When there is no such rule,
-the algorithm returns failure. We show the equivalence ot the original typing
-rules and the algorithmic typing rules in Section \ref{sec:properties}.
+but they include some non-syntax directed rules. Using Non-syntax directed
+rules, we cannot infer the premise from the goal. However, when we implement
+the type inference program of \LMD, it is necessary to make up type derivation
+trees from bottom to up.  Therefore, we need to make all the typing rules
+syntax-directed. Using this algorithmic typing rules, we can make a type
+inference algorithm easily just by applying the unique appropriate rule one by
+one. We show the equivalence ot the original typing rules and the algorithmic
+typing rules in Section \ref{sec:properties}.
+
+We show a part of type inference algorithm in Algorithm
+\ref{alg:type-inference}. Although the whole algorithm is composed of six
+functions; {\sc type-inference}, {\sc{kind-inference}},
+{\sc well-formedness-inference}, {\sc{term-equivalence-check}},
+{\sc type-equivalence-check} and {\sc{kind-equivalence-check}}, we show only a
+part of {\sc type-inference} function because omitted part is very similar to it.
 
 \begin{algorithm}
-\caption{Type inference algorithm}\label{euclid}
+\caption{Type inference algorithm}\label{alg:type-inference}
 \begin{algorithmic}[1]
     \Procedure{type-inference}{$\G, \Sigma, M, A$}
     \If{$M=c$}
@@ -496,6 +502,22 @@ rules and the algorithmic typing rules in Section \ref{sec:properties}.
         \Else
         \State \textbf{return} \textbf{Fail}
         \EndIf
+    \ElsIf{$M=\lambda x:\tau.N$}
+        \If{\Call{type-inference}{$(\G,x:\tau), \Sigma, N, A$} = $\sigma$}
+            \State \textbf{return} $\Pi x:\tau.\sigma$
+            \Else
+            \State \textbf{return} \textbf{Fail}
+        \EndIf
+    \ElsIf{$M=M'\ N'$}
+        \If{\Call{type-inference}{$\G, \Sigma, M', A$} = $\Pi x:\sigma.\tau$ \\
+        \hspace{13mm} \textbf{and} \Call{type-inference}{$\G, \Sigma, M', A$} = $\sigma'$ \\
+        \hspace{13mm} \textbf{and} \Call{kind-inference}{$\G, \Sigma, \sigma', A$} = $*$ \\
+        \hspace{13mm} \textbf{and} \Call{type-equivalence-check}{$\G, \Sigma, \sigma, \sigma', A$} = \textbf{true} }
+        \State \textbf{return} \Call{subst}{$\tau, x, N$}
+        \Else
+            \State \textbf{return} \textbf{Fail}
+        \EndIf
+        \State \text{// We omit other cases for simplisity.}
     \EndIf
 \EndProcedure
 \end{algorithmic}
