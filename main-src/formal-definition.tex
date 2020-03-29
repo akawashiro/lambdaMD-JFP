@@ -18,7 +18,7 @@ over by \(x,y,z\), the denumerable set of \emph{constants}, ranged over by
 sequences of stage variables; we write \(\varepsilon\) for the empty
 sequence. \LMD is defined by the following grammar:
 
-{%\small
+{
 \begin{align*}
    \textrm{kinds}             &  & K,J,I,H,G                & ::= * \mid \Pi x:\tau.K                                                           \\
     \textrm{types}             &  & \tau,\sigma,\rho,\pi,\xi & ::= X \mid \Pi x:\tau.\sigma \mid \tau\ M \mid \TW_{\alpha} \tau \mid \F\alpha.\tau \\
@@ -224,7 +224,7 @@ recursive manner. We will discuss each judgment below.
 The rules for Well-formed signatures and type environments are
 shown below:
 %
-{\small
+{
 \begin{center}
   \infrule{
   }{
@@ -551,7 +551,7 @@ can eliminate conversion rules from algorithmic typing. The two application
 rules are as follows.
 
 \begin{center}
-    {\small
+    {
     \infrule[{\KAApp}]{
         \G\AVS \sigma:: (\Pi x:\tau.K)@A \andalso 
         \G\AVS M:\tau'@A \\
