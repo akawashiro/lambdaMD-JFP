@@ -486,15 +486,50 @@ make a type inference algorithm easily just by applying the unique appropriate
 rule one by one. We show the equivalence ot the original typing rules and the
 algorithmic typing rules in Section \ref{sec:properties}.
 
-% A part of algorithmic typing rules
 
-We write judgements in algorithmic rules by replacing \( \vdash \) in the
-original typing rules with \( \VT \). Algorithmic typing rules are in Figure
-\ref{fig:algorithmic-typing-rules}. There is no conversion rules and the rule
-for application \TAApp is different from the original typing rule \TApp.
-Because the conversion rule is non-syntax directed. Even if we remove the
-conversion rule, we can prove this algorithmic rules are equivalent to the
-original rules with the modified application rule.
+% A part of algorithmic typing rules
+% I removed this paragraph because I wrote in the past.
+
+% We write judgements in algorithmic rules by replacing \( \vdash \) in the
+% original typing rules with \( \VT \). Algorithmic typing rules are in Figure
+% \ref{fig:algorithmic-typing-rules}. There is no conversion rules and the rule
+% for application \TAApp is different from the original typing rule \TApp.
+% Because the conversion rule is non-syntax directed. Even if we remove the
+% conversion rule, we can prove this algorithmic rules are equivalent to the
+% original rules with the modified application rule. In addition to it, the
+% definition of term equivalence is quite different from the original rules. The
+% original rules define the term equivalence with the combination of rules.
+% However, the algorithmic equivalence between terms are defined by the only one rule: \QAANF.
+% \begin{center}
+% \infrule[\QAANF]{ \ANF(M) \E_\alpha \ANF(N) }{\G \AV M \E N@A} \hfil
+% \end{center}
+% This rule calculates the normal form of two given terms under the algorithmic reduction which is defined in Figure \ref{fig:algorithmic-reduction}.
+
+% Judgements
+
+In algorithmic typing, there are 8 judgments as with original typing in Figure
+\ref{fig:LMD-six-judgments}, i.e., well-formed signature, well-formed
+environment, well-formed kinding, kinding, typing, kind equivalence, type
+equivalence, and term equivalence. We replace \( \V \) with \( \AV \) in
+judgments to distinguish them from judgments of the original rules and omit
+kinds and types from typing equivalence and term equivalence, respectively. The
+definitions of well-formed signature, well-formed environment, and well-formed
+kinding are the same with original typing, so we don't explain them here.
+
+% Kinding rules and typing rules
+
+The algorithmic typing and kinding rules are almost the same as the original
+typing, but there are no conversion rules, such as \TConv and \KConv. We show
+the algorithmic typing rules in Figure \ref{fig:algorithmic-typing-rules}. Two
+conversion rules in the original rules are not syntax-directed because we cannot infer the premise
+from the conclusion. Thus, we must remove them from algorithmic typing.  As you
+can see in \cite{benjamin2005attapldependent}, all uses of conversion rules in
+a dependent type system can be put into application rules.  The simplification
+is possible because only application rules check the equivalence and all other
+rules don't check it. Therefore, the equivalence of types becomes a problem
+only in application rules. Then, if we replace type equality checks in
+application rules with a conversion check, we can eliminate conversion rules
+from algorithmic rules.
 
 \begin{figure}
     \begin{center}
@@ -554,93 +589,7 @@ original rules with the modified application rule.
     \label{fig:algorithmic-typing-rules}
 \end{figure}
 
-% A part of concrete algorithm
 
-We show a part of type inference algorithm in Algorithm
-\ref{alg:type-inference}. Although the whole algorithm is composed of six
-functions; {\sc type-inference}, {\sc{kind-inference}}, {\sc
-well-formedness-inference}, {\sc{term-equivalence-check}}, {\sc
-type-equivalence-check} and {\sc{kind-equivalence-check}}, we show only a part
-of {\sc type-inference} function because omitted part is very similar to it.
-
-\begin{algorithm}
-    \caption{Type inference algorithm}\label{alg:type-inference}
-    \begin{algorithmic}[1]
-        \Procedure{type-inference}{$\G, \Sigma, M, A$}
-        \If{$M=c$}
-        \If{there is $\tau$ such that $c:\tau$ is in $\Sigma$}
-        \State \textbf{return} $\tau$
-        \Else
-        \State \textbf{return} \textbf{Fail}
-        \EndIf
-        \ElsIf{$M=\lambda x:\tau.N$}
-        \If{\Call{type-inference}{$(\G,x:\tau), \Sigma, N, A$} = $\sigma$}
-        \State \textbf{return} $\Pi x:\tau.\sigma$
-        \Else
-        \State \textbf{return} \textbf{Fail}
-        \EndIf
-        \ElsIf{$M=M'\ N'$}
-        \If{\Call{type-inference}{$\G, \Sigma, M', A$} = $\Pi x:\sigma.\tau$ \\
-        \hspace{13mm} \textbf{and} \Call{type-inference}{$\G, \Sigma, M', A$} = $\sigma'$ \\
-        \hspace{13mm} \textbf{and} \Call{kind-inference}{$\G, \Sigma, \sigma', A$} = $*$ \\
-        \hspace{13mm} \textbf{and} \Call{type-equivalence-check}{$\G, \Sigma, \sigma, \sigma', A$} = \textbf{true} }
-        \State \textbf{return} \Call{subst}{$\tau, x, N$}
-        \Else
-        \State \textbf{return} \textbf{Fail}
-        \EndIf
-        \State \text{// We omit other cases for simplisity.}
-        \EndIf
-        \EndProcedure
-    \end{algorithmic}
-\end{algorithm}
-
-
-% Judgements
-
-In algorithmic typing, there are 8 judgments as with original typing in Figure
-\ref{fig:LMD-six-judgments}, i.e., well-formed signature, well-formed
-environment, well-formed kinding, kinding, typing, kind equivalence, type
-equivalence, and term equivalence. We replace \( \V \) with \( \AV \) in
-judgments to distinguish them from judgments of the original typing and omit
-kinds and types from typing equivalence and term equivalence, respectively. The
-definitions of well-formed signature, well-formed environment, and well-formed
-kinding are the same with original typing, so we don't explain them here.
-
-% Kinding rules and typing rules
-
-Kinding and typing rules are almost the same as the original typing, but there
-are no conversion rules, such as \TConv and \KConv. Conversion rules are not
-syntax-directed because we can apply them at any typing or kinding judgments.
-Thus, we must remove them from algorithmic typing.  As you can see in
-\cite{benjamin2005attapldependent}, all uses of conversion rules in a dependent type system can be
-put into application rules. The simplification is possible because only
-application rules check the equivalence between the actual argument and formal
-argument, but all other rules don't check the equality of types. Therefore, the
-equivalence of types becomes a problem only in application rules. Then, if we
-replace type equality checks in application rules with a conversion check, we
-can eliminate conversion rules from algorithmic typing. The two application
-rules are as follows.
-
-\begin{center}
-    {
-        \infrule[{\KAApp}]{
-            \G\AVS \sigma:: (\Pi x:\tau.K)@A \andalso 
-            \G\AVS M:\tau'@A \\
-            \G\AVS \tau' :: * @ A \andalso 
-            \G\AVS \tau \E \tau' @ A
-        }{
-            \G\AVS \sigma\ M::K[x\mapsto M]@A
-        } \hfil
-        \infrule[\TAApp]{
-            \G\AVS M:(\Pi (x:\sigma).\tau) \andalso
-            \G\AVS N:\sigma'@A \\
-            \G\AVS \sigma' :: * @ A \andalso
-            \G\AVS \sigma\E\sigma' @A
-        }{
-            \G\AVS M\ N : \tau[x\mapsto N]@A
-        } 
-    }
-\end{center}
 
 % Kind and type equivalence rules
 
@@ -683,14 +632,45 @@ reduction \( M \longrightarrow_{\text{A}} \).
     \label{fig:algorithmic-reduction}
 \end{figure}
 
-% % Type inference algorithm
-%
-% Now, we can construct an algorithm for type inference using this algorithmic
-% typing. In a conventional pseudocode notation, the algorithm looks like this:
-%
-% \begin{tabbing}
-%     gettype(\( \Gamma, \Sigma, M, A \)) = if there is a algorithmic 
-% \end{tabbing}
+% A part of concrete algorithm
+
+We show a part of type inference algorithm in Algorithm
+\ref{alg:type-inference}. Although the whole algorithm is composed of six
+functions; {\sc type-inference}, {\sc{kind-inference}}, {\sc
+well-formedness-inference}, {\sc{term-equivalence-check}}, {\sc
+type-equivalence-check} and {\sc{kind-equivalence-check}}, we show only a part
+of {\sc type-inference} function because omitted part is very similar to it.
+
+\begin{algorithm}
+    \caption{Type inference algorithm}\label{alg:type-inference}
+    \begin{algorithmic}[1]
+        \Procedure{type-inference}{$\G, \Sigma, M, A$}
+        \If{$M=c$}
+        \If{there is $\tau$ such that $c:\tau$ is in $\Sigma$}
+        \State \textbf{return} $\tau$
+        \Else
+        \State \textbf{return} \textbf{Fail}
+        \EndIf
+        \ElsIf{$M=\lambda x:\tau.N$}
+        \If{\Call{type-inference}{$(\G,x:\tau), \Sigma, N, A$} = $\sigma$}
+        \State \textbf{return} $\Pi x:\tau.\sigma$
+        \Else
+        \State \textbf{return} \textbf{Fail}
+        \EndIf
+        \ElsIf{$M=M'\ N'$}
+        \If{\Call{type-inference}{$\G, \Sigma, M', A$} = $\Pi x:\sigma.\tau$ \\
+        \hspace{13mm} \textbf{and} \Call{type-inference}{$\G, \Sigma, M', A$} = $\sigma'$ \\
+        \hspace{13mm} \textbf{and} \Call{kind-inference}{$\G, \Sigma, \sigma', A$} = $*$ \\
+        \hspace{13mm} \textbf{and} \Call{type-equivalence-check}{$\G, \Sigma, \sigma, \sigma', A$} = \textbf{true} }
+        \State \textbf{return} \Call{subst}{$\tau, x, N$}
+        \Else
+        \State \textbf{return} \textbf{Fail}
+        \EndIf
+        \State \text{// We omit other cases for simplisity.}
+        \EndIf
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
 
 \subsection{Staged Semantics}
 
