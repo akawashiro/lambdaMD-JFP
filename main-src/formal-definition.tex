@@ -467,7 +467,7 @@ reduction does not match the operational behavior of the CSP operator in
 implementations. However, as an equational system for multi-stage programs,
 the rule \QPercent{} makes sense.
 
-\subsection{Algorithmic Typing}
+\subsection{Algorithmic Typing and Equality}
 
 % What is algorithmic typing?
 
@@ -476,14 +476,85 @@ program which takes an environment \( \Gamma \), a signature \( \Sigma \), a
 term \( M \), and a stage \( A \) and returns a type \( \tau \) which satisfies
 \( \G \V M : \tau @ A \). If there is no such \( \tau \), the algorithm tells
 failure.  We already defined typing rules for \LMD in Section \ref{sec:typing},
-but they include some non-syntax directed rules. Using Non-syntax directed
+but they include some non-syntax directed rules. Using non-syntax directed
 rules, we cannot infer the premise from the goal. However, when we implement
 the type inference program of \LMD, it is necessary to make up type derivation
-trees from bottom to up.  Therefore, we need to make all the typing rules
-syntax-directed. Using this algorithmic typing rules, we can make a type
-inference algorithm easily just by applying the unique appropriate rule one by
-one. We show the equivalence ot the original typing rules and the algorithmic
-typing rules in Section \ref{sec:properties}.
+trees from bottom to up.  Therefore, we need to make all the typing, kinding,
+well-formed kinding and equivalence rules syntax-directed and design
+algorithmic rules for \LMD. Using this algorithmic rules, we can
+make a type inference algorithm easily just by applying the unique appropriate
+rule one by one. We show the equivalence ot the original typing rules and the
+algorithmic typing rules in Section \ref{sec:properties}.
+
+% A part of algorithmic typing rules
+
+We write judgements in algorithmic rules by replacing \( \vdash \) in the
+original typing rules with \( \VT \). Algorithmic typing rules are in Figure
+\ref{fig:algorithmic-typing-rules}. There is no conversion rules and the rule
+for application \TAApp is different from the original typing rule \TApp.
+Because the conversion rule is non-syntax directed. Even if we remove the
+conversion rule, we can prove this algorithmic rules are equivalent to the
+original rules with the modified application rule.
+
+\begin{figure}
+    \begin{center}
+        \infrule[{\TAConst}]{
+            c:\tau \in \Sigma \andalso
+            % \G\AVS \tau::*@A
+        }{
+            \G \AVS c:\tau@A
+        }\andalso
+        \infrule[{\TAVar}]{
+            x:\tau@A \in \G \andalso
+            % \G\AVS \tau::*@A
+        }{
+            \G \AVS x:\tau@A
+        } \hfil
+        \infrule[\TAAbs]{
+            \G\AVS \sigma::*@A \andalso
+            \G,x:\sigma@A\AVS M:\tau@A
+        }{
+            \G\AVS(\lambda (x:\sigma).M):(\Pi (x:\sigma).\tau)@A
+        } \\[2mm]
+        \infrule[\TAApp]{
+            \G\AVS M:(\Pi (x:\sigma).\tau) \andalso
+            \G\AVS N:\sigma'@A \andalso
+            \G\AVS \sigma' :: * @ A \andalso
+            \G\AVS \sigma\E\sigma' @A
+        }{
+            \G\AVS M\ N : \tau[x\mapsto N]@A
+        } \\[2mm]
+        \infrule[{\TATB}]{
+            \G\AVS M:\tau@{A\alpha}
+        }{
+            \G\AVS\TB_{\alpha}M:\TW_{\alpha}\tau@A
+        } \andalso
+        \infrule[{\TATBL}]{
+            \G\AVS M:\TW_{\alpha}\tau@A
+        }{
+            \G\AVS\TBL_{\alpha}M:\tau@{A\alpha}
+        } \\[2mm]
+        \infrule[\TAGen]{
+            \G\AVS M:\tau@A \andalso
+            \alpha\notin\rm{FTV}(\G)\cup\rm{FTV}(A)
+        }{
+            \G\AVS\Lambda\alpha.M:\forall\alpha.\tau@A
+        } \\[2mm]
+        \infrule[\TAIns]{
+            \G\AVS M:\forall\alpha.\tau@A
+        }{
+            \G\AVS M\ A:\tau[\alpha \mapsto A]@A
+        } \hfil
+        \infrule[\TACsp]{
+            \G\AVS M:\tau@A \andalso \G\AVS \tau :: * @A\alpha
+        }{
+            \G\AVS \%_\alpha M:\tau@{A\alpha}
+        }
+    \end{center}
+    \label{fig:algorithmic-typing-rules}
+\end{figure}
+
+% A part of concrete algorithm
 
 We show a part of type inference algorithm in Algorithm
 \ref{alg:type-inference}. Although the whole algorithm is composed of six
@@ -493,34 +564,34 @@ type-equivalence-check} and {\sc{kind-equivalence-check}}, we show only a part
 of {\sc type-inference} function because omitted part is very similar to it.
 
 \begin{algorithm}
-\caption{Type inference algorithm}\label{alg:type-inference}
-\begin{algorithmic}[1]
-    \Procedure{type-inference}{$\G, \Sigma, M, A$}
-    \If{$M=c$}
+    \caption{Type inference algorithm}\label{alg:type-inference}
+    \begin{algorithmic}[1]
+        \Procedure{type-inference}{$\G, \Sigma, M, A$}
+        \If{$M=c$}
         \If{there is $\tau$ such that $c:\tau$ is in $\Sigma$}
         \State \textbf{return} $\tau$
         \Else
         \State \textbf{return} \textbf{Fail}
         \EndIf
-    \ElsIf{$M=\lambda x:\tau.N$}
+        \ElsIf{$M=\lambda x:\tau.N$}
         \If{\Call{type-inference}{$(\G,x:\tau), \Sigma, N, A$} = $\sigma$}
-            \State \textbf{return} $\Pi x:\tau.\sigma$
-            \Else
-            \State \textbf{return} \textbf{Fail}
+        \State \textbf{return} $\Pi x:\tau.\sigma$
+        \Else
+        \State \textbf{return} \textbf{Fail}
         \EndIf
-    \ElsIf{$M=M'\ N'$}
+        \ElsIf{$M=M'\ N'$}
         \If{\Call{type-inference}{$\G, \Sigma, M', A$} = $\Pi x:\sigma.\tau$ \\
         \hspace{13mm} \textbf{and} \Call{type-inference}{$\G, \Sigma, M', A$} = $\sigma'$ \\
         \hspace{13mm} \textbf{and} \Call{kind-inference}{$\G, \Sigma, \sigma', A$} = $*$ \\
         \hspace{13mm} \textbf{and} \Call{type-equivalence-check}{$\G, \Sigma, \sigma, \sigma', A$} = \textbf{true} }
         \State \textbf{return} \Call{subst}{$\tau, x, N$}
         \Else
-            \State \textbf{return} \textbf{Fail}
+        \State \textbf{return} \textbf{Fail}
         \EndIf
         \State \text{// We omit other cases for simplisity.}
-    \EndIf
-\EndProcedure
-\end{algorithmic}
+        \EndIf
+        \EndProcedure
+    \end{algorithmic}
 \end{algorithm}
 
 
@@ -552,22 +623,22 @@ rules are as follows.
 
 \begin{center}
     {
-    \infrule[{\KAApp}]{
-        \G\AVS \sigma:: (\Pi x:\tau.K)@A \andalso 
-        \G\AVS M:\tau'@A \\
-        \G\AVS \tau' :: * @ A \andalso 
-        \G\AVS \tau \E \tau' @ A
-    }{
-        \G\AVS \sigma\ M::K[x\mapsto M]@A
-    } \hfil
-    \infrule[\TAApp]{
-        \G\AVS M:(\Pi (x:\sigma).\tau) \andalso
-        \G\AVS N:\sigma'@A \\
-        \G\AVS \sigma' :: * @ A \andalso
-        \G\AVS \sigma\E\sigma' @A
-    }{
-        \G\AVS M\ N : \tau[x\mapsto N]@A
-    } 
+        \infrule[{\KAApp}]{
+            \G\AVS \sigma:: (\Pi x:\tau.K)@A \andalso 
+            \G\AVS M:\tau'@A \\
+            \G\AVS \tau' :: * @ A \andalso 
+            \G\AVS \tau \E \tau' @ A
+        }{
+            \G\AVS \sigma\ M::K[x\mapsto M]@A
+        } \hfil
+        \infrule[\TAApp]{
+            \G\AVS M:(\Pi (x:\sigma).\tau) \andalso
+            \G\AVS N:\sigma'@A \\
+            \G\AVS \sigma' :: * @ A \andalso
+            \G\AVS \sigma\E\sigma' @A
+        }{
+            \G\AVS M\ N : \tau[x\mapsto N]@A
+        } 
     }
 \end{center}
 
@@ -634,14 +705,14 @@ We start with the definition of values. Since terms under quotations are
 not executed, the grammar is indexed by stages.
 
 \begin{definition}[Values]
-  The family $V^A$ of sets of values, ranged over by $v^A$,
-  is defined by the following grammar.  In the grammar, $A' \neq \varepsilon$ is assumed.
-  \begin{align*}
-    v^\varepsilon \in V^\varepsilon & ::= \lambda x:\tau.M \mid\ \TB_\alpha v^\alpha \mid \Lambda\alpha.v^\varepsilon                                             & \\
-    v^{A'} \in V^{A'}               & ::= x \mid \lambda x:\tau.v^{A'} \mid v^{A'}\ v^{A'} \mid\ \TB_\alpha v^{A'\alpha} \mid \Lambda\alpha.v^{A'} \mid v^{A'}\ B & \\
-                                    & \quad\   \mid\ \TBL_\alpha v^{A''} (\text{if } A' = A''\alpha \text{ for some } \alpha, A'' \neq \varepsilon)               & \\
-                                    & \quad\   \mid\ \%_\alpha v^{A''} (\text{if } A' = A''\alpha)
-  \end{align*}
+    The family $V^A$ of sets of values, ranged over by $v^A$,
+    is defined by the following grammar.  In the grammar, $A' \neq \varepsilon$ is assumed.
+    \begin{align*}
+        v^\varepsilon \in V^\varepsilon & ::= \lambda x:\tau.M \mid\ \TB_\alpha v^\alpha \mid \Lambda\alpha.v^\varepsilon                                             & \\
+        v^{A'} \in V^{A'}               & ::= x \mid \lambda x:\tau.v^{A'} \mid v^{A'}\ v^{A'} \mid\ \TB_\alpha v^{A'\alpha} \mid \Lambda\alpha.v^{A'} \mid v^{A'}\ B & \\
+        & \quad\   \mid\ \TBL_\alpha v^{A''} (\text{if } A' = A''\alpha \text{ for some } \alpha, A'' \neq \varepsilon)               & \\
+        & \quad\   \mid\ \%_\alpha v^{A''} (\text{if } A' = A''\alpha)
+    \end{align*}
 \end{definition}
 
 Values at stage $\varepsilon$ are $\lambda$-abstractions, quoted pieces of
@@ -656,25 +727,25 @@ details.
 In order to define staged reduction, we define redex and evaluation contexts.
 
 \begin{definition}[Redex]
-  The sets of $\varepsilon$-redexes (ranged over by $R^\varepsilon$) and $\alpha$-redexes (ranged over by $R^\alpha$) are defined by the following grammar.
-  \begin{align*}
-     & R^\varepsilon ::= (\lambda x:\tau.M)\ v^\varepsilon \mid (\Lambda\alpha.v^\varepsilon)\ \varepsilon \\
-     & R^\alpha      ::=\ \TBL_\alpha \TB_\alpha v^\alpha                                                         \\
-  \end{align*}
+    The sets of $\varepsilon$-redexes (ranged over by $R^\varepsilon$) and $\alpha$-redexes (ranged over by $R^\alpha$) are defined by the following grammar.
+    \begin{align*}
+        & R^\varepsilon ::= (\lambda x:\tau.M)\ v^\varepsilon \mid (\Lambda\alpha.v^\varepsilon)\ \varepsilon \\
+        & R^\alpha      ::=\ \TBL_\alpha \TB_\alpha v^\alpha                                                         \\
+    \end{align*}
 \end{definition}
 
 \begin{definition}[Evaluation Context]
-  Let $B$ be either \(\varepsilon\) or a stage variable \(\beta\).
-  The family of sets $ECtx^A_B$ of evaluation contexts, ranged over by $E^A_B$, is defined by the following grammar (in which $A'$ stands for a non-empty stage).
-  %  $A$ is assumed to be nonempty (but $B,A'$ can be empty).
-  \begin{align*}
-    E^\varepsilon_B \in ECtx^\varepsilon_B & ::= \square\ (\text{if\ } B = \varepsilon)
-    \mid E^\varepsilon_B\ M \mid v^\varepsilon\ E^\varepsilon_B \mid \TB_\alpha E^\alpha_B
-    \mid \Lambda\alpha.E^\varepsilon_B \mid E^\varepsilon_B\ A                                                                                    \\
-    E^{A'}_B \in ECtx^{A'}_B               & ::= \square\ (\text{if } A' = B) \mid \lambda x:\tau.E^{A'}_B \mid E^{A'}_B\ M \mid v^{A'}\ E^{A'}_B \\
-                                           & \mid \TB_\alpha E^{A'\alpha}_B \mid \TBL_\alpha E^{A}_B \ (\text{where } A\alpha = A')               \\
-                                           & \mid \Lambda\alpha.E^{A'}_B \mid E^{A'}_B\ A \mid \%_\alpha\ E^{A}_B \ (\text{where } A\alpha = A')
-  \end{align*}
+    Let $B$ be either \(\varepsilon\) or a stage variable \(\beta\).
+    The family of sets $ECtx^A_B$ of evaluation contexts, ranged over by $E^A_B$, is defined by the following grammar (in which $A'$ stands for a non-empty stage).
+    %  $A$ is assumed to be nonempty (but $B,A'$ can be empty).
+    \begin{align*}
+        E^\varepsilon_B \in ECtx^\varepsilon_B & ::= \square\ (\text{if\ } B = \varepsilon)
+        \mid E^\varepsilon_B\ M \mid v^\varepsilon\ E^\varepsilon_B \mid \TB_\alpha E^\alpha_B
+        \mid \Lambda\alpha.E^\varepsilon_B \mid E^\varepsilon_B\ A                                                                                    \\
+        E^{A'}_B \in ECtx^{A'}_B               & ::= \square\ (\text{if } A' = B) \mid \lambda x:\tau.E^{A'}_B \mid E^{A'}_B\ M \mid v^{A'}\ E^{A'}_B \\
+        & \mid \TB_\alpha E^{A'\alpha}_B \mid \TBL_\alpha E^{A}_B \ (\text{where } A\alpha = A')               \\
+        & \mid \Lambda\alpha.E^{A'}_B \mid E^{A'}_B\ A \mid \%_\alpha\ E^{A}_B \ (\text{where } A\alpha = A')
+    \end{align*}
 \end{definition}
 
 The subscripts $A$ and $B$ in $E^A_B$ stand for the stage of the evaluation
@@ -684,22 +755,22 @@ reduced. Terms at non-$\varepsilon$ stages are not reduced, except redexes of
 the form \(\TBL_\alpha \TB_\alpha v^\alpha\) at stage \(\alpha\).  A few
 examples of evaluation contexts are shown below:
 \begin{align*}
-  \square\ (\lambda x:\I.x)                  & \in  ECtx^\varepsilon_\varepsilon \\
-  \Lambda\alpha.\square\ \varepsilon            & \in ECtx^\varepsilon_\varepsilon  \\
-  \TBL_\alpha \TB_\alpha \TBL_\alpha \square & \in ECtx^\alpha_\varepsilon
+    \square\ (\lambda x:\I.x)                  & \in  ECtx^\varepsilon_\varepsilon \\
+    \Lambda\alpha.\square\ \varepsilon            & \in ECtx^\varepsilon_\varepsilon  \\
+    \TBL_\alpha \TB_\alpha \TBL_\alpha \square & \in ECtx^\alpha_\varepsilon
 \end{align*}
 We write $E^A_B[M]$ for the term obtained by filling the hole $\square$ in $E^A_B$ by $M$.
 
 Now we define staged reduction using the redex and evaluation contexts.
 
 \begin{definition}[Staged Reduction]\sloppy
-  The staged reduction relation, written $M \longrightarrow_s N$, is defined by
-  the least relation closed under the rules below.
-  \begin{align*}
-    E^A_\varepsilon [(\lambda x:\tau.M)\ v^\varepsilon] & \longrightarrow_s E^A_\varepsilon[M[x\mapsto v^\varepsilon]]      \\
-    E^A_\varepsilon [(\Lambda\alpha.v^\varepsilon)\ A]  & \longrightarrow_s E^A_\varepsilon[v^\varepsilon[\alpha\mapsto A]] \\
-    E^A_\alpha [\TBL_\alpha \TB_\alpha v^\alpha]        & \longrightarrow_s E^A_\alpha[v^\alpha]                            \\
-  \end{align*}
+    The staged reduction relation, written $M \longrightarrow_s N$, is defined by
+    the least relation closed under the rules below.
+    \begin{align*}
+        E^A_\varepsilon [(\lambda x:\tau.M)\ v^\varepsilon] & \longrightarrow_s E^A_\varepsilon[M[x\mapsto v^\varepsilon]]      \\
+        E^A_\varepsilon [(\Lambda\alpha.v^\varepsilon)\ A]  & \longrightarrow_s E^A_\varepsilon[v^\varepsilon[\alpha\mapsto A]] \\
+        E^A_\alpha [\TBL_\alpha \TB_\alpha v^\alpha]        & \longrightarrow_s E^A_\alpha[v^\alpha]                            \\
+    \end{align*}
 \end{definition}
 
 This reduction relation reduces a term in a deterministic, left-to-right,
@@ -711,8 +782,8 @@ into the surrounding code---notice that, if \(\TB_\alpha v^\alpha\) is at stage
 are run and arguments of a function are evaluated before the application.  We
 show an example of staged reductions. Underlines show the redexes.
 \begin{align*}
-                    & (\Lambda\alpha.(\TB_\alpha \underline{\TBL_\alpha \TB_\alpha ((\lambda x:\I.x)\ 10))})\ \varepsilon \\
-  \longrightarrow_s & \underline{(\Lambda\alpha.(\TB_\alpha ((\lambda x:\I.x)\ 10)))\ \varepsilon}                        \\
-  \longrightarrow_s & \underline{(\lambda x:\I.x)\ 10}                                                                    \\
-  \longrightarrow_s & 10
+    & (\Lambda\alpha.(\TB_\alpha \underline{\TBL_\alpha \TB_\alpha ((\lambda x:\I.x)\ 10))})\ \varepsilon \\
+    \longrightarrow_s & \underline{(\Lambda\alpha.(\TB_\alpha ((\lambda x:\I.x)\ 10)))\ \varepsilon}                        \\
+    \longrightarrow_s & \underline{(\lambda x:\I.x)\ 10}                                                                    \\
+    \longrightarrow_s & 10
 \end{align*}
