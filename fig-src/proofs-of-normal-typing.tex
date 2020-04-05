@@ -1955,11 +1955,37 @@ We generalize Inversion Lemma to use induction.
 
 \begin{lemma}[Types of the Same Term]
     \label{lemma:TypesOfTheSameTerm}
-    If \( \G \V M : \tau @ A \) and \( \G \V M : \tau' @ A \) then \( \G \V \tau \E \tau' @ A \).
+    If \( \G \V M : \tau @ A \) and \( \G \V M : \tau' @ A \) then \( \G \V \tau \E \tau' :: * @ A \).
 \end{lemma}
 
 \begin{proof}
-    \AK{TODO}
+    Prove by induction on \( \G \V M : \tau @ A \).
+    \begin{rneqncase}{\TConv}{
+            \G \V M : \tau @ A \text{ is derived from }
+            \G \V M : \tau'' @ A \text{ and } \G \V \tau \E \tau'' :: * @ A
+        }
+        From the induction hypothesis, \( \G \V \tau \E \tau'' :: * @ A \). From \QTrans, \( \G \V \tau \E \tau' :: * @ A \).
+    \end{rneqncase}
+    \begin{rneqncase}{\TAbs}{
+            \G \V (\lambda (x:\sigma).M) : (\Pi (x:\sigma).\tau)@A \text{ is derived from }
+            \G\V \sigma::*@A \text{ and }
+            \G,x:\sigma@A\V M:\tau@A.
+        }
+        Use Lemma~\ref{lemma:InversionLemmaForPiType} on \( \G \V (\lambda
+        (x:\sigma).M) : \tau' @ A \), there are \( \sigma'' \) and \( \tau'' \)
+        such that \( \tau' = \Pi x:\sigma''.\tau'' \), \( \G \V \sigma \E
+        \sigma'' @ A \) and \( \G, x:\sigma''@A \V M : \tau'' @ A \).
+        Therefore, \( \G \V \Pi x:\sigma.\tau \E \Pi x:\sigma''.\tau'' @ A \)
+        from \QTAbs.
+    \end{rneqncase}
+    \begin{rneqncase}{\TVar}{
+            \G \V x:\tau@A \text{ is derived from }
+            x:\tau@A \in \G.
+        }
+        From the well-formedness of \( \G \), there is no duplicate entry in \(
+        \G \). Therefore, \( \tau = \tau' \) or \( \G \V \tau \E \tau' @ A \)
+        by \TConv.
+    \end{rneqncase}
 \end{proof}
 
 \begin{dfn}[$\natural$ translation]
