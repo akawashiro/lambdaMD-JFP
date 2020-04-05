@@ -153,14 +153,19 @@
             \G, z:\xi @ B, \D \AVS M \E N @ A
             \text{ is derived from } \\
             \ANF(M) \E_\alpha \ANF(N),
-            \G, z:\xi @ B, \D \AVS M : \tau @ A,
+            \G, z:\xi @ B, \D \AVS M : \tau @ A, \\
             \G, z:\xi @ B, \D \AVS N : \tau' @ A \text{ and }
             \G, z:\xi @ B, \D \AVS \tau \E \tau' @ A
         }
     \end{rneqncase}
-    \( \ANF(\ANF(M)[z \mapsto P]) \E_\alpha \ANF(\ANF(N)[z \mapsto P]) \) is obvious from \( \ANF(M) \E_\alpha \ANF(N) \).
-    From Lemma \ref{lemma:AlgorithmicNomalFormAndTermSubstitution}, \( \ANF(M[z \mapsto P]) \E_\alpha \ANF(N[z \mapsto P]) \).
-    Then \( \G, \D[z \mapsto P] \AVS M[z \mapsto P] \E N[z \mapsto P] @ A \).
+    \( \ANF(\ANF(M)[z \mapsto P]) \E_\alpha \ANF(\ANF(N)[z \mapsto P]) \) is
+    obvious from \( \ANF(M) \E_\alpha \ANF(N) \).  From Lemma
+    \ref{lemma:AlgorithmicNomalFormAndTermSubstitution}, \( \ANF(M[z \mapsto
+    P]) \E_\alpha \ANF(N[z \mapsto P]) \). Using the induction hypothesis on
+    the premises of \QAANF, get \( \G, \D[z \mapsto P] \AVS M : \tau @ A \), \(
+    \G, \D[z \mapsto P] \AVS N : \tau' @ A \) and \( \G, \D[z \mapsto P] \AVS
+    \tau \E \tau' @ A \). Then \( \G, \D[z \mapsto P] \AVS M[z \mapsto P] \E
+    N[z \mapsto P] @ A \) from \QAANF.
 \end{proof}
 
 \begin{lemma}[Stage Substitution Lemma of Algorithmic Judgement]
@@ -461,12 +466,23 @@
         item of Theorem \ref{theorem:CompletenessofAlgorithmicTyping}.
     \end{rneqncase}
     \begin{rneqncase}{\QPercent}{
-            \G\V\%_\alpha M \E M : \tau@{A\alpha}
+            \G\V \%_\alpha M \E M : \tau@{A\alpha}
             \text{ is derived from }
             \G\V M:\tau@{A\alpha} \text{ and }
             \G\V M:\tau@A
         }
-        From Lemma \ref{lemma:FreeVariableandStage}, \( \FV(M) = \emptyset \). Then, \( \%_\alpha M \RA M \) and \( \ANF(\%_\alpha M) = \ANF(M) \). So, \( \G\AVS\%_\alpha M \E M \) by \QAANF.
+        From Lemma~\ref{lemma:FreeVariableandStage}, \( \FV(M) = \emptyset \).
+        Then, \( \%_\alpha M \RA M \) and \( \ANF(\%_\alpha M) = \ANF(M) \).
+        Using the induction hypothesis on \( \G\V M:\tau@{A\alpha} \), there is
+        a \( \tau' \) such that \( \G \AVS \tau' :: * @ A\alpha \), \( \G \AVS
+        \tau \E \tau' @ A\alpha \) and \( \G \AVS M : \tau' @ A\alpha \).
+        Using the induction hypothesis on \( \G\V M:\tau@A \), there is a \(
+        \tau'' \) such that \( \G \AVS \tau'' :: * @ A \), \( \G \AVS \tau \E
+        \tau'' @ A \) and \( \G \AVS M : \tau'' @ A \).  Using \TACsp on \( \G
+        \AVS M : \tau'' @ A \), we get \( \G \AVS \%_\alpha M : \tau'' @
+        A\alpha \).  Use \QAANF on \( \ANF(\%_\alpha M) = \ANF(M) \), \( \G
+        \AVS \%_\alpha M : \tau'' @ A\alpha \) and \( \G \AVS M : \tau'' @ A
+        \), we get \( \G \AVS \%_\alpha M \E M @ {A\alpha} \)
     \end{rneqncase}
     \begin{rneqncase}{\QKSym}{}
         It is obvious from Lemma \ref{lemma:SymmetricityinAlgorithmicEquivalence}.
