@@ -271,8 +271,8 @@
         \item If \(\G\AVS \tau :: K @ A \) then \(\G\V \tau ::K  @ A \).
         \item If \(\G\AVS M:\tau @ A \) then \(\G\V M:\tau @ A \).
         \item If \(\G\AVS K,K' @ A\) and \(\G\AVS K\E K' @ A \) then \(\G\V K\E K' @ A \).
-        \item If \(\G\AVS \tau,\tau' :: K @ A \) and \(\G\AVS \tau \E \tau' @ A \) then \(\G\V \tau \E \tau' :: K @ A \).
-        \item If \(\G\AVS M,M' :: \tau @ A \) and \(\G\AVS M\E M' @ A \) then \(\G\V M\E M' :: \tau @ A \).
+        \item If \( \G \AVS \tau :: K @ A \), \( \G \AVS \tau' :: K' @ A \), \( \G \AVS K \E K' @ A\) and \(\G\AVS \tau \E \tau' @ A \) then \(\G\V \tau \E \tau' :: K @ A \).
+        \item If \(\G \AVS M : \tau @ A\), \( \G \AVS M' : \tau' @ A \), \( \G \AVS \tau \E \tau' @ A\) and \(\G\AVS M\E M' @ A \) then \(\G\V M\E M' :: \tau @ A \).
     \end{itemize}
 \end{theorem}
 
@@ -286,13 +286,14 @@
             \G\AVS\tau'::*@A \text{ and } 
             \G\AVS \tau \E \tau' @ A.
         }
-        Considering the derivation of \( \G\AVS \sigma:: (\Pi x:\tau.K)@A \), \( \G \AVS \tau::* \).
-        Using the induction hypothesis on \( \G \V \tau, \tau'::* @ A \) and \( \G\AVS \tau \E \tau' @ A \),
-        we get \( \G\V \tau \E \tau' :: * @ A \).
-
-        From the induction hypothesis, \( \G\V \sigma:: (\Pi x:\tau.K)@A \) and \( \G\V M:\tau'@A \).
-        \TConv and \KApp guide to \( \G\V \sigma\ M::K[x\mapsto M]@A \).
-
+        Considering the derivation of \( \G\AVS \sigma:: (\Pi x:\tau.K)@A \),
+        \( \G \AVS \tau::* \). From
+        Lemma~\ref{lemma:AgreementofAlgorithmicTyping} on \( \G\AVS M:\tau'@A
+        \), \( \G \AVS \tau' :: * @ A \). Using the induction hypothesis on \(
+        \G \AVS \tau, \tau'::* @ A \) and \( \G\AVS \tau \E \tau' @ A \), we
+        get \( \G\V \tau \E \tau' :: * @ A \). From the induction hypothesis,
+        \( \G\V \sigma:: (\Pi x:\tau.K)@A \) and \( \G\V M:\tau'@A \). \TConv
+        and \KApp guide to \( \G\V \sigma\ M::K[x\mapsto M]@A \).
     \end{rneqncase}
     \begin{rneqncase}{\TAApp}{
             \G\AVS M\ N : \tau[x\mapsto N]@A \\
@@ -302,9 +303,13 @@
             \G\AVS \sigma'::*@A \text{ and }
             \G\AVS \sigma\E\sigma' @A
         }
-        Just same as \KApp case, \( \G\V \sigma\E\sigma' :: * @A \).
-        From the induction hypothesis, \( \G\V M:(\Pi (x:\sigma).\tau) @ A\) and \( \G\V N:\sigma'@A \).
-        Then, \( \G\V M\ N : \tau[x\mapsto N]@A \) from \TConv and \TApp.
+        Considering the derivation of \( \G\AVS M: (\Pi x:\sigma.\tau)@A \), \(
+        \G \AVS \sigma :: * @ A \). Use
+        Lemma~\ref{lemma:AgreementofAlgorithmicTyping} on \( \G\AVS N:\sigma'@A
+        \) get \( \G \AVS \sigma' :: * @ A \).  Just same as \KApp case, \(
+        \G\V \sigma\E\sigma' :: * @A \).  From the induction hypothesis, \(
+        \G\V M:(\Pi (x:\sigma).\tau) @ A\) and \( \G\V N:\sigma'@A \). Then, \(
+        \G\V M\ N : \tau[x\mapsto N]@A \) from \TConv and \TApp.
     \end{rneqncase}
     \begin{rneqncase}{\QAANF}{
             \G \AV M \E N@A
@@ -314,15 +319,18 @@
             \G \AVS N : \tau' @ A \text{ and }
             \G \AVS \tau \E \tau' @ A
         }
-        \AK{TODO after Agreement}
-        % Apply the induction hypothesis on \( \G \AVS M, N : \tau @ A \), we get \( \G \V M, N : \tau @ A \).
-        % Apply Lemma \ref{lemma:TypePreservationofAlgorithmicReduction} to \( \G \V M, N : \tau @ A \), \( \G \V \ANF(M), \ANF(N) : \tau @ A \).
-        % Apply Corollary \ref{corollary:ANFandTermEquivalence} to \( \G \V \ANF(M), \ANF(N) : \tau @ A \), \( \G \V M \E \ANF(M) : \tau @ A \) and \( \G \V N \E \ANF(N) : \tau @ A \).
-        %
-        % Apply Lemma \ref{lemma:AlgorithmicTypePreservationofAlgorithmicReduction} to \( \G \AVS M, N : \tau @ A \), \( \G \AVS \ANF(M), \ANF(N) : \tau @ A \).
-        % \( \G \V \ANF(M) \E \ANF(N) : \tau @ A \) from using the induction hypothesis on \( \G \AVS \ANF(M), \ANF(N) : \tau @ A \) and \( \G \AV \ANF(M) \E_\alpha \ANF(N) @A \).
-        %
-        % Apply \QTrans to \( \G \V \ANF(M) \E \ANF(N) : \tau @ A \) and \( \G \V M \E \ANF(M) : \tau @ A \) and \( \G \V N \E \ANF(N) : \tau @ A \), \( \G \V M \E N : \tau @ A \)
+        From Lemma~\ref{lemma:AgreementofAlgorithmicTyping}, \( \G \AVS \tau ::
+        * @ A \) and \( \G \AVS \tau' :: * @ A \). Use the induction hypothesis
+        on \( \G \AVS \tau :: * @ A \), \( \G \AVS \tau' :: * @ A \) and \( \G
+        \AVS \tau \E \tau' @ A \), get \( \G \V \tau \E \tau' :: * @ A \). Use
+        the induction hypothesis on \( \G \AVS M : \tau @ A \) and \( \G \AVS N
+        : \tau' @ A \), respectively, get \( \G \V M : \tau @ A \) and \( \G \V
+        N : \tau' @ A \). Use Corollary~\ref{corollary:ANFandTermEquivalence}
+        on \( \G \V M : \tau @ A \)  get \( \G \V M \E \ANF(M) : \tau @ A \).
+        Use \TConv on \( \G \V N : \tau' @ A \), get \( \G \V N : \tau @ A \).
+        Use Corollary~\ref{corollary:ANFandTermEquivalence}, \( \G \V N \E
+        \ANF(N) : \tau @ A \). From \QTrans and \QSym, get \( \G \V M \E N :
+        \tau @ A \).
     \end{rneqncase}
 \end{proof}
 
