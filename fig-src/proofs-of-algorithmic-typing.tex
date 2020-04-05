@@ -6,7 +6,34 @@
 \end{lemma}
 
 \begin{proof}
-    \AK{TODO}
+    \begin{rneqncase}{\TAVar}{
+        \G \AVS x:\tau@A
+        \text{ is derived from }
+        x:\tau@A \in \G
+        }
+        Because \( \G \) is a sub-sequence of \( \D \), \( x:\tau@A \in \D \).
+        Therefore, we can use \TAVar.
+    \end{rneqncase}
+    \begin{rneqncase}{\TAAbs}{
+            \G\AVS(\lambda (x:\sigma).M):(\Pi (x:\sigma).\tau)@A
+            \text{ is derived from }
+            \G\AVS \sigma::*@A \text{ and }
+            \G,x:\sigma@A\AVS M:\tau@A.
+        }
+        By the induction hypothesis, \( \D \AVS \sigma::*@A \) and \(
+        \D,x:\sigma@A\AVS M:\tau@A. \). Then, we can get it from \TAAbs.
+    \end{rneqncase}
+    \begin{rneqncase}{\QAANF}{
+            \G \AVS M \E N@A
+            \text{ is derived from } \\
+            \ANF(M) \E_\alpha \ANF(N),
+            \G \AVS M : \tau @ A,
+            \G \AVS N : \tau' @ A \text{ and }
+            \G \AVS \tau \E \tau' @ A
+        }
+        From the induction hypothesis, \( \D \AVS M : \tau @ A \), \( \D \AVS N
+        : \tau' @ A \) and \( \D \AVS \tau \E \tau' @ A \). Then, we can use \QAANF.
+    \end{rneqncase}
 \end{proof}
 
 \begin{lemma}[Strong Normalization of Algorithmic Reduction]
