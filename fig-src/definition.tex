@@ -551,5 +551,9 @@ I don't want append \( \G\AVS \sigma' :: * @ A \) to \TAApp.
 \figheader{Algorithmic Term Equivalence}{\rulefbox{\G \AV M \longrightarrow_A M'@A \ \text{and} \ \G \AV M \E M'@A}}
 \ANF is a function which returns the normal form of \( M \) under the algorithmic reduction.
 \begin{center}
-\infrule[\QAANF]{ \ANF(M) \E_\alpha \ANF(N) \andalso \G \AVS M : \tau @ A \andalso \G \AVS N : \tau' @ A \andalso \G \AVS \tau \E \tau' @ A }{\G \AVS M \E N@A} \hfil
+\infrule[\QAANF]{
+    \ANF(M) \E_\alpha \ANF(N) \andalso
+    \G \AVS M : \tau @ A \andalso
+    \G \AVS N : \tau' @ A
+}{\G \AVS M \E N@A} \hfil
 \end{center}

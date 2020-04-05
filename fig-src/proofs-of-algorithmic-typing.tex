@@ -27,9 +27,8 @@
             \G \AVS M \E N@A
             \text{ is derived from } \\
             \ANF(M) \E_\alpha \ANF(N),
-            \G \AVS M : \tau @ A,
-            \G \AVS N : \tau' @ A \text{ and }
-            \G \AVS \tau \E \tau' @ A
+            \G \AVS M : \tau @ A \text{ and }
+            \G \AVS N : \tau' @ A.
         }
         From the induction hypothesis, \( \D \AVS M : \tau @ A \), \( \D \AVS N
         : \tau' @ A \) and \( \D \AVS \tau \E \tau' @ A \). Then, we can use \QAANF.
@@ -153,19 +152,17 @@
             \G, z:\xi @ B, \D \AVS M \E N @ A
             \text{ is derived from } \\
             \ANF(M) \E_\alpha \ANF(N),
-            \G, z:\xi @ B, \D \AVS M : \tau @ A, \\
-            \G, z:\xi @ B, \D \AVS N : \tau' @ A \text{ and }
-            \G, z:\xi @ B, \D \AVS \tau \E \tau' @ A
+            \G, z:\xi @ B, \D \AVS M : \tau @ A, \text{ and }
+            \G, z:\xi @ B, \D \AVS N : \tau' @ A.
         }
     \end{rneqncase}
     \( \ANF(\ANF(M)[z \mapsto P]) \E_\alpha \ANF(\ANF(N)[z \mapsto P]) \) is
     obvious from \( \ANF(M) \E_\alpha \ANF(N) \).  From Lemma
     \ref{lemma:AlgorithmicNomalFormAndTermSubstitution}, \( \ANF(M[z \mapsto
     P]) \E_\alpha \ANF(N[z \mapsto P]) \). Using the induction hypothesis on
-    the premises of \QAANF, get \( \G, \D[z \mapsto P] \AVS M : \tau @ A \), \(
-    \G, \D[z \mapsto P] \AVS N : \tau' @ A \) and \( \G, \D[z \mapsto P] \AVS
-    \tau \E \tau' @ A \). Then \( \G, \D[z \mapsto P] \AVS M[z \mapsto P] \E
-    N[z \mapsto P] @ A \) from \QAANF.
+    the premises of \QAANF, get \( \G, \D[z \mapsto P] \AVS M : \tau @ A \) and
+    \( \G, \D[z \mapsto P] \AVS N : \tau' @ A \). Then \( \G, \D[z \mapsto P]
+    \AVS M[z \mapsto P] \E N[z \mapsto P] @ A \) from \QAANF.
 \end{proof}
 
 \begin{lemma}[Stage Substitution Lemma of Algorithmic Judgement]
@@ -317,25 +314,28 @@
         \G\V M\ N : \tau[x\mapsto N]@A \) from \TConv and \TApp.
     \end{rneqncase}
     \begin{rneqncase}{\QAANF}{
-            \G \AV M \E N@A
+            \G \AVS M \E N@A
             \text{ is derived from } \\
             \ANF(M) \E_\alpha \ANF(N),
-            \G \AVS M : \tau @ A,
-            \G \AVS N : \tau' @ A \text{ and }
-            \G \AVS \tau \E \tau' @ A
+            \G \AVS M : \tau @ A \text { and }
+            \G \AVS N : \tau' @ A.
         }
         From Lemma~\ref{lemma:AgreementofAlgorithmicTyping}, \( \G \AVS \tau ::
-        * @ A \) and \( \G \AVS \tau' :: * @ A \). Use the induction hypothesis
-        on \( \G \AVS \tau :: * @ A \), \( \G \AVS \tau' :: * @ A \) and \( \G
-        \AVS \tau \E \tau' @ A \), get \( \G \V \tau \E \tau' :: * @ A \). Use
-        the induction hypothesis on \( \G \AVS M : \tau @ A \) and \( \G \AVS N
-        : \tau' @ A \), respectively, get \( \G \V M : \tau @ A \) and \( \G \V
-        N : \tau' @ A \). Use Corollary~\ref{corollary:ANFandTermEquivalence}
-        on \( \G \V M : \tau @ A \)  get \( \G \V M \E \ANF(M) : \tau @ A \).
-        Use \TConv on \( \G \V N : \tau' @ A \), get \( \G \V N : \tau @ A \).
-        Use Corollary~\ref{corollary:ANFandTermEquivalence}, \( \G \V N \E
-        \ANF(N) : \tau @ A \). From \QTrans and \QSym, get \( \G \V M \E N :
-        \tau @ A \).
+        * @ A \) and \( \G \AVS \tau' :: * @ A \).  Use the induction
+        hypothesis on \( \G \AVS M : \tau @ A \) and \( \G \AVS N : \tau' @ A
+        \), respectively, get \( \G \V M : \tau @ A \) and \( \G \V N : \tau' @
+        A \). Use Corollary~\ref{corollary:ANFandTermEquivalence} on \( \G \V M
+        : \tau @ A \)  get \( \G \V M \E \ANF(M) : \tau @ A \).  From
+        Lemma~\ref{lemma:Agreement}, \( \G \V M : \tau @ A \) and \( \G \V
+        \ANF(M) : \tau @ A \).  Use
+        Corollary~\ref{corollary:ANFandTermEquivalence}, \( \G \V N \E \ANF(N)
+        : \tau' @ A \). From Lemma~\ref{lemma:Agreement}, \( \G \V N : \tau' @
+        A \) and \( \G \V \ANF(N) : \tau' @ A \).  Because \( \ANF(M) \E_\alpha
+        \ANF(N) \), \( \G \V \ANF(M) : \tau @ A \) and \( \G \V \ANF(N) : \tau'
+        @ A \), \( \G \V \tau \E \tau' @ A \) from
+        Lemma~\ref{lemma:TypesOfTheSameTerm}.  Then, using \TConv, we get \( \G \V N
+        : \tau @ A \). Finally, we can prove \( \G \V M \E N@A \) from
+        Corollary~\ref{corollary:ANFandTermEquivalence}, \QTrans and \QSym.
     \end{rneqncase}
 \end{proof}
 
