@@ -1894,16 +1894,63 @@ We generalize Inversion Lemma to use induction.
     }
 \end{proof}
 
+\begin{lemma}[Equivalence Preservation]
+    This lemma is required to prove Theorem \ref{theorem:TypePreservation}.
+    \label{lemma:EquivalencePreservation}
+    \begin{itemize}
+        \item If \( \G \V M : \tau @ A \) and \( M \longrightarrow M' \), then \( \G \V M \E M' : \tau @ A \).
+        \item If \( \G \V \tau :: K @ A \) and \( \tau \longrightarrow \tau' \), then \( \G \V \tau \E \tau' :: K \).
+    \end{itemize}
+\end{lemma}
+
+\begin{proof}
+    By induction on the type or kind derivation tree. We show two cases about
+    type annotations and one base case.
+    \begin{itemize}
+        \item \TAbs \\
+            In this case \( \G \V \lambda x:\tau.M : \Pi x:\tau.\sigma \) is
+            derived from \( \G \V \tau : * @A \) and \( \G \V x:\tau \V M :
+            \sigma @ A \). There are two cases for the reduction.
+            \begin{itemize}
+                \item \( \lambda x:\tau.M \longrightarrow \lambda x:\tau.M' \) \\
+                    We can use the induction hypothesis on \( \G \V x:\tau \V M
+                    : \sigma @ A \) and get \( \G \V x:\tau \V M \E M' : \sigma
+                    @ A \). Now, we can prove with \QAbs.
+                \item \( \lambda x:\tau.M \longrightarrow \lambda x:\tau'.M \) \\
+                    In this case, we can use the induction hypothesis on \( \G
+                    \V \tau : * @A \) and use \QAbs.
+            \end{itemize}
+        \item \KApp \\
+            In this case \( \G \V \sigma\ M::K[x\mapsto M]@A \) is derived from \( \G\V \sigma:: (\Pi x:\tau.K)@A \) and \( \G\V M:\tau@A \). There are two cases for the reduction.
+            \begin{itemize}
+                \item \( \sigma\ M \longrightarrow \sigma' M \) \\
+                    We can use  the induction hypothesis on \( \G\V \sigma ::
+                    (\Pi x:\tau.K)@A \) and get \( \G \V \sigma \E \sigma' ::
+                    (\Pi x:\tau.K)@A \). Now, we can prove using \QTApp.
+                \item \( \sigma\ M \longrightarrow \sigma M' \) \\
+                    In this case, we can use the induction hypothesis on \(
+                    \G\V M:\tau@A \) and usse \QTApp.
+            \end{itemize}
+        \item \TTBL \\
+            In this case \( \G\V\TBL_{\alpha}M:\tau@{A\alpha} \) is derived from \( \G\V M:\TW_{\alpha}\tau@A \). There are two cases for the reduction.
+            \begin{itemize}
+                \item \( \TBL_{\alpha}M \longrightarrow \TBL_{\alpha}M' \) \\
+                    We can use the induction hypothesis on \( \G\V M:\TW_{\alpha}\tau@A \) and get \( \G \V M \E M' : \TW_{\alpha}\tau@A \). Then prove using \QTBL.
+                \item \( M = \TB_\alpha N \) and \( \TBL_{\alpha}\TB_\alpha N \longrightarrow N \) \\
+                    From Lemma \ref{lemma:InversionLemmaForTWType}, \( \G \V N
+                    : \tau @ A \). From \QTBLTB, \( \G \V
+                    \TBL_{\alpha}\TB_\alpha N \E N : \tau \).
+            \end{itemize}
+    \end{itemize}
+\end{proof}
+
 \begin{theorem}[Type Preservation]
     \label{theorem:TypePreservation}
     If \( \G \V M : \tau @ A \) and \( M \longrightarrow M' \), then \( \G \V M' : \tau @ A \).
 \end{theorem}
 
 \begin{proof}
-    Straightforward induction on typing derivations using
-    \ref{lemma:PreservationOnBetaReduction},
-    \ref{lemma:PreservationOnBlackReduction} and 
-    \ref{lemma:PreservationOnLambdaReduction}.
+    From the first item of Lemma \ref{lemma:EquivalencePreservation} and Lemma \ref{lemma:Agreement}.
 \end{proof}
 
 \begin{dfn}[$\natural$ translation]

@@ -1,5 +1,14 @@
 % !TEX root = ../fig.tex
 
+\begin{lemma}[Algorithmic Weakening]
+    \label{lemma:AlgorithmicWeakening}
+    If \(\G \AVS \mathcal{J}@A\) and \(\G\) is a sub-sequence of \(\D\), then \(\D \AVS J@A\).
+\end{lemma}
+
+\begin{proof}
+    \AK{TODO}
+\end{proof}
+
 \begin{lemma}[Strong Normalization of Algorithmic Reduction]
     \label{lemma:StrongNormalizationofAlgorithmicReduction}
     If \( \G \AVS M :\tau @ A\), there is no infinite sequence of \( \RA \) reductions from \( M \).
@@ -113,14 +122,17 @@
     \). Most cases are the same with Lemma \ref{lemma:TermSubstitution}. I show
     only different cases.
 
-    \begin{rneqncase}{\textsc{QA-ANF}}{
+    \begin{rneqncase}{\QAANF}{
             \G, z:\xi @ B, \D \AVS M \E N @ A
-            \text{ is derived from }
-            \ANF(M) \E_\alpha \ANF(N)
+            \text{ is derived from } \\
+            \ANF(M) \E_\alpha \ANF(N),
+            \G, z:\xi @ B, \D \AVS M : \tau @ A,
+            \G, z:\xi @ B, \D \AVS N : \tau' @ A \text{ and }
+            \G, z:\xi @ B, \D \AVS \tau \E \tau' @ A
         }
     \end{rneqncase}
     \( \ANF(\ANF(M)[z \mapsto P]) \E_\alpha \ANF(\ANF(N)[z \mapsto P]) \) is obvious from \( \ANF(M) \E_\alpha \ANF(N) \).
-    From Lemma \ref{lemma:AlgorithmicNomalFormAndSubstitution}, \( \ANF(M[z \mapsto P]) \E_\alpha \ANF(N[z \mapsto P]) \).
+    From Lemma \ref{lemma:AlgorithmicNomalFormAndTermSubstitution}, \( \ANF(M[z \mapsto P]) \E_\alpha \ANF(N[z \mapsto P]) \).
     Then \( \G, \D[z \mapsto P] \AVS M[z \mapsto P] \E N[z \mapsto P] @ A \).
 \end{proof}
 
@@ -149,20 +161,17 @@
     So \( \G \V M : \tau @ A \).
 \end{proof}
 
-\begin{lemma}[Algorithmic Type Preservation of Algorithmic Reduction]
-    \label{lemma:AlgorithmicTypePreservationofAlgorithmicReduction}
-    If \( \G \AVS M:\tau @A \) and \( M \RA M' \) then \( \G \AVS M' : \tau @ A \).
-\end{lemma}
-
-\begin{proof}
-    Similar to Theorem \ref{theorem:TypePreservation}. In the case of
-    \textsc{A-$\beta$} and \textsc{A-$\Lambda$} we can prove it by Lemma
-    \ref{lemma:TermSubstitutionLemmaOfAlgorithmicJudgement} and
-    \ref{lemma:StageSubstitutionLemmaofAlgorithmicJudgement}.
-\end{proof}
-
-I hope this lemma true. I didn't prove this because it is not needed from
-anywhere in proofs of soundness and completeness.
+% \begin{lemma}[Algorithmic Type Preservation of Algorithmic Reduction]
+%     \label{lemma:AlgorithmicTypePreservationofAlgorithmicReduction}
+%     If \( \G \AVS M:\tau @A \) and \( M \RA M' \) then \( \G \AVS M' : \tau @ A \).
+% \end{lemma}
+%
+% \begin{proof}
+%     Similar to Theorem \ref{theorem:TypePreservation}. In the case of
+%     \textsc{A-$\beta$} and \textsc{A-$\Lambda$} we can prove it by Lemma
+%     \ref{lemma:TermSubstitutionLemmaOfAlgorithmicJudgement} and
+%     \ref{lemma:StageSubstitutionLemmaofAlgorithmicJudgement}.
+% \end{proof}
 
 \begin{lemma}[Agreement of Algorithmic Typing]
     Following statements are valid simultaneously.
@@ -172,6 +181,38 @@ anywhere in proofs of soundness and completeness.
         \item If \( \G \AVS M : \tau @ A \) then \( \G \AVS \tau :: * @ A \).
     \end{itemize}
 \end{lemma}
+
+\begin{proof}
+    \begin{rneqncase}{\TACsp}{
+        \G\AVS \%_\alpha M:\tau@{A\alpha}
+        \text{ is derived from }
+        \G\AVS M:\tau@A \text{ and } \G\AVS \tau :: * @A\alpha.
+        }
+        \( \G\AVS \tau :: * @A\alpha \) is obvious.
+    \end{rneqncase}
+    \begin{rneqncase}{\TAConst}{
+        \G \AVS c:\tau@A
+        \text{ is derived from }
+        c:\tau \in \Sigma
+        }
+        From the well-formedness of \( \Sigma \), \( \AVS \tau :: * @
+        \varepsilon \). Then, we can derive \( \AVS \tau :: * @ A \) from
+        Lemma~\ref{lemma:AlgorithmicWeakening} because there is no free
+        variables or type variables in \( \tau \) and all components of \( \tau
+        \) is included in \( \Sigma \).
+    \end{rneqncase}
+    \begin{rneqncase}{\KATConst}{
+            \G \AVS X::K@A
+            \text{ is derived from }
+            X::K \in \Sigma.
+        }
+        From the well-formedness of \( \Sigma \), \( \AVS K \iskind @
+        \varepsilon \).  Then, we can derive \( \AVS K \iskind @ A \) from
+        Lemma~\ref{lemma:AlgorithmicWeakening} because there is no free
+        variables or type variables in \( K \) and all components of \( \tau \)
+        is included in \( \Sigma \).
+    \end{rneqncase}
+\end{proof}
 
 \begin{lemma}[Algorithmic Reduction and Term Equivalence]
     \label{lemma:AlgorithmicReductionandTermEquivalence}
@@ -238,19 +279,23 @@ anywhere in proofs of soundness and completeness.
         From the induction hypothesis, \( \G\V M:(\Pi (x:\sigma).\tau) @ A\) and \( \G\V N:\sigma'@A \).
         Then, \( \G\V M\ N : \tau[x\mapsto N]@A \) from \TConv and \TApp.
     \end{rneqncase}
-    \begin{rneqncase}{\textsc{QA-ANF}}{
+    \begin{rneqncase}{\QAANF}{
             \G \AV M \E N@A
-            \text{ is derived from } 
-            \G \AV \ANF(M) \E_\alpha \ANF(N) @A.
+            \text{ is derived from } \\
+            \ANF(M) \E_\alpha \ANF(N),
+            \G \AVS M : \tau @ A,
+            \G \AVS N : \tau' @ A \text{ and }
+            \G \AVS \tau \E \tau' @ A
         }
-        Apply the induction hypothesis on \( \G \AVS M, N : \tau @ A \), we get \( \G \V M, N : \tau @ A \).
-        Apply Lemma \ref{lemma:TypePreservationofAlgorithmicReduction} to \( \G \V M, N : \tau @ A \), \( \G \V \ANF(M), \ANF(N) : \tau @ A \).
-        Apply Corollary \ref{corollary:ANFandTermEquivalence} to \( \G \V \ANF(M), \ANF(N) : \tau @ A \), \( \G \V M \E \ANF(M) : \tau @ A \) and \( \G \V N \E \ANF(N) : \tau @ A \).
-
-        Apply Lemma \ref{lemma:AlgorithmicTypePreservationofAlgorithmicReduction} to \( \G \V M, N : \tau @ A \), \( \G \AVS \ANF(M), \ANF(N) : \tau @ A \).
-        \( \G \V \ANF(M) \E \ANF(N) : \tau @ A \) from using the induction hypothesis on \( \G \AVS \ANF(M), \ANF(N) : \tau @ A \) and \( \G \AV \ANF(M) \E_\alpha \ANF(N) @A \).
-
-        Apply \QTrans to \( \G \V \ANF(M) \E \ANF(N) : \tau @ A \) and \( \G \V M \E \ANF(M) : \tau @ A \) and \( \G \V N \E \ANF(N) : \tau @ A \), \( \G \V M \E N : \tau @ A \)
+        \AK{TODO after Agreement}
+        % Apply the induction hypothesis on \( \G \AVS M, N : \tau @ A \), we get \( \G \V M, N : \tau @ A \).
+        % Apply Lemma \ref{lemma:TypePreservationofAlgorithmicReduction} to \( \G \V M, N : \tau @ A \), \( \G \V \ANF(M), \ANF(N) : \tau @ A \).
+        % Apply Corollary \ref{corollary:ANFandTermEquivalence} to \( \G \V \ANF(M), \ANF(N) : \tau @ A \), \( \G \V M \E \ANF(M) : \tau @ A \) and \( \G \V N \E \ANF(N) : \tau @ A \).
+        %
+        % Apply Lemma \ref{lemma:AlgorithmicTypePreservationofAlgorithmicReduction} to \( \G \AVS M, N : \tau @ A \), \( \G \AVS \ANF(M), \ANF(N) : \tau @ A \).
+        % \( \G \V \ANF(M) \E \ANF(N) : \tau @ A \) from using the induction hypothesis on \( \G \AVS \ANF(M), \ANF(N) : \tau @ A \) and \( \G \AV \ANF(M) \E_\alpha \ANF(N) @A \).
+        %
+        % Apply \QTrans to \( \G \V \ANF(M) \E \ANF(N) : \tau @ A \) and \( \G \V M \E \ANF(M) : \tau @ A \) and \( \G \V N \E \ANF(N) : \tau @ A \), \( \G \V M \E N : \tau @ A \)
     \end{rneqncase}
 \end{proof}
 
