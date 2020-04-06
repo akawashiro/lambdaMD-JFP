@@ -41,7 +41,7 @@
 \end{lemma}
 
 \begin{proof}
-    Proved by using \( \natural \) function and induction on the level of subterms.
+    Proved by using \( \natural \) function.
 \end{proof}
 
 \begin{lemma}[Confluence of Algorithmic Reduction]
@@ -176,20 +176,6 @@
     \ref{lemma:AlgorithmicNomalFormAndTermSubstitution}.
 \end{proof}
 
-\begin{lemma}[Type Preservation of Algorithmic Reduction]
-    \label{lemma:TypePreservationofAlgorithmicReduction}
-    If \( \G \V M:\tau @A \) and \( M \RA M' \) then \( \G \V M' : \tau @ A \).
-\end{lemma}
-
-
-\begin{proof}
-    Similar to Theorem \ref{theorem:TypePreservation}, we prove type and
-    equivalence preservation lemma and use them. The different case is
-    \textsc{A-\%}.  If \( \G \V \%_\alpha M : \tau @ A \), \( \%_\alpha M \RA M
-    \) and \( \text{FV}(\%_\alpha M) = \emptyset \), \( M \) is a closed term.
-    So \( \G \V M : \tau @ A \).
-\end{proof}
-
 % \begin{lemma}[Algorithmic Type Preservation of Algorithmic Reduction]
 %     \label{lemma:AlgorithmicTypePreservationofAlgorithmicReduction}
 %     If \( \G \AVS M:\tau @A \) and \( M \RA M' \) then \( \G \AVS M' : \tau @ A \).
@@ -243,27 +229,101 @@
     \end{rneqncase}
 \end{proof}
 
-\begin{lemma}[Algorithmic Reduction and Term Equivalence]
-    \label{lemma:AlgorithmicReductionandTermEquivalence}
-    If \( \G \V M : \tau @ A \) and \( M \RA M' \) then \( \G \V M \E M' : \tau @ A \).
+\begin{lemma}[Symmetricity in Algorithmic Equivalence]
+    The algorithmic equivalence relationship is symmetrical.
+    \label{lemma:SymmetricityinAlgorithmicEquivalence}
+    \begin{itemize}
+        \item If \( \G \AVS K \E K' @ A \) then \( \G \AVS K' \E K @ A \).
+        \item If \( \G \AVS \tau \E \tau' @ A \) then \( \G \AVS \tau' \E \tau @ A \).
+        \item If \( \G \AVS M \E M' @ A \) then \( \G \AVS M' \E M @ A \).
+    \end{itemize}
+\end{lemma}
+
+\begin{proof}
+    It is obvious because all algorithmic equivalence rules are symmetrical.
+\end{proof}
+
+\begin{lemma}[Reflexivity in Algorithmic Equivalence]
+    The algorithmic equivalence relationship is reflexive.
+    \label{lemma:ReflexivityinAlgorithmicEquivalence}
+    \begin{itemize}
+        \item \( \G \AVS K \E K @ A \).
+        \item \( \G \AVS \tau \E \tau @ A \).
+        \item \( \G \AVS M \E M @ A \).
+    \end{itemize}
+\end{lemma}
+
+\begin{proof}
+    Prove by induction.
+\end{proof}
+
+\begin{lemma}[Transition in Algorithmic Equivalence]
+    The algorithmic equivalence relationship is transitive.
+    \label{lemma:TransitioninAlgorithmicEquivalence}
+    \begin{itemize}
+        \item If \( \G \AVS K \E K' @ A \) and \( \G \AVS K' \E K'' @ A \) then \( \G \AVS K \E K'' @ A \).
+        \item If \( \G \AVS \tau \E \tau' @ A \) and \( \G \AVS \tau' \E \tau'' @ A \) then \( \G \AVS \tau \E \tau'' @ A \).
+        \item If \( \G \AVS M \E M' @ A \) and \( \G \AVS M' \E M'' @ A \) then \( \G \AVS M \E M'' @ A \).
+    \end{itemize}
+\end{lemma}
+
+\begin{proof}
+    Prove by the induction on derivations.  In this lemma, there are two
+    hypothesis \( \mathcal{J}_1 \) and \( \mathcal{J}_2 \).  The last rules of
+    \( \mathcal{J}_1 \) and \( \mathcal{J}_2 \) are the same.  Because these
+    are algorithmic derivation so the last rule of derivation is decided
+    uniquely by the shape of judgments.  Then we can prove this theorem easily
+    from the induction hypothesis and the last rule.
+\end{proof}
+
+
+
+\begin{lemma}[Equivalence Preservation of Algorithmic Reduction]
+    \label{lemma:EquivalencePreservationOfAlgorithmicReduction}
+    This is an algorithmic version of Lemma~\ref{lemma:EquivalencePreservation}.
+    \begin{itemize}
+        \item If \( \G \V M : \tau @ A \) and \( M \RA M' \) then \( \G \V M \E M' : \tau @ A \).
+        \item If \( \G \V \tau :: K @ A \) and \( \tau \RA \tau' \), then \( \G \V \tau \E \tau' :: K \).
+    \end{itemize}
 \end{lemma}
 \begin{proof}
-    By case analysis on \( M \RA M' \).
-    \begin{rneqncase}{\textsc{A-\%}}{\%_\alpha M \RA M \text{ and } \emptyset = \text{FV}(\%_\alpha M)}
-        Now, we can assume \( \G \V \%_\alpha M : \tau @ A\alpha \) and \( \G
-        \V M : \tau @ A \).  We prove \( \G \V M : \tau @ A\alpha \) by
-        replacing all appearances of \( A \) with \( A\alpha \) in the
-        derivation of \( \G \V M : \tau @ A \). Then, we can prove \( \G \V \%_\alpha M \E M @ A\alpha \) using \TCsp.
+    By induction on the type or kind derivation tree. We show the different case from Lemma~\ref{lemma:EquivalencePreservation}.
+
+    \begin{rneqncase}{\TCsp}{
+            \G\V \%_\alpha M:\tau@{A\alpha} \text{ is derived from }
+            \G\V M:\tau@A \text{ and }\G\V \tau::*@{A\alpha}
+        }
+        \begin{itemize}
+                \item \textsc{A-\%} \\
+                    \( \%_\alpha M \RA M \) when \( \text{FV}(\%_\alpha M) =
+                    \emptyset \). In this case \( M \) is a closed term
+                    therefore contains no free variables. So, we can derive \(
+                    \G \V M : \tau @ A\alpha \) and \( \G \V \%_\alpha M \E M @
+                    A\alpha \) from \QPercent.
+        \end{itemize}
     \end{rneqncase}
 \end{proof}
+
+\begin{lemma}[Type Preservation of Algorithmic Reduction]
+    \label{lemma:TypePreservationofAlgorithmicReduction}
+    If \( \G \V M:\tau @A \) and \( M \RA M' \) then \( \G \V M' : \tau @ A \).
+\end{lemma}
+
+\begin{proof}
+    Similar to Theorem \ref{theorem:TypePreservation}, we prove by using
+    Lemma~\ref{lemma:AgreementofAlgorithmicTyping} to the second item of
+    Lemma~\ref{lemma:EquivalencePreservationOfAlgorithmicReduction}.
+\end{proof}
+
+
 
 \begin{corollary}[ANF and Term Equivalence]
     \label{corollary:ANFandTermEquivalence}
     If \( \G \V M : \tau @ A \) then \( \G \V M \E \ANF(M) : \tau @ A\).
 \end{corollary}
 \begin{proof}
-    Corollary of Lemma \ref{lemma:TypePreservationofAlgorithmicReduction} and
-    \ref{lemma:AlgorithmicReductionandTermEquivalence}.
+    By induction on the length of reduction using
+    Lemma~\ref{lemma:EquivalencePreservationOfAlgorithmicReduction}. We must use Lemma~\ref{lemma:SymmetricityinAlgorithmicEquivalence} for the base case.
 \end{proof}
 
 \begin{theorem}[Soundness of Algorithmic Typing]
@@ -337,53 +397,6 @@
         : \tau @ A \). Finally, we can prove \( \G \V M \E N@A \) from
         Corollary~\ref{corollary:ANFandTermEquivalence}, \QTrans and \QSym.
     \end{rneqncase}
-\end{proof}
-
-\begin{lemma}[Symmetricity in Algorithmic Equivalence]
-    The algorithmic equivalence relationship is symmetrical.
-    \label{lemma:SymmetricityinAlgorithmicEquivalence}
-    \begin{itemize}
-        \item If \( \G \AVS K \E K' @ A \) then \( \G \AVS K' \E K @ A \).
-        \item If \( \G \AVS \tau \E \tau' @ A \) then \( \G \AVS \tau' \E \tau @ A \).
-        \item If \( \G \AVS M \E M' @ A \) then \( \G \AVS M' \E M @ A \).
-    \end{itemize}
-\end{lemma}
-
-\begin{proof}
-    It is obvious because all algorithmic equivalence rules are symmetrical.
-\end{proof}
-
-\begin{lemma}[Reflexivity in Algorithmic Equivalence]
-    The algorithmic equivalence relationship is reflexive.
-    \label{lemma:ReflexivityinAlgorithmicEquivalence}
-    \begin{itemize}
-        \item \( \G \AVS K \E K @ A \).
-        \item \( \G \AVS \tau \E \tau @ A \).
-        \item \( \G \AVS M \E M @ A \).
-    \end{itemize}
-\end{lemma}
-
-\begin{proof}
-    Prove by induction.
-\end{proof}
-
-\begin{lemma}[Transition in Algorithmic Equivalence]
-    The algorithmic equivalence relationship is transitive.
-    \label{lemma:TransitioninAlgorithmicEquivalence}
-    \begin{itemize}
-        \item If \( \G \AVS K \E K' @ A \) and \( \G \AVS K' \E K'' @ A \) then \( \G \AVS K \E K'' @ A \).
-        \item If \( \G \AVS \tau \E \tau' @ A \) and \( \G \AVS \tau' \E \tau'' @ A \) then \( \G \AVS \tau \E \tau'' @ A \).
-        \item If \( \G \AVS M \E M' @ A \) and \( \G \AVS M' \E M'' @ A \) then \( \G \AVS M \E M'' @ A \).
-    \end{itemize}
-\end{lemma}
-
-\begin{proof}
-    Prove by the induction on derivations.  In this lemma, there are two
-    hypothesis \( \mathcal{J}_1 \) and \( \mathcal{J}_2 \).  The last rules of
-    \( \mathcal{J}_1 \) and \( \mathcal{J}_2 \) are the same.  Because these
-    are algorithmic derivation so the last rule of derivation is decided
-    uniquely by the shape of judgments.  Then we can prove this theorem easily
-    from the induction hypothesis and the last rule.
 \end{proof}
 
 \begin{lemma}[Free Variable and Stage]
