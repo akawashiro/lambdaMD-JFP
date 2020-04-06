@@ -497,6 +497,24 @@
         \AVS \%_\alpha M : \tau'' @ A\alpha \) and \( \G \AVS M : \tau'' @ A
         \), we get \( \G \AVS \%_\alpha M \E M @ {A\alpha} \)
     \end{rneqncase}
+    \begin{rneqncase}{\QBeta}{
+            \G\V(\lambda x:\sigma.M)\ N\E M[x\mapsto N] : \tau[x \mapsto N]@A
+            \text{ is derived from }
+            \G,x:\sigma@A\V M:\tau@A \text{ and }
+            \G\V N:\sigma@A.
+        }
+        \( \ANF((\lambda x:\sigma.M)\ N) \E_\alpha \ANF(M[x\mapsto N]) \)
+        because \( (\lambda x:\sigma.M)\ N \longrightarrow_A M[x\mapsto N] \).
+        Using the induction hypothesis on \( \G,x:\sigma@A\V M:\tau@A \), there
+        is \( \tau' \) such that \( \G,x:\sigma@A \AVS \tau' :: * @ A \) and \(
+        \G,x:\sigma@A \AVS \tau \E \tau' @ A \) and \( \G,x:\sigma@A\AVS
+        M:\tau'@A \). Using the induction hypothesis on \( \G\V N:\sigma@A \),
+        there is \( \sigma' \) such that \( \G \AVS \sigma' :: * @ A \), \( \G
+        \AVS \sigma \E \sigma' @ A \) and \( \G \AVS N : \sigma' \). From
+        \TAApp, \( \G \AVS M\ N : \tau'[x \mapsto N]@A \). From
+        Lemma~\ref{lemma:TermSubstitutionLemmaOfAlgorithmicJudgement}, \( \G
+        \AVS M[x \mapsto N] : \tau'[x \mapsto N] \). Then, we can use \QAANF.
+    \end{rneqncase}
     \begin{rneqncase}{\QKSym}{}
         It is obvious from Lemma \ref{lemma:SymmetricityinAlgorithmicEquivalence}.
     \end{rneqncase}
