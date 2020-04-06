@@ -1939,7 +1939,13 @@ We generalize Inversion Lemma to use induction.
                     \G\V M:\tau@A \) and usse \QTApp.
             \end{itemize}
         \item \TApp \\
-            \AK{TODO}
+            In this case \( \G \V M\ N : \tau[x\mapsto N]@A \) is derived from \( \G\V M:(\Pi (x:\sigma).\tau)@A \) and \( \G\V N:\sigma@A \). There are two cases for the reduction.
+            \begin{itemize}
+                \item \( M\ N \longrightarrow M'\ N \) \\
+                    We can use the induction hypothesis on \( \G\V M:(\Pi (x:\sigma).\tau)@A \) and get \( \G\V M \E M' :(\Pi (x:\sigma).\tau)@A \). From Lemma~\ref{lemma:Agreement}, \( \G \V M' : (\Pi (x:\sigma).\tau)@A \). Then, we can use \TApp for \( M' \) and \( N \).
+                \item \( M\ N \longrightarrow M\ N' \) \\
+                    Similar to the above case.
+            \end{itemize}
         \item \TTBL \\
             In this case \( \G\V\TBL_{\alpha}M:\tau@{A\alpha} \) is derived from \( \G\V M:\TW_{\alpha}\tau@A \). There are two cases for the reduction.
             \begin{itemize}
