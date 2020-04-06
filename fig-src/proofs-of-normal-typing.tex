@@ -1623,18 +1623,18 @@ if and only if we can get \(\G\) from \(\D\) by deleting some or no variables wi
 
 \begin{lemma}[Agreement]
     \label{lemma:Agreement}
-    \begin{enumerate}
+    \begin{itemize}
         \item If \(\G\V \tau::K@A\), then \(\G\V K\iskind@A \).
         \item If \(\G\V M:\tau@A\), then \(\G\V \tau::*@A\).
-        \item If \(\G\V K\E J@A\), then \(\G\V K @A\) and \(\G\V J @A\).
+        \item If \(\G\V K\E J@A\), then \(\G\V K \iskind @A\) and \(\G\V J \iskind @A\).
         \item If \(\G\V \tau\E \sigma :: K@A\), then \(\G\V \tau::K@A\) and \(\G\V \sigma::K@A\).
         \item If \(\G\V M\E N : \tau@A\), then \(\G\V M:\tau@A\) and \(\G\V N:\tau@A\).
-    \end{enumerate}
+    \end{itemize}
 \end{lemma}
 \begin{proof}
 
-    We can prove using induction on the derivation tree.
-    We show some cases as examples.
+    We can prove using induction on the derivation tree.  We show some cases as
+    examples.
 
     \begin{rneqncase}{\TCsp{}}{
             \G\V \%_\alpha M :: \tau @A\alpha \text{ is derived from } \G\V M :: \tau @A \text{ and } \G \V \tau :: * @ A\alpha
@@ -1647,6 +1647,13 @@ if and only if we can get \(\G\) from \(\D\) by deleting some or no variables wi
             }
             From \TAbs{} and \TApp, \( \G\V(\lambda x:\sigma.M)\ N : \tau[x \mapsto N]@A \).
             From Lemma \ref{lemma:TermSubstitution}, \( \G\V M[x\mapsto N] : \tau[x \mapsto N]@A \).
+    \end{rneqncase}
+    \begin{rneqncase}{\QPercent}{
+            \G\V\%_\alpha M \E M : \tau@{A\alpha} \text{ is derived from }
+            \G\V M:\tau@{A\alpha} \text{ and }
+            \G\V M:\tau@A.
+        }
+        \( \G\V \%_\alpha M:\tau@A \) is derived from \( \G\V M:\tau@A \) using \TCsp.
     \end{rneqncase}
 
 \end{proof}
@@ -1759,26 +1766,26 @@ We generalize Inversion Lemma to use induction.
     \end{rneqncase}
     \end{proof}
 
-\begin{lemma}[Inversion Lemma for Application]
-    \begin{item}
-    \item If $\G \V (\lambda x:\sigma.M)\ N: \tau@A$ then there are $\sigma'$ and $\rho$ such that
-        $\G, x:\sigma \V M : \rho @A$ and $\G \V N:\sigma @ A$.
-    \end{item}
-\end{lemma}
-
-\begin{proof}
-    We can prove using induction on the derivation tree.
-    \begin{rneqncase}{\TApp{}}{
-            \G\V (\lambda x:\sigma.M)\ N : \tau[x\mapsto N]@A
-            \text{ is derived from }
-            \G\V (\lambda x:\sigma.M):(\Pi (x:\sigma).\tau)@A \text{ and }
-            \G\V N:\sigma@A
-        }
-        Using Lemma \ref{lemma:InversionLemmaForPiType} to \( \G\V (\lambda
-        x:\sigma.M):(\Pi (x:\sigma).\tau)@A \), there are \( \sigma' \) and \(
-        \tau' \) such that \( \G, x:\sigma' @ A \V M : \tau' \).
-    \end{rneqncase}
-    \end{proof}
+% \begin{lemma}[Inversion Lemma for Application]
+%     \begin{item}
+%     \item If $\G \V (\lambda x:\sigma.M)\ N: \tau@A$ then there are $\sigma'$ and $\rho$ such that
+%         $\G, x:\sigma \V M : \rho @A$ and $\G \V N:\sigma @ A$.
+%     \end{item}
+% \end{lemma}
+%
+% \begin{proof}
+%     We can prove using induction on the derivation tree.
+%     \begin{rneqncase}{\TApp{}}{
+%             \G\V (\lambda x:\sigma.M)\ N : \tau[x\mapsto N]@A
+%             \text{ is derived from }
+%             \G\V (\lambda x:\sigma.M):(\Pi (x:\sigma).\tau)@A \text{ and }
+%             \G\V N:\sigma@A
+%         }
+%         Using Lemma \ref{lemma:InversionLemmaForPiType} to \( \G\V (\lambda
+%         x:\sigma.M):(\Pi (x:\sigma).\tau)@A \), there are \( \sigma' \) and \(
+%         \tau' \) such that \( \G, x:\sigma' @ A \V M : \tau' \).
+%     \end{rneqncase}
+%     \end{proof}
 
 \begin{lemma}[Preservation on $\beta$-Reduction]
     \label{lemma:PreservationOnBetaReduction}
@@ -2006,7 +2013,8 @@ The $\natural$ translation is a translation from $\lambda^\text{MD}$ to \text{LF
                     \natural(\TB_\alpha M) &= \natural(M) & \\
                     \natural(\TBL_\alpha M) &= \natural(M)& \\
                     \natural(\Lambda\alpha.M) &= \natural(M)& \\
-                    \natural(M\ B) &= \natural(M) &
+                    \natural(M\ B) &= \natural(M) & \\
+                    \natural(\%_\alpha M) &= \natural(M) &
                 \end{align*}
             \item Type
             \begin{align*}
@@ -2070,7 +2078,7 @@ The $\natural$ translation is a translation from $\lambda^\text{MD}$ to \text{LF
         \textsc{B-APP-OBJ} rule in LF, we get \\ \({ \natural(\G)
         \vdash_{\natural(\sigma)} \natural(M)\ \natural(N) : \natural(\tau)[x
         \mapsto \natural(N)] }\).  Because \({ \natural(M)\ \natural(N) =
-        \natural(M\ N) }\) from the definition of $\natural$ and \({ \natural(\tau)[x \mapsto \natural(N)] = \natural(\tau[x \mapsto N]) }\) from Lemma~\ref{lemma:SubstitutionAndNatural}, \\
+        \natural(M\ N) }\) from the definition of $\natural$ and \({ \natural(\tau)[x \mapsto \natural(N)] = \natural(\tau[x \mapsto N]) }\) from Lemma~\ref{lemma:SubstitutionAndNatural},
         ${ \natural(\G) \vdash_{\natural(\sigma)} \natural(M\ N) :
         \natural(\tau[x \mapsto N]) }$ in LF.
     \end{rneqncase}
@@ -2087,6 +2095,16 @@ The $\natural$ translation is a translation from $\lambda^\text{MD}$ to \text{LF
         \text{Type} \). Now, we can use \textsc{B-CONV-OBJ} and get \(
         \natural(\G) \vdash_{\natural(\Sigma)} \natural(M) : \natural(\tau')
         \).
+    \end{rneqncase}
+    \begin{rneqncase}{\QPercent}{
+            \G\V\%_\alpha M \E M : \tau@{A\alpha} \text{ is derived from }
+            \G\V M:\tau@{A\alpha} \text{ and }
+            \G\V M:\tau@A.
+        }
+        By the induction hypothesis, \( \natural(\G) \vdash_{\natural(\Sigma)}
+        \natural(M):\natural(\tau) \).  From the definition of \( \natural \),
+        \( \natural(\%_\alpha M) = \natural(M) \). Then, \( \natural(\G)
+        \vdash_{\natural(\Sigma)} \natural(\%_\alpha M) \E \natural(M) \).
     \end{rneqncase}
 \end{proof}
 
