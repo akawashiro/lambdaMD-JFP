@@ -91,8 +91,8 @@ The prefix operators $\TW_\alpha, \TB_\alpha, \TBL_\alpha$, and $\%_\alpha$ are
 given higher precedence over the three forms $\tau\ M$, $M\ N$, $M\ A$ of
 applications, which are left-associative. The binders $\Pi$, $\forall$, and
 $\lambda$ extend as far to the right as possible.  Thus, $\F\alpha.\TW_{\alpha}
-(\Pi x:\I.\text{Vector}\ 5)$ is interpreted as $\F\alpha.(\TW_{\alpha} (\Pi
-x:\I.(\text{Vector}\ 5)))$; and $\Lambda\alpha.\lambda x:\I.\TB_\alpha x\ y$
+(\Pi x:\I.\text{Vector}\ 3)$ is interpreted as $\F\alpha.(\TW_{\alpha} (\Pi
+x:\I.(\text{Vector}\ 3)))$; and $\Lambda\alpha.\lambda x:\I.\TB_\alpha x\ y$
 means $\Lambda\alpha.(\lambda x:\I.(\TB_\alpha x)\ y)$.
 
 % Remark on restriction of \LMD
@@ -309,7 +309,7 @@ $*$ (\TAbs) at the stage where it is declared (\TVar{} and \TAbs).
 As in standard dependent type systems, \TConv{} allows us to replace the type
 of a term with an equivalent one. For example, assuming integers and
 arithmetic, a value of type $\textrm{Vector}\ (4+1)$ can also have type
-$\textrm{Vector}\ 5$ because of \TConv{}.
+$\textrm{Vector}\ 3$ because of \TConv{}.
 
 % Typing rules for a multi-stage calculus
 
@@ -433,18 +433,29 @@ Using vadd$_1$, the main function vadd can be defined as follows:
 	  & \hspace{6mm} = \lambda n:\I.\Lambda\beta.\TB_\beta (\lambda v_1:\Vpn.\ \lambda v_2:\Vpn. \\
 	  & \hspace{63mm} \TBL_\beta (\text{vadd}_1\ \beta\ n\ (\TB_\beta\ v_1)\ (\TB_\beta\ v_2))) 
 \end{align*}
-\renewcommand{\Vpn}{\text{Vector}\ (\%_\beta 5)}%
+\renewcommand{\Vpn}{\text{Vector}\ (\%_\beta 3)}%
 The auxiliary function vadd$_1$ generates code to compute addition of
 the formal arguments $v_1$ and $v_2$ without branching on $n$ or recursion.
 As we mentioned already, if this function is applied to a
-(nonnegative) integer constant, say 5, it returns function code for adding
-two vectors of size 5.  The type of vadd\ 5, obtained by
-substituting 5 for $n$, is
-\( \F\beta.\TW_\beta(\Vpn\to\Vpn\to\Vpn) \).
-\renewcommand{\Vpn}{\text{Vector}\ 5}
-If the obtained code is run by applying to \(\varepsilon\),
-the type of vadd\ 5\ \(\varepsilon\) is
-\(\Vpn\to\Vpn\to\Vpn\) as expected.
+(nonnegative) integer constant, say 3, it returns function code for adding
+two vectors of size 3. 
+
+\begin{align*}
+    & \text{vadd 3} = \Lambda\beta. \TB_\beta (\lambda v_1:\text{Vector } (\%_\beta 3). \lambda v_1:\text{Vector } (\%_\beta 3). \\
+    & \hspace{6mm} \textbf{let}\ w_1 = \text{tail}\ v_1 \textbf{in} \\
+    & \hspace{6mm} \textbf{let}\ w_2 = \text{tail}\ v_1 \textbf{in} \\
+    & \hspace{6mm} \textbf{let}\ x_1 = \text{tail}\ w_1 \textbf{in} \\
+    & \hspace{6mm} \textbf{let}\ x_2 = \text{tail}\ w_1 \textbf{in} \\
+    & \hspace{6mm} \text{cons (head } v_1 + \text{head } v_2)\ \\
+    & \hspace{12mm} \text{(cons (head } w_1 + \text{head } w_2)\ \text{(cons (head } x_1 + \text{head } x_2) \text{ nil})))
+    )
+\end{align*}
+
+The type of vadd\ 3, obtained by substituting 3 for $n$, is \\
+\({ \F\beta.\TW_\beta(\Vpn\to\Vpn\to\Vpn) }\). 
+\renewcommand{\Vpn}{\text{Vector}\ 3}
+If the obtained code is run by applying to \(\varepsilon\), the type of
+vadd\ 3\ \(\varepsilon\) is \(\Vpn\to\Vpn\to\Vpn\) as expected.
 
 There are other ways to implement the vector addition function: by using tuples
 instead of lists if the length for all the vectors is statically known or by
@@ -457,8 +468,8 @@ for a given length.
 
 \paragraph{Remark:}
 If the generated function code is composed with another piece of code of type, say,
-\(\TW_\gamma \text{Vector }5\), \QPercent{} plays an essential role; that is,
-\(\text{Vector }5\) and \(\text{Vector }(\%_\gamma 5)\), which would occur
+\(\TW_\gamma \text{Vector }3\), \QPercent{} plays an essential role; that is,
+\(\text{Vector }3\) and \(\text{Vector }(\%_\gamma 3)\), which would occur
 by applying the generated code to \(\gamma\) (instead of \(\varepsilon\)), are syntactically
 different types but \QPercent{} enables to equate them.
 Interestingly, Hanada and Igarashi~\cite{HanadaIgarashi2014CSP} rejected the idea of
