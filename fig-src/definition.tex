@@ -26,7 +26,12 @@
 \end{center}
 
 We write \( M \longrightarrow M' \) iff \( M \longrightarrow_{\beta} M' \), \(
-M \longrightarrow_\blacklozenge \) or \( M \longrightarrow_\Lambda \).
+M \longrightarrow_\blacklozenge \) or \( M \longrightarrow_\Lambda \). We also
+define reduction relations of types. \( \tau \longrightarrow \tau' \) is the
+least compatible relations closed under the rule below.
+\begin{center}
+    \( \tau\ M \longrightarrow \tau\ M' \)
+\end{center}
 
 \subsection{Type System}
 
@@ -393,7 +398,7 @@ M \longrightarrow_\blacklozenge \) or \( M \longrightarrow_\Lambda \).
 \end{center}
 
 \figheader{Kinding}{\rulefbox{\G \AVS \tau::K @ A}}
-I don't want to append \( \G\AVS \tau' :: * @ A \) to the pre-condition of \KAApp. But it is needed in the proof of soundness.
+% I don't want to append \( \G\AVS \tau' :: * @ A \) to the pre-condition of \KAApp. But it is needed in the proof of soundness.
 \begin{center}
     \infrule[{\KATConst}]{
         X::K \in \Sigma % \andalso
@@ -410,7 +415,6 @@ I don't want to append \( \G\AVS \tau' :: * @ A \) to the pre-condition of \KAAp
     \infrule[{\KAApp}]{
     \G\AVS \sigma:: (\Pi x:\tau.K)@A \andalso 
     \G\AVS M:\tau'@A \andalso 
-    \G\AVS \tau' :: * @ A \andalso 
     \G\AVS \tau \E \tau' @ A
     }{
     \G\AVS \sigma\ M::K[x\mapsto M]@A
@@ -436,7 +440,7 @@ I don't want to append \( \G\AVS \tau' :: * @ A \) to the pre-condition of \KAAp
 % \red{\KACsp\ rule is not syntax-directed.}
 
 \figheader{Algorithmic Typing}{\rulefbox{\G\AVS M:\tau @A}}
-I don't want append \( \G\AVS \sigma' :: * @ A \) to \TAApp.
+% I don't want append \( \G\AVS \sigma' :: * @ A \) to \TAApp.
 \begin{center}
     \infrule[{\TAConst}]{
         c:\tau \in \Sigma
@@ -459,7 +463,6 @@ I don't want append \( \G\AVS \sigma' :: * @ A \) to \TAApp.
     \infrule[\TAApp]{
         \G\AVS M:(\Pi (x:\sigma).\tau) \andalso
         \G\AVS N:\sigma'@A \andalso
-        \G\AVS \sigma' :: * @ A \andalso
         \G\AVS \sigma\E\sigma' @A
     }{
         \G\AVS M\ N : \tau[x\mapsto N]@A
