@@ -143,19 +143,16 @@ environment $\G$.
 
 % Reduction
 
-\begin{definition}[Reduction]
-    The relations $M \longrightarrow_\beta N$, $M \longrightarrow_\blacklozenge N$, and $M \longrightarrow_\Lambda N$ are the least compatible relations closed under the rules below.
-\begin{center}
-  \begin{align*}
-     & (\lambda x:\tau.M) N \longrightarrow_\beta M[x \mapsto N]         \\
-     & \TBL_\alpha (\TB_\alpha M)\longrightarrow_\blacklozenge M         \\
-     & (\Lambda \alpha.M)\ A \longrightarrow_\Lambda M[\alpha \mapsto A]
-  \end{align*}
-\end{center}
-\end{definition}
+There are three kind of base reduction in \LMD.
 
-We write \( M \longrightarrow M' \) iff \( M \longrightarrow_{\beta} M' \), \(
-M \longrightarrow_\blacklozenge \) or \( M \longrightarrow_\Lambda \).
+\begin{definition}[Base Reduction]
+    The relations $M \longrightarrow_\beta N$, $M \longrightarrow_\blacklozenge N$, and $M \longrightarrow_\Lambda N$ are the least compatible relations closed under the rules below.
+    \begin{itemize}
+        \item \( (\lambda x:\tau.M) N \longrightarrow_\beta M[x \mapsto N] \)
+        \item \( \TBL_\alpha (\TB_\alpha M)\longrightarrow_\blacklozenge M \)
+        \item \( (\Lambda \alpha.M)\ A \longrightarrow_\Lambda M[\alpha \mapsto A] \)
+    \end{itemize}
+\end{definition}
 
 The relation $\longrightarrow_\beta$ represents ordinary $\beta$-reduction in
 the \(\lambda\)-calculus; the relation $\longrightarrow_\blacklozenge$
@@ -163,9 +160,25 @@ represents that quotation $\TB_\alpha M$ is canceled by escape and $M$ is
 spliced into the code fragment surrounding the escape; the relation
 $\longrightarrow_\Lambda$ means that a stage abstraction applied to stage $A$
 reduces to the body of the abstraction where $A$ is substituted for the stage
-variable.  There is no reduction rule for CSP as with Hanada and Igarashi
-\cite{HanadaIgarashi2014CSP}.  The CSP operator $\%_\alpha$ disappears when $\varepsilon$
+variable. There is no reduction rule for CSP as with Hanada and Igarashi
+\cite{HanadaIgarashi2014CSP}. The CSP operator $\%_\alpha$ disappears when $\varepsilon$
 is substituted for $\alpha$.
+
+Using the basic reduction, we define reduction of terms and types. We must
+define them simultaneously because they are defined mutually dependending way.
+Not only terms but also types can be reduced in \LMD because types of \LMD may
+contain term and the term can be reduced.  
+
+\begin{definition}[Reduction of Term and Type]
+    The relations \( M \longrightarrow M' \) and \( \tau \longrightarrow \tau'
+    \) are mutually defined as the least compatible relations closed under the
+    rules below.
+    \begin{itemize}
+        \item If \( M \longrightarrow_{\beta} M' \), \( M \longrightarrow_\blacklozenge \) or \( M \longrightarrow_\Lambda \), then \( M \longrightarrow M' \). \\
+        \item If \( \tau \longrightarrow \tau' \), then \( \lambda x:\tau.M \longrightarrow \lambda:\tau'.M \). \\
+        \item If \( M \longrightarrow M' \), then \( \tau\ M \longrightarrow \tau M' \)
+    \end{itemize}
+\end{definition}
 
 We show an example of a reduction sequence in
 Figure~\ref{fig:example-of-reduction}. Underlines show the redexes.  Please
@@ -533,15 +546,15 @@ kinding are the same with original typing, so we don't explain them here.
 The algorithmic typing and kinding rules are almost the same as the original
 typing, but there are no conversion rules, such as \TConv and \KConv. We show
 the algorithmic typing rules in Figure \ref{fig:algorithmic-typing-rules}. Two
-conversion rules in the original rules are not syntax-directed because we cannot infer the premise
-from the conclusion. Thus, we must remove them from algorithmic typing.  As you
-can see in \cite{benjamin2005attapldependent}, all uses of conversion rules in
-a dependent type system can be put into application rules.  The simplification
-is possible because only application rules check the equivalence and all other
-rules don't check it. Therefore, the equivalence of types becomes a problem
-only in application rules. Then, if we replace type equality checks in
-application rules with a conversion check, we can eliminate conversion rules
-from algorithmic rules.
+conversion rules in the original rules are not syntax-directed because we
+cannot infer the premise from the conclusion. Thus, we must remove them from
+algorithmic typing.  As you can see in \cite{benjamin2005attapldependent}, all
+uses of conversion rules in a dependent type system can be put into application
+rules. This transformation is possible because only application rules check the
+equivalence of types, and all other rules don't check it. Therefore, the
+equivalence of types becomes a problem only in application rules. Then, if we
+replace type equality checks in application rules with a conversion check, we
+can eliminate conversion rules from algorithmic rules.
 
 \begin{figure}
     \begin{center}
@@ -607,28 +620,33 @@ from algorithmic rules.
 Unlike the original rules, the kind and type equivalence rules of the
 algorithmic typing have no rules for transitivity, symmetry, and reflexivity.
 We omitted these rules because they are non-syntax directed. Instead of
-including them in the rules, we prove transitivity, symmetry, and reflexivity
-as meta theorems.
+including them in the algorithmic rules, we prove transitivity, symmetry, and
+reflexivity as meta theorems.
 
 % Term equivalence rules -- especially on ANF
 
 Dissimilar to all other rules of the algorithmic typing, the term equivalence
 rules of algorithmic typing are completely different from the original ones. We
-replaced all rules of term equivalence with \QAANF. Although the original
-equivalence rules check the equivalence of terms by constructing a derivation
-tree, the algorithmic equivalence rules calculate the normal form of two terms
-and compare them with just \( \alpha \)-equivalence. \( \ANF(M) \) is the
-normal form of \( M \) under algorithmic reduction as defined in Figure
-\ref{fig:algorithmic-reduction}. Algorithmic reduction is composed of normal
-reductions of \LMD, which are \textsc{(A-$\beta$)}, \textsc{(A-$\TBL\TB$)}, and
-\textsc{(A-$\Lambda$)}, and one special reduction \textsc{(A-$\%$)}, which
-corresponds to \QPercent in the normal term equivalence rules. Just the same as
-the normal reduction \( M \longrightarrow M' \), we define algorithmic
-reduction \( M \longrightarrow_{\text{A}} \).  
+replaced all rules of term equivalence with \QAANF.
 
 \begin{center}
-    \infrule[\QAANF]{ \ANF(M) \E_\alpha \ANF(N) }{\G \AV M \E N@A}
+    \infrule[\QAANF]{
+        \ANF(M) \E_\alpha \ANF(N) \andalso
+        \G \AVS M : \tau @ A \andalso
+        \G \AVS N : \tau' @ A
+    }{\G \AVS M \E N@A}
 \end{center}
+
+Although the original equivalence rules check the equivalence of terms by
+constructing a derivation tree, the algorithmic equivalence rules calculate the
+normal form of two terms and compare them with just \( \alpha \)-equivalence.
+\( \ANF(M) \) is the normal form of \( M \) under algorithmic reduction which is
+defined in Figure \ref{fig:algorithmic-reduction}. Algorithmic reduction is
+composed of normal reductions of \LMD, which are \textsc{(A-$\beta$)},
+\textsc{(A-$\TBL\TB$)}, and \textsc{(A-$\Lambda$)}, and one special reduction
+\textsc{(A-$\%$)}, which corresponds to \QPercent in the normal term
+equivalence rules. Just the same as the normal reduction \( M \longrightarrow
+M' \), we define algorithmic reduction \( M \longrightarrow_{\text{A}} M \).  
 
 \begin{figure}[tbp]
     \begin{center}
