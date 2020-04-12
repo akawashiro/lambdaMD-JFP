@@ -8,6 +8,19 @@ In this subsection, we show the basic properties of \LMD: preservation, strong
 normalization, confluence for full reduction, and progress for staged
 reduction.
 
+First, we start from the Weakening Lemma which we need in the proof of the Substitution Lemma.
+We let $\mathcal{J}$ stand for the judgments \({K \iskind @A}\),
+\({\tau::K@A}\), \({M:\tau@A}\), \({K \E K' @ A}\), \({\tau \E \tau' @ A}\),
+and \({M \E M' : \tau @ A}\).  Substitutions \({\mathcal{J}[z \mapsto M]}\) and
+\({\mathcal{J}[\alpha \mapsto A]}\) are defined in a straightforward manner.
+We use these notations throughout this paper.
+\AK{paper?}.
+
+\begin{lemma}[Weakening]
+    \label{lemma:Weakening}
+    If \(\G \V \mathcal{J}@A\) and \(\G\) is a sub-sequence of \(\D\), then \(\D \V \mathcal{J}@A\).
+\end{lemma}
+
 % Substitution Lemma
 
 The Substitution Lemma in \LMD{} is a little more complicated than usual
@@ -15,12 +28,6 @@ because there are eight judgment forms and two kinds of substitution.  The Term
 Substitution Lemma states that term substitution $[z \mapsto M]$ preserves
 derivability of judgments. The Stage Substitution Lemma states a similar
 property for stage substitution $[\alpha\mapsto A]$.  
-
-We let $\mathcal{J}$ stand for the judgments \({K \iskind @A}\),
-\({\tau::K@A}\), \({M:\tau@A}\), \({K \E K' @ A}\), \({\tau \E \tau' @ A}\),
-and \({M \E M' : \tau @ A}\).  Substitutions \({\mathcal{J}[z \mapsto M]}\) and
-\({\mathcal{J}[\alpha \mapsto A]}\) are defined in a straightforward manner.
-Using these notations, the two substitution lemmas are stated as follows:
 
 \begin{lemma}[Term Substitution]
     \label{lemma:TermSubstitution}
@@ -75,11 +82,11 @@ subterms of a term from the shape of the term.
 
 \begin{proof}
   Each item is strengthened by statements about type equivalence.
-    For example, the first statement is augmented by //[2mm]
+    For example, the first statement is augmented by
       If ${\G \V \rho \E (\Pi x:\sigma.\tau) : K @A}$, then there exist
       $\sigma'$ and $\tau'$ such that ${\rho = \Pi x:\sigma'.\tau'}$ and
       ${\G \V \sigma \E \sigma' : K @A}$ and
-      ${\G, x:\sigma@A\V \tau \E \tau' : J @A}$. //[2mm]
+      ${\G, x:\sigma@A\V \tau \E \tau' : J @A}$.
   and its symmetric version. Then, they are proved simultaneously by induction
     on derivations. Similarly for the others.
 \end{proof}

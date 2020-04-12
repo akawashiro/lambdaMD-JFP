@@ -9,7 +9,7 @@ We say type environment \(\G\) is a sub-sequence of type environment \(\D\)
 if and only if we can get \(\G\) from \(\D\) by deleting some or no variables without changing the order of the remaining elements.
 \begin{lemma}[Weakening]
     \label{lemma:Weakening}
-    If \(\G \V \mathcal{J}@A\) and \(\G\) is a sub-sequence of \(\D\), then \(\D \V J@A\).
+    If \(\G \V \mathcal{J}@A\) and \(\G\) is a sub-sequence of \(\D\), then \(\D \V \mathcal{J}@A\).
 \end{lemma}
 
 \begin{proof}
@@ -1901,18 +1901,58 @@ We generalize Inversion Lemma to use induction.
     }
 \end{proof}
 
+% \begin{lemma}[Attachment Conversion]
+%     \label{lemma:AttachmentConversion}
+%     \begin{itemize}
+%         \item If \( \G \V \tau \E \tau' :: K @ A \) and \( \G \V K \E K' @ A \) then \( \G \V \tau \E \tau' :: K' @ A \).
+%         \item If \( \G \V M \E M' : \tau @ A \) and \( \G \V \tau \E \tau' :: * @ A \) then \( \G \V M \E M' : \tau' @ A \).
+%     \end{itemize}
+% \end{lemma}
+%
+% \begin{proof}
+%     By induction on the derivation tree of the first judgement.
+%     \begin{rneqncase}{\QAbs}{
+%             \G\V\lambda x:\tau.M \E \lambda x:\tau'.N : (\Pi x:\tau.\sigma)@A
+%             \text{ is derived from } \\
+%             \G\V \tau \E \tau' :: *@A \text{ and }
+%             \G,x:\tau@A \V M \E N : \sigma @A. \\
+%             \text{And } \G \V \Pi x:\tau.\sigma \E \rho :: * @ A.
+%         }
+%         Using Lemma~\ref{lemma:InversionLemmaForPiType} to \( \G \V \Pi x:\tau.\sigma \E \rho :: * @ A \), there are \( \tau'', \sigma' \) such that \( \G \V \tau \E \tau'' :: * \) and \( \G, x:\tau''@A \V \sigma \E \sigma' :: * \) and \( \rho = \Pi x:\tau''.\sigma' \).
+%
+%
+%         In this case, we can prove using
+%         Lemma~\ref{lemma:InversionLemmaForPiType}, the induction hypothesis and
+%         \QAbs.
+%     \end{rneqncase}
+%     \begin{rneqncase}{\QTrans}{
+%             \G\V M\E L : \tau@A \text{ is derived from } \\
+%             \G\V M\E N : \tau@A \text{ and }
+%             \G\V N\E L : \tau@A. \\
+%             \text{And } \G \V \tau \E \tau' :: * @ A.
+%         }
+%         From the induction hypothesis, \( \G\V M\E N : \tau'@A \) and \( \G\V
+%         N\E L : \tau'@A \).  Then, we can prove by \QTrans.
+%     \end{rneqncase}
+%     \begin{rneqncase}{\QRefl}{
+%         }
+%     \end{rneqncase}
+%     \begin{rneqncase}{\QTApp}{
+%         }
+%     \end{rneqncase}
+% \end{proof}
+
 \begin{lemma}[Equivalence Preservation]
     This lemma is required to prove Theorem \ref{theorem:TypePreservation}.
     \label{lemma:EquivalencePreservation}
     \begin{itemize}
-        \item If \( \G \V M : \tau @ A \) and \( M \longrightarrow M' \), then \( \G \V M \E M' : \tau @ A \).
-        \item If \( \G \V \tau :: K @ A \) and \( \tau \longrightarrow \tau' \), then \( \G \V \tau \E \tau' :: K \).
+        \item If \( \G \V M : \tau @ A \) and \( M \longrightarrow M' \), then there is \( \tau' \) such that \( \G \V M \E M' : \tau' @ A \) and \( \G \V \tau \E \tau' :: * @ A\).
+        \item If \( \G \V \tau :: K @ A \) and \( \tau \longrightarrow \tau' \), then there is \( K' \) such that \( \G \V \tau \E \tau' :: K' @ A \) and \( \G \V K \E K' @ A\).
     \end{itemize}
 \end{lemma}
 
 \begin{proof}
-    By induction on the type or kind derivation tree. We show two cases about
-    type annotations and one base case.
+    By induction on the derivation tree.
     \begin{itemize}
         \item \TAbs \\
             In this case \( \G \V \lambda x:\tau.M : \Pi x:\tau.\sigma \) is
@@ -1921,28 +1961,47 @@ We generalize Inversion Lemma to use induction.
             \begin{itemize}
                 \item \( \lambda x:\tau.M \longrightarrow \lambda x:\tau.M' \) \\
                     We can use the induction hypothesis on \( \G \V x:\tau \V M
-                    : \sigma @ A \) and get \( \G \V x:\tau \V M \E M' : \sigma
-                    @ A \). Now, we can prove with \QAbs.
+                    : \sigma @ A \) and get there is \( \sigma' \) such that \(
+                    \G \V \sigma \E \sigma' :: * @ A \) and \( \G, x:\tau \V M
+                    \E M' : \sigma' @ A \). Now, we can prove with \QAbs.
                 \item \( \lambda x:\tau.M \longrightarrow \lambda x:\tau'.M \) \\
                     In this case, we can use the induction hypothesis on \( \G
                     \V \tau : * @A \) and use \QAbs.
             \end{itemize}
-        \item \KApp \\
-            In this case \( \G \V \sigma\ M::K[x\mapsto M]@A \) is derived from \( \G\V \sigma:: (\Pi x:\tau.K)@A \) and \( \G\V M:\tau@A \). There are two cases for the reduction.
-            \begin{itemize}
-                \item \( \sigma\ M \longrightarrow \sigma' M \) \\
-                    We can use  the induction hypothesis on \( \G\V \sigma ::
-                    (\Pi x:\tau.K)@A \) and get \( \G \V \sigma \E \sigma' ::
-                    (\Pi x:\tau.K)@A \). Now, we can prove using \QTApp.
-                \item \( \sigma\ M \longrightarrow \sigma M' \) \\
-                    In this case, we can use the induction hypothesis on \(
-                    \G\V M:\tau@A \) and usse \QTApp.
-            \end{itemize}
+        % \item \KApp \\
+        %     In this case \( \G \V \sigma\ M::K[x\mapsto M]@A \) is derived from \( \G\V \sigma:: (\Pi x:\tau.K)@A \) and \( \G\V M:\tau@A \). There are two cases for the reduction.
+        %     \begin{itemize}
+        %         \item \( \sigma\ M \longrightarrow \sigma' M \) \\
+        %             Applying the induction hypothesis to \( \G\V \sigma :: (\Pi
+        %             x:\tau.K)@A \), there is \( J \) such that \( \G \V \sigma
+        %             \E \sigma' :: J \) and \( \G \V (\Pi x:\tau.K) \E J @ A \). Applying Lemma~\ref{lemma:InversionLemmaForPiType} to \( \G \V (\Pi x:\tau.K) \E J @ A \), 
+        %
+        %
+        %             Now, we can prove using
+        %             Lemma~\ref{lemma:InversionLemmaForPiType} and \QTApp.
+        %         \item \( \sigma\ M \longrightarrow \sigma M' \) \\
+        %             In this case, we can use the induction hypothesis on \(
+        %             \G\V M:\tau@A \) and usse \QTApp.
+        %     \end{itemize}
         \item \TApp \\
             In this case \( \G \V M\ N : \tau[x\mapsto N]@A \) is derived from \( \G\V M:(\Pi (x:\sigma).\tau)@A \) and \( \G\V N:\sigma@A \). There are two cases for the reduction.
             \begin{itemize}
                 \item \( M\ N \longrightarrow M'\ N \) \\
-                    We can use the induction hypothesis on \( \G\V M:(\Pi (x:\sigma).\tau)@A \) and get \( \G\V M \E M' :(\Pi (x:\sigma).\tau)@A \). From Lemma~\ref{lemma:Agreement}, \( \G \V M' : (\Pi (x:\sigma).\tau)@A \). Then, we can use \TApp for \( M' \) and \( N \).
+                    Applying the induction hypothesis to \( \G\V M:(\Pi
+                    (x:\sigma).\tau)@A \), there is \( \rho \) such that \( \G
+                    \V M \E M' : \rho @ A \) and \( \G \V \Pi x:\sigma.\tau \E
+                    \rho :: * @ A \). Applying
+                    Lemma~\ref{lemma:InversionLemmaForPiType} to \( \G \V \Pi
+                    x:\sigma.\tau \E \rho :: * @ A \), there are \( \sigma',
+                    \tau' \) such that \( \rho = \Pi x:\sigma'.\tau' \) and \(
+                    \G \V \sigma \E \sigma' :: * @ A \) and \( \G, x:\sigma @ A
+                    \V \tau \E \tau' :: * @ A \). Applying
+                    Lemma~\ref{lemma:Agreement} to \( \G \V M \E M' : \Pi
+                    x:\sigma'.\tau' @ A \), \( \G \V M' : \Pi x:\sigma'.\tau' @
+                    A \). Because \( \G \V \Pi x:\sigma.\tau \E \Pi
+                    x:\sigma'.\tau' :: * @ A \), \( \G \V M' : \Pi
+                    x:\sigma.\tau @ A \) from \TConv. Then, \( \G \V M'\ N :
+                    \tau[x\mapsto N]@A \) from \TApp.
                 \item \( M\ N \longrightarrow M\ N' \) \\
                     Similar to the above case.
             \end{itemize}
@@ -1950,12 +2009,15 @@ We generalize Inversion Lemma to use induction.
             In this case \( \G\V\TBL_{\alpha}M:\tau@{A\alpha} \) is derived from \( \G\V M:\TW_{\alpha}\tau@A \). There are two cases for the reduction.
             \begin{itemize}
                 \item \( \TBL_{\alpha}M \longrightarrow \TBL_{\alpha}M' \) \\
-                    We can use the induction hypothesis on \( \G\V M:\TW_{\alpha}\tau@A \) and get \( \G \V M \E M' : \TW_{\alpha}\tau@A \). Then prove using \QTBL.
+                    We can use the induction hypothesis on \( \G\V M:\TW_{\alpha}\tau@A \) and get \( \G \V M \E M' : \TW_{\alpha}\tau'@A \) and \( \G \V \tau \E \tau' :: * @ A \) from Lemma~\ref{lemma:InversionLemmaForTWType}. Then prove using \QTBL.
                 \item \( M = \TB_\alpha N \) and \( \TBL_{\alpha}\TB_\alpha N \longrightarrow N \) \\
                     From Lemma \ref{lemma:InversionLemmaForTWType}, \( \G \V N
                     : \tau @ A \). From \QTBLTB, \( \G \V
                     \TBL_{\alpha}\TB_\alpha N \E N : \tau \).
             \end{itemize}
+        \item \TConv \\
+            In this case \( \G\V M:\tau'@A \) is derived from \( \G\V M:\tau@A \) and \( \G\V \tau\equiv \tau':: K@A \). And \( M \longrightarrow M' \). \\
+            From the induction hypothesis, \( \G \V M \E M' : \tau'' @ A \) and \( \G \V \tau \E \tau'' :: * @ A \). From \QTRefl, \( \G \V \tau' \E \tau'' :: * @ A \).
     \end{itemize}
 \end{proof}
 
@@ -1965,7 +2027,7 @@ We generalize Inversion Lemma to use induction.
 \end{theorem}
 
 \begin{proof}
-    From the first item of Lemma \ref{lemma:EquivalencePreservation} and Lemma \ref{lemma:Agreement}.
+    From the first item of Lemma \ref{lemma:EquivalencePreservation} and Lemma \ref{lemma:Agreement} and \TConv.
 \end{proof}
 
 \begin{lemma}[Types of the Same Term]

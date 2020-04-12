@@ -154,9 +154,9 @@ least compatible relations closed under the rule below.
     } \\[2mm]
     \infrule[\TConv]{
       \G\V M:\tau@A \andalso
-      \G\V \tau\equiv \sigma :: K@A
+      \G\V \tau\equiv \tau':: K@A
     }{
-      \G\V M:\sigma@A
+      \G\V M:\tau'@A
     } \\[2mm]
     \infrule[{\TTB}]{
       \G\V M:\tau@{A\alpha}
@@ -189,10 +189,10 @@ least compatible relations closed under the rule below.
 \figheader{Kind Equivalence}{\rulefbox{\G\V K\E J@A}}
 \begin{center}
   \infrule[{\QKPi}]{
-    \G\V \tau \E \sigma :: *@A \andalso
-    \G,x:\tau@A \V K \E J@A
+    \G\V \tau \E \tau' :: *@A \andalso
+    \G,x:\tau@A \V K \E K'@A
   }{
-    \G\V\Pi x:\tau.K \E \Pi x:\sigma.J@A
+      \G\V\Pi x:\tau.K \E \Pi x:\tau'.K'@A
   } \\[2mm]
   \infrule[\QKRefl]{
     \G\V K \iskind @A
@@ -200,42 +200,42 @@ least compatible relations closed under the rule below.
     \G\V K\E K@A
   } \hfil
   \infrule[\QKSym]{
-    \G\V K \E J@A
+    \G\V K \E K'@A
   }{
-    \G\V J \E K@A
+    \G\V K' \E K@A
   } \hfil
   \infrule[\QKTrans]{
-    \G\V K \E J@A \andalso
-    \G\V J \E I@A
+    \G\V K \E K'@A \andalso
+    \G\V K' \E K''@A
   }{
-    \G\V K \E I@A
+    \G\V K \E K''@A
   }
 \end{center}
 
 \figheader{Type Equivalence}{\rulefbox{\G\V S\E T :: K @A}}
 \begin{center}
   \infrule[{\QTAbs}]{
-    \G\V \tau \E \sigma :: *@A \andalso
-    \G,x:\tau@A \V \rho \E \pi :: *@A
+    \G\V \tau \E \tau' :: *@A \andalso
+    \G,x:\tau@A \V \sigma \E \sigma' :: *@A
   }{
-    \G\V\Pi x:\tau.\rho \E \Pi x:\sigma.\pi :: *@A
+    \G\V\Pi x:\tau.\sigma \E \Pi x:\tau'.\sigma' :: *@A
   } \\[2mm]
   \infrule[{\QTApp}]{
-    \G\V \tau \E \sigma :: (\Pi x:\rho.K)@A \andalso
-    \G\V M \E N : \rho @A
+    \G\V \tau \E \tau':: (\Pi x:\sigma.K)@A \andalso
+    \G\V M \E M' : \sigma @A
   }{
-    \G\V \tau\ M \E \sigma\ N :: K[x \mapsto M]@A
+    \G\V \tau\ M \E \tau'\ M' :: K[x \mapsto M]@A
   } \\[2mm]
   \infrule[\QTTW]{
-    \G\V \tau \E \sigma :: *@{A\alpha}
+    \G\V \tau \E \tau' :: *@{A\alpha}
   }{
-    \G\V \TW_{\alpha} \tau \E \TW_{\alpha} \sigma :: *@A
+    \G\V \TW_{\alpha} \tau \E \TW_{\alpha} \tau' :: *@A
   } \\[2mm]
   \infrule[\QTGen]{
-    \G\V \tau \E \sigma :: *@A \andalso
+    \G\V \tau \E \tau' :: *@A \andalso
     \alpha\notin\rm{FTV}(\G)\cup\rm{FTV}(A)
   }{
-    \G\V \forall\alpha.\tau \E  \forall\alpha.\sigma :: *@A
+    \G\V \forall\alpha.\tau \E  \forall\alpha.\tau' :: *@A
   } \\[2mm]
   \infrule[\QTRefl]{
     \G\V \tau::K@A
@@ -243,57 +243,57 @@ least compatible relations closed under the rule below.
     \G\V \tau\E\tau :: K@A
   } \hfil
   \infrule[\QTSym]{
-    \G\V \tau \E \sigma :: K@A
+    \G\V \tau \E \tau' :: K@A
   }{
-    \G\V \sigma \E \tau :: K@A
+    \G\V \tau' \E \tau :: K@A
   } \hfil
   \infrule[\QTTrans]{
-    \G\V \tau \E \sigma :: K@A \andalso
-    \G\V \sigma \E \rho  :: K@A
+    \G\V \tau \E \tau' :: K@A \andalso
+    \G\V \tau' \E \tau'' :: K@A
   }{
-    \G\V \tau \E \rho  :: K@A
+    \G\V \tau \E \tau'' :: K@A
   }
 \end{center}
 
 \figheader{Term Equivalence}{\rulefbox{\G\V M\E N : \tau @A}}
 \begin{center}
   \infrule[\QAbs]{
-    \G\V \tau \E \sigma :: *@A \andalso
-    \G,x:\tau@A \V M \E N : \rho @A
+    \G\V \tau \E \tau' :: *@A \andalso
+    \G,x:\tau@A \V M \E M' : \sigma @A
   }{
-    \G\V\lambda x:\tau.M \E \lambda x:\sigma.N : (\Pi x:\tau.\rho)@A
+    \G\V\lambda x:\tau.M \E \lambda x:\tau'.M' : (\Pi x:\tau.\sigma)@A
   } \\[2mm]
   \infrule[\QApp]{
-    \G\V M \E L : (\Pi x:\sigma.\tau)@A \andalso
-    \G\V N \E O : \sigma@A
+    \G\V M \E M' : (\Pi x:\sigma.\tau)@A \andalso
+    \G\V N \E N' : \sigma@A
   }{
-    \G\V M\ N \E L\ O : \tau[x \mapsto N]@A
+    \G\V M\ N \E M'\ N' : \tau[x \mapsto N]@A
   } \\[2mm]
   \infrule[\QTB]{
-    \G\V M \E N : \tau@{A\alpha}
+    \G\V M \E M' : \tau@{A\alpha}
   }{
-    \G\V \TB_\alpha M \E \TB_\alpha N : \TW_\alpha \tau@A
+    \G\V \TB_\alpha M \E \TB_\alpha M' : \TW_\alpha \tau@A
   } \hfil
   \infrule[{\QTBL}]{
-    \G\V M \E N : \TW_\alpha \tau@A
+    \G\V M \E M' : \TW_\alpha \tau@A
   }{
-    \G\V \TBL_\alpha M \E \TBL_\alpha N : \tau@{A\alpha}
+    \G\V \TBL_\alpha M \E \TBL_\alpha M' : \tau@{A\alpha}
   } \\[2mm]
   \infrule[{\QGen}]{
-    \G\V M\E N : \tau@A \andalso
+    \G\V M\E M' : \tau@A \andalso
     \alpha \notin \FTV(\G)\cup\FTV(A)
   }{
-    \G\V \Lambda\alpha.M \E \Lambda\alpha.N : \forall\alpha.\tau@A
+    \G\V \Lambda\alpha.M \E \Lambda\alpha.M' : \forall\alpha.\tau@A
   } \\[2mm]
   \infrule[{\QIns}]{
-    \G\V M \E N:\forall\alpha.\tau@A
+    \G\V M \E M':\forall\alpha.\tau@A
   }{
-    \G\V M\ A \E N\ A : \tau[\alpha \mapsto A]@A
+    \G\V M\ A \E M'\ A : \tau[\alpha \mapsto A]@A
   }\hfil
   \infrule[\QCsp]{
-    \G\V M \E N : \tau @A
+    \G\V M \E M : \tau @A
   }{
-    \G\V\%_\alpha M \E \%_\alpha N : \tau@{A\alpha}
+    \G\V\%_\alpha M \E \%_\alpha M' : \tau@{A\alpha}
   } \\[2mm]
   \infrule[\QRefl]{
     \G\V M:\tau@A
@@ -301,15 +301,15 @@ least compatible relations closed under the rule below.
     \G\V M\E M : \tau@A
   } \hfil
   \infrule[\QSym]{
-    \G\V M\E N : \tau@A
+    \G\V M\E M' : \tau@A
   }{
-    \G\V N\E M : \tau@A
+    \G\V M'\E M : \tau@A
   } \\[2mm]
   \infrule[\QTrans]{
-    \G\V M\E N : \tau@A \andalso
-    \G\V N\E L : \tau@A
+    \G\V M \E M' : \tau@A \andalso
+    \G\V M' \E M'' : \tau@A
   }{
-    \G\V M\E L : \tau@A
+    \G\V M \E M'' : \tau@A
   } \\[2mm]
   \infrule[{\QBeta}]{
     \G,x:\sigma@A\V M:\tau@A \andalso
@@ -324,9 +324,9 @@ least compatible relations closed under the rule below.
   %   \G\V(\lambda x:\sigma.M\ x)\E M: (\Pi x:\sigma.\tau)@A
   % } \\[2mm]
   \infrule[{\QTBLTB}]{
-    \G\V M \E N : \tau@A
+    \G\V M : \tau@A
   }{
-    \G\V \TBL_\alpha(\TB_\alpha M) \E N : \tau @A
+    \G\V \TBL_\alpha(\TB_\alpha M) \E M : \tau @A
   } \\[2mm]
   \infrule[{\QLambda}]{
     \G\V (\Lambda\alpha.M) : \forall\alpha.\tau@A
