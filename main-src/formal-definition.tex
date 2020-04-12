@@ -180,30 +180,34 @@ contain term and the term can be reduced.
     \end{itemize}
 \end{definition}
 
-We show an example of a reduction sequence in
-Figure~\ref{fig:example-of-reduction}. Underlines show the redexes.  Please
-note that terms in type annotations are also reduced like
-Figure~\ref{fig:reduction-in-type-annotations}.
+We show some examples of reductions in \LMD. Underlines show the redexes. Figure~\ref{fig:example-of-reduction} is an example of reduction of a term. In this example, you can see the CSP symbol \( \%_\alpha \) disappears when \( \varepsilon \) is substituted to \( \alpha \). Figure~\ref{fig:type-reduction} is an example of reduction of a type. As we said above, types can be also reduced in \LMD. Figure~\ref{fig:reduction-in-type-annotations} shows reduction in a type annotation is a kind of term reduction.
 
 \begin{figure}[tbp]
 \begin{align*}
     & \hspace{10mm} \underline{(\lambda f:\I\to\I.(\Lambda\alpha.\TB_\alpha (\%_\alpha f\ 1 + (\TBL_\alpha \TB_\alpha 3))\ \varepsilon))\ (\lambda x:\I.x)} \\
-    & \longrightarrow_\beta (\Lambda\alpha.\TB_\alpha (\%_\alpha (\lambda x:\I.x)\ 1 + (\underline{\TBL_\alpha \TB_\alpha 3})))\ \varepsilon        \\
-    & \longrightarrow_\blacklozenge \underline{(\Lambda\alpha.\TB_\alpha (\%_\alpha (\lambda x:\I.x)\ 1 + 3))\ \varepsilon}                                         \\
-    & \longrightarrow_\Lambda \underline{(\lambda x:\I.x)\ 1} + 3                                                                                           \\
-    & \longrightarrow_\beta 1 + 3                                                                                                                           \\
+    & \longrightarrow (\Lambda\alpha.\TB_\alpha (\%_\alpha (\lambda x:\I.x)\ 1 + (\underline{\TBL_\alpha \TB_\alpha 3})))\ \varepsilon        \\
+    & \longrightarrow \underline{(\Lambda\alpha.\TB_\alpha (\%_\alpha (\lambda x:\I.x)\ 1 + 3))\ \varepsilon}                                         \\
+    & \longrightarrow \underline{(\lambda x:\I.x)\ 1} + 3                                                                                           \\
+    & \longrightarrow 1 + 3                                                                                                                           \\
     & \longrightarrow^* 4
 \end{align*}
-    \caption{Example of reduction.}
+    \caption{Example of reduction}
     \label{fig:example-of-reduction}
 \end{figure}
 
 \begin{figure}[tbp]
     \begin{align*}
-        & \hspace{10mm} \lambda v:(\text{Vec }(\underline{1+3})).v \\
-        & \longrightarrow_\beta \lambda v:(\text{Vec }4).v
+        & \hspace{10mm} \text{Vec }(\underline{1+3}) \longrightarrow^* \text{Vec }4
     \end{align*}
-    \caption{Example of reduction in a type annotation.}
+    \caption{Example of reduction of types}
+    \label{fig:type-reduction}
+\end{figure}
+
+\begin{figure}[tbp]
+    \begin{align*}
+        & \hspace{10mm} \lambda v:(\text{Vec }(\underline{1+3})).v \longrightarrow^* \lambda v:(\text{Vec }4).v
+    \end{align*}
+    \caption{Example of reduction in a type annotation}
     \label{fig:reduction-in-type-annotations}
 \end{figure}
 
