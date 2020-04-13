@@ -93,31 +93,27 @@ subterms of a term from the shape of the term.
 
 % Preservation
 
-Thanks to Term/Stage Substitution and Inversion, we can prove Type
-Preservation.
+Thanks to above lemmas, we can prove Type Preservation. However, we cannot use
+induction on the statement of Type Preservation. We prove it as a corollary of
+stronger lemma: Lemma~\ref{lemma:EquivalencePreservation}.
 
-\begin{lemma}[Type and Equivalence Preservation]\
-    \label{lemma:TypeAndEquivalencePreservationon}
+\begin{lemma}[Equivalence Preservation]
+    \label{lemma:EquivalencePreservation}
     \begin{itemize}
-    \item If \( \G \V M : \tau @ A \) and \( M \longrightarrow M' \), then \( \G \V M' : \tau @ A \).
-    \item If \( \G \V M \E M' : \tau @ A \) and \( M \longrightarrow M'' \), then \( \G \V M'' \E M' : \tau @ A \).
+        \item If \( \G \V M : \tau @ A \) and \( M \longrightarrow M' \), then there is \( \tau' \) such that \( \G \V M \E M' : \tau' @ A \) and \( \G \V \tau \E \tau' :: * @ A\).
+        \item If \( \G \V \tau :: K @ A \) and \( \tau \longrightarrow \tau' \), then there is \( K' \) such that \( \G \V \tau \E \tau' :: K' @ A \) and \( \G \V K \E K' @ A\).
     \end{itemize}
 \end{lemma}
 
-\begin{proof}
-    First, there are three base cases for $M \longrightarrow M'$.  They are $M
-    \longrightarrow_\beta M'$, $M \longrightarrow_\Lambda M'$, and $M
-    \longrightarrow_\blacklozenge M'$.  For each case, we can use
-    straightforward induction on derivations.
-\end{proof}
+Now, we can show the first important property of \LMD.
 
-\begin{theorem}[Type Preservation]\
+\begin{theorem}[Type Preservation]
     \label{theorem:TypePreservation}
     If \( \G \V M : \tau @ A \) and \( M \longrightarrow M' \), then \( \G \V M' : \tau @ A \).
 \end{theorem}
 
-\begin{proof} 
-    This is a corollary of Lemma~\ref{lemma:TypeAndEquivalencePreservationon}.
+\begin{proof}
+    From the first item of Lemma \ref{lemma:EquivalencePreservation} and Lemma \ref{lemma:Agreement} and \TConv.
 \end{proof}
 
 % Strong Normalization and how to prove it

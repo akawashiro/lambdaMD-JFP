@@ -498,10 +498,10 @@ least compatible relations closed under the rule below.
 \figheader{Algorithmic Kind Equivalence}{\rulefbox{\G\AVS K\E J@A}}
 \begin{center}
     \infrule[{\QKAPi}]{
-        \G\AVS \tau \E \sigma @ A \andalso
-        \G,x:\tau \AVS K \E J @ A
+        \G\AVS \tau \E \tau' @ A \andalso
+        \G,x:\tau \AVS K \E K' @ A
     }{
-        \G\AVS\Pi x:\tau.K \E \Pi x:\sigma.J @ A
+        \G\AVS\Pi x:\tau.K \E \Pi x:\tau'.K' @ A
     } \hfil
     \infrule[\QKARefl]{
     }{
@@ -512,27 +512,27 @@ least compatible relations closed under the rule below.
 \figheader{Algorithmic Type Equivalence}{\rulefbox{\G\AVS S\E T @A}}
 \begin{center}
     \infrule[{\QTAAbs}]{
-        \G\AVS \tau \E \sigma @ A \andalso
-        \G,x:\tau \AVS \rho \E \pi @ A
+        \G\AVS \tau \E \tau' @ A \andalso
+        \G,x:\tau \AVS \sigma \E \sigma' @ A
     }{
-        \G\AVS\Pi x:\tau.\rho \E \Pi x:\sigma.\pi @ A
+        \G\AVS\Pi x:\tau.\sigma \E \Pi x:\tau'.\sigma' @ A
     } \hfil
     \infrule[{\QTAApp}]{
-        \G\AVS \tau \E \sigma @ A\andalso
-        \G\AVS M \E N @ A
+        \G\AVS \tau \E \tau' @ A\andalso
+        \G\AVS M \E M @ A
     }{
-        \G\AVS \tau\ M \E \sigma\ N @ A
+        \G\AVS \tau\ M \E \tau'\ M' @ A
     } \\[2mm]
     \infrule[\QTATW]{
-        \G\AVS \tau \E \sigma @{A\alpha}
+        \G\AVS \tau \E \tau' @{A\alpha}
     }{
-        \G\AVS \TW_{\alpha} \tau \E \TW_{\alpha} \sigma @ A  
+        \G\AVS \TW_{\alpha} \tau \E \TW_{\alpha} \tau' @ A  
     } \hfil
     \infrule[\QTAGen]{
-        \G\AVS \tau \E \sigma @ A  \andalso
+        \G\AVS \tau \E \tau' @ A  \andalso
         \alpha\notin\rm{FTV}(\G)\cup\rm{FTV}(A)
     }{
-        \G\AVS \forall\alpha.\tau \E  \forall\alpha.\sigma @ A
+        \G\AVS \forall\alpha.\tau \E  \forall\alpha.\tau' @ A
     } \hfil
     \infrule[\QTAConst]{
         X :: K \in \Sigma
