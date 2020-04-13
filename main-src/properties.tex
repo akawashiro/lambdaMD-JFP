@@ -120,7 +120,11 @@ Now, we can show the first important property of \LMD.
 
 Strong Normalization is also an important property, which guarantees that no
 typed term has an infinite reduction sequence. To prove this, we translate \LMD
-to LF~\cite{HarperHonsellPlotkin1993Framework} preserving \( \beta \)-reductions.
+to LF~\cite{HarperHonsellPlotkin1993Framework} preserving \( \beta
+\)-reductions. Using this translation, we can prove Strong Normalization by
+contradiction. If there is an infinite reduction sequence of \LMD, we can map
+it to an infinite reduction sequence of LF which contradicts to Strong
+Normalization of LF.
 
 \begin{definition}[$\natural$ translation]\
     The $\natural$ translation is a translation from $\lambda^\text{MD}$ to \text{LF}.
@@ -165,7 +169,7 @@ to LF~\cite{HarperHonsellPlotkin1993Framework} preserving \( \beta \)-reductions
     \end{multicols}
 \end{definition}
 
-We show \( \natural \) translation preserves typing and equivalence of \LMD.
+Next, we show \( \natural \) translation preserves typing and equivalence of \LMD.
 
 \begin{lemma}[Substitution and $\natural$]\
     \label{lemma:SubstitutionAndNatural}
@@ -176,6 +180,13 @@ We show \( \natural \) translation preserves typing and equivalence of \LMD.
 \begin{proof}
     By induction on the type derivation tree of $\G, x:\sigma \D \V M:\tau@A$.
 \end{proof}
+
+Following Lemma~\ref{lemma:PreservationOfJudgementsInNatural},
+\ref{lemma:PreservationOfBetaReductionInNatural},
+\ref{lemma:PreservationOfLambdaReductionInNatural},
+\ref{lemma:PreservationOfBlacklozengeReductionInNatural} ensure that if there
+is an infinite reduction sequence of \LMD, an infinite reduction sequence of LF
+also exists.
 
 \begin{lemma}[Preservation of Judgements in $\natural$]\
     \label{lemma:PreservationOfJudgementsInNatural}
@@ -379,12 +390,18 @@ In this subsection, we prove the properties of algorithmic typing of \LMD. The
 main purpose of this subsection is proving the completeness and soundness of
 algorithmic typing, which gives the equivalence with the original typing. We
 start by proving the properties of algorithmic reduction because it is used to
-define term equivalence in \QAANF. \ANF is a function which returns normal form
-of a term in algorithmic reduction and \( \E_\alpha \) means \( \alpha \)
+define term equivalence in \QAANF. \( \ANF(M) \) is the normal form of a term
+\( M \) in the algorithmic reduction and \( \E_\alpha \) means \( \alpha \)
 equivalence.
 
 \begin{center}
-    \infrule[\QAANF]{ \ANF(M) \E_\alpha \ANF(N) }{\G \AV M \E N@A}
+    \infrule[\QAANF]{
+        \ANF(M) \E_\alpha \ANF(M') \andalso
+        \G \AVS M : \tau @ A \andalso
+        \G \AVS M' : \tau' @ A
+    }{
+        \G \AVS M \E M' @A
+    }
 \end{center}
 
 First, we prove the uniqueness of \( \ANF(M) \) for all typed term \( M \)
@@ -537,9 +554,87 @@ substitution lemmas.
     \ref{lemma:AlgorithmicNomalFormAndTermSubstitution}.
 \end{proof}
 
-Lemma \ref{lemma:TermSubstitutionLemmaOfAlgorithmicJudgement} and
-\ref{lemma:StageSubstitutionLemmaofAlgorithmicJudgement} enable to prove type
-preservation of algorithmic reduction.
+\begin{lemma}[Agreement of Algorithmic Typing]
+    Following statements are valid simultaneously.
+    \label{lemma:AgreementofAlgorithmicTyping}
+    \begin{itemize}
+        \item If \( \G \AVS \tau :: K @ A \) then \( \G \AVS K \iskind@ A \).
+        \item If \( \G \AVS M : \tau @ A \) then \( \G \AVS \tau :: * @ A \).
+    \end{itemize}
+\end{lemma}
+
+\begin{lemma}[Symmetricity in Algorithmic Equivalence]
+    The algorithmic equivalence relationship is symmetrical.
+    \label{lemma:SymmetricityinAlgorithmicEquivalence}
+    \begin{itemize}
+        \item If \( \G \AVS K \E K' @ A \) then \( \G \AVS K' \E K @ A \).
+        \item If \( \G \AVS \tau \E \tau' @ A \) then \( \G \AVS \tau' \E \tau @ A \).
+        \item If \( \G \AVS M \E M' @ A \) then \( \G \AVS M' \E M @ A \).
+    \end{itemize}
+\end{lemma}
+
+\begin{proof}
+    It is obvious because all algorithmic equivalence rules are symmetrical.
+\end{proof}
+
+\begin{lemma}[Reflexivity in Algorithmic Equivalence]
+    The algorithmic equivalence relationship is reflexive.
+    \label{lemma:ReflexivityinAlgorithmicEquivalence}
+    \begin{itemize}
+        \item If \( \G \AVS K \E K @ A \) then \( \G \AVS K \E K @ A \).
+        \item If \( \G \AVS \tau \E \tau @ A \) then \( \G \AVS \tau \E \tau @ A \).
+        \item If \( \G \AVS M \E M @ A \) then \( \G \AVS M \E M @ A \).
+    \end{itemize}
+\end{lemma}
+
+\begin{proof}
+    Prove by induction.
+\end{proof}
+
+\begin{lemma}[Transition in Algorithmic Equivalence]
+    The algorithmic equivalence relationship is transitive.
+    \label{lemma:TransitioninAlgorithmicEquivalence}
+    \begin{itemize}
+        \item If \( \G \AVS K \E K' @ A \) and \( \G \AVS K' \E K'' @ A \) then \( \G \AVS K \E K'' @ A \).
+        \item If \( \G \AVS \tau \E \tau' @ A \) and \( \G \AVS \tau' \E \tau'' @ A \) then \( \G \AVS \tau \E \tau'' @ A \).
+        \item If \( \G \AVS M \E M' @ A \) and \( \G \AVS M' \E M'' @ A \) then \( \G \AVS M \E M'' @ A \).
+    \end{itemize}
+\end{lemma}
+
+\begin{proof}
+    Prove by the induction on derivations.  In this lemma, there are two
+    hypothesis \( \mathcal{J}_1 \) and \( \mathcal{J}_2 \).  The last rules of
+    \( \mathcal{J}_1 \) and \( \mathcal{J}_2 \) are the same.  Because these
+    are algorithmic derivation so the last rule of derivation is decided
+    uniquely by the shape of judgments.  Then we can prove this theorem easily
+    from the induction hypothesis and the last rule.
+\end{proof}
+
+\begin{lemma}[Equivalence Preservation of Algorithmic Reduction]
+    \label{lemma:EquivalencePreservationOfAlgorithmicReduction}
+    This is an algorithmic version of Lemma~\ref{lemma:EquivalencePreservation}.
+    \begin{itemize}
+        \item If \( \G \V M : \tau @ A \) and \( M \RA M' \) then \( \G \V M \E M' : \tau @ A \).
+        \item If \( \G \V \tau :: K @ A \) and \( \tau \RA \tau' \), then \( \G \V \tau \E \tau' :: K \).
+    \end{itemize}
+\end{lemma}
+\begin{proof}
+    By induction on the type or kind derivation tree. We show the different case from Lemma~\ref{lemma:EquivalencePreservation}.
+
+    \begin{rneqncase}{\TCsp}{
+            \G\V \%_\alpha M:\tau@{A\alpha} \text{ is derived from }
+            \G\V M:\tau@A \text{ and }\G\V \tau::*@{A\alpha}
+        }
+        \begin{itemize}
+                \item \textsc{A-\%} \\
+                    \( \%_\alpha M \RA M \) when \( \text{FV}(\%_\alpha M) =
+                    \emptyset \). In this case \( M \) is a closed term
+                    therefore contains no free variables. So, we can derive \(
+                    \G \V M : \tau @ A\alpha \) and \( \G \V \%_\alpha M \E M @
+                    A\alpha \) from \QPercent.
+        \end{itemize}
+    \end{rneqncase}
+\end{proof}
 
 \begin{lemma}[Type Preservation of Algorithmic Reduction]
     \label{lemma:TypePreservationofAlgorithmicReduction}
@@ -554,38 +649,11 @@ preservation of algorithmic reduction.
     So \( \G \V M : \tau @ A \).
 \end{proof}
 
-\begin{lemma}[Algorithmic Type Preservation of Algorithmic Reduction]
-    \label{lemma:AlgorithmicTypePreservationofAlgorithmicReduction}
-    If \( \G \AVS M:\tau @A \) and \( M \RA M' \) then \( \G \AVS M' : \tau @ A \).
-\end{lemma}
-
-\begin{proof}
-    Similar to Theorem \ref{theorem:TypePreservation}. In the case of
-    \textsc{A-$\beta$} and \textsc{A-$\Lambda$} we can prove it by Lemma
-    \ref{lemma:TermSubstitutionLemmaOfAlgorithmicJudgement} and
-    \ref{lemma:StageSubstitutionLemmaofAlgorithmicJudgement}.
-\end{proof}
-
-\begin{lemma}[Algorithmic Reduction and Term Equivalence]
-    \label{lemma:AlgorithmicReductionandTermEquivalence}
-    If \( \G \V M : \tau @ A \) and \( M \RA M' \) then \( \G \V M \E M' : \tau @ A \).
-\end{lemma}
-
-\begin{proof}
-    By case analysis on \( M \RA M' \).
-    \begin{rneqncase}{\textsc{A-\%}}{\%_\alpha M \RA M \text{ and } \emptyset = \text{FV}(\%_\alpha M)}
-        Now, we can assume \( \G \V \%_\alpha M : \tau @ A\alpha \) and \( \G
-        \V M : \tau @ A \).  We prove \( \G \V M : \tau @ A\alpha \) by
-        replacing all appearances of \( A \) with \( A\alpha \) in the
-        derivation of \( \G \V M : \tau @ A \). Then, we can prove \( \G \V \%_\alpha M \E M @ A\alpha \) using \TCsp.
-    \end{rneqncase}
-\end{proof}
-
 Now, we can say term \( M \) and \( \ANF(M) \) are equivalent.
 
 \begin{lemma}[ANF and Term Equivalence]
     \label{lemma:ANFandTermEquivalence}
-    If \( \G \V M : \tau @ A \) then \\ \({ \G \V M \E \ANF(M) : \tau @ A }\).
+    If \( \G \V M : \tau @ A \) then \({ \G \V M \E \ANF(M) : \tau @ A }\).
 \end{lemma}
 \begin{proof}
     Corollary of Lemma \ref{lemma:TypePreservationofAlgorithmicReduction} and
@@ -660,52 +728,6 @@ The next theorem is the completeness of algorithmic typing. First, we prove
 symmetricity, reflexivity and transitivity of algorithmic typing, which are
 indispensable for the proof.
 
-\begin{lemma}[Symmetricity in Algorithmic Equivalence]
-    The algorithmic equivalence relationship is symmetrical.
-    \label{lemma:SymmetricityinAlgorithmicEquivalence}
-    \begin{itemize}
-        \item If \( \G \AVS K \E K' @ A \) then \( \G \AVS K' \E K @ A \).
-        \item If \( \G \AVS \tau \E \tau' @ A \) then \( \G \AVS \tau' \E \tau @ A \).
-        \item If \( \G \AVS M \E M' @ A \) then \( \G \AVS M' \E M @ A \).
-    \end{itemize}
-\end{lemma}
-
-\begin{proof}
-    It is obvious because all algorithmic equivalence rules are symmetrical.
-\end{proof}
-
-\begin{lemma}[Reflexivity in Algorithmic Equivalence]
-    The algorithmic equivalence relationship is reflexive.
-    \label{lemma:ReflexivityinAlgorithmicEquivalence}
-    \begin{itemize}
-        \item If \( \G \AVS K \E K @ A \) then \( \G \AVS K \E K @ A \).
-        \item If \( \G \AVS \tau \E \tau @ A \) then \( \G \AVS \tau \E \tau @ A \).
-        \item If \( \G \AVS M \E M @ A \) then \( \G \AVS M \E M @ A \).
-    \end{itemize}
-\end{lemma}
-
-\begin{proof}
-    Prove by induction.
-\end{proof}
-
-\begin{lemma}[Transition in Algorithmic Equivalence]
-    The algorithmic equivalence relationship is transitive.
-    \label{lemma:TransitioninAlgorithmicEquivalence}
-    \begin{itemize}
-        \item If \( \G \AVS K \E K' @ A \) and \( \G \AVS K' \E K'' @ A \) then \( \G \AVS K \E K'' @ A \).
-        \item If \( \G \AVS \tau \E \tau' @ A \) and \( \G \AVS \tau' \E \tau'' @ A \) then \( \G \AVS \tau \E \tau'' @ A \).
-        \item If \( \G \AVS M \E M' @ A \) and \( \G \AVS M' \E M'' @ A \) then \( \G \AVS M \E M'' @ A \).
-    \end{itemize}
-\end{lemma}
-
-\begin{proof}
-    Prove by the induction on derivations.  In this lemma, there are two
-    hypothesis \( \mathcal{J}_1 \) and \( \mathcal{J}_2 \).  The last rules of
-    \( \mathcal{J}_1 \) and \( \mathcal{J}_2 \) are the same.  Because these
-    are algorithmic derivation so the last rule of derivation is decided
-    uniquely by the shape of judgments.  Then we can prove this theorem easily
-    from the induction hypothesis and the last rule.
-\end{proof}
 
 This lemma is used in \QPercent case in the proof of the completeness.
 

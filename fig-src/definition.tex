@@ -557,6 +557,8 @@ least compatible relations closed under the rule below.
 \infrule[\QAANF]{
     \ANF(M) \E_\alpha \ANF(N) \andalso
     \G \AVS M : \tau @ A \andalso
-    \G \AVS N : \tau' @ A
-}{\G \AVS M \E N@A} \hfil
+    \G \AVS M' : \tau' @ A
+}{
+    \G \AVS M \E M' @A
+} \hfil
 \end{center}
