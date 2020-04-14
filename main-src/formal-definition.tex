@@ -641,29 +641,35 @@ replaced all rules of term equivalence with \QAANF.
     }{\G \AVS M \E N@A}
 \end{center}
 
-Although the original equivalence rules check the equivalence of terms by
-constructing a derivation tree, the algorithmic equivalence rules calculate the
-normal form of two terms and compare them with just \( \alpha \)-equivalence.
-\( \ANF(M) \) is the normal form of \( M \) under algorithmic reduction which is
-defined in Figure \ref{fig:algorithmic-reduction}. Algorithmic reduction is
-composed of normal reductions of \LMD, which are \textsc{(A-$\beta$)},
-\textsc{(A-$\TBL\TB$)}, and \textsc{(A-$\Lambda$)}, and one special reduction
-\textsc{(A-$\%$)}, which corresponds to \QPercent in the normal term
-equivalence rules. Just the same as the normal reduction \( M \longrightarrow
-M' \), we define algorithmic reduction \( M \longrightarrow_{\text{A}} M \).  
+Although the original equivalence rules check the equivalence of terms by constructing a derivation tree, the algorithmic equivalence rules calculate the normal form of two terms and compare them with just \( \alpha \)-equivalence.  \( \ANF(M) \) is the normal form of \( M \) under algorithmic reduction which is defined as follows.
 
-\begin{figure}[tbp]
-    \begin{center}
-        \begin{align*}
-            & (\lambda x:\tau.M) N \RA M[x \mapsto N]       &  & \textsc{(A-$\beta$)}   \\
-            & \TBL_\alpha (\TB_\alpha M) \RA M              &  & \textsc{(A-$\TBL\TB$)} \\
-            & (\Lambda \alpha.M)\ A \RA M[\alpha \mapsto A] &  & \textsc{(A-$\Lambda$)} \\
-            & \%_\alpha M \RA M \qquad (\emptyset = \text{FV}(\%_\alpha M)) &  & \textsc{(A-$\%$)}
-        \end{align*}
-    \end{center}
-    \caption{Algorithmic Basic Reduction}
-    \label{fig:algorithmic-reduction}
-\end{figure}
+\begin{definition}[Algorithmic Base Reduction]
+    The relations \( M \longrightarrow_{A\beta} M' \), \( M \longrightarrow_{A\blacklozenge} M' \), and \( M \longrightarrow_{A\Lambda} M' \), and \( M \longrightarrow_{A\%} M' \) are the least compatible relations closed under the rules below.
+    \begin{itemize}
+        \item \( (\lambda x:\tau.M) N \longrightarrow_{A\beta} M[x \mapsto N] \)
+        \item \( \TBL_\alpha (\TB_\alpha M) \longrightarrow_{A\blacklozenge} M \)
+        \item \( (\Lambda \alpha.M)\ A \longrightarrow_{A\Lambda} M[\alpha \mapsto A] \)
+        \item \( \%_\alpha M \longrightarrow_{A\%} M \qquad (\emptyset = \text{FV}(\%_\alpha M)) \)
+    \end{itemize}
+\end{definition}
+
+\begin{definition}[Algorithmic Reduction of Term and Type]
+    The relations \( M \RA M' \) and \( \tau \RA \tau'
+    \) are mutually defined as the least compatible relations closed under the
+    rules below.
+    \begin{itemize}
+        \item If \( M \longrightarrow_{A\beta} M' \), \( M \longrightarrow_{A\blacklozenge} M' \), \( M \longrightarrow_{A\Lambda} M' \) or \( M \longrightarrow_{A\%} M' \) then \( M \longrightarrow M' \). \\
+        \item If \( \tau \longrightarrow \tau' \), then \( \lambda x:\tau.M \longrightarrow \lambda:\tau'.M \). \\
+        \item If \( M \longrightarrow M' \), then \( \tau\ M \longrightarrow \tau M' \)
+    \end{itemize}
+\end{definition}
+
+We define the algorithmic reduction using base reduction just the same as the
+original reduction. The difference from the original reduction is \( M
+\longrightarrow_{A\%} M' \) reduction in Algorithmic Base Reduction. This base
+reduction corresponds to \QPercent in the original equivalence rules. In
+detail, the side condition \( \emptyset = \FV(\%_\alpha M) \) corresponds to
+the premises of \QPercent \( \G\V M:\tau@{A\alpha} \) and \( \G\V M:\tau@A \).
 
 % A part of concrete algorithm
 
