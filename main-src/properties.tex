@@ -46,16 +46,16 @@ property for stage substitution $[\alpha\mapsto A]$.
 
 % Agreement
 
-We prove agreement to use later in the completeness of the algorithmic typing.
+We prove agreement to use later in many proofs.
 
 \begin{lemma}[Agreement]\
     \label{lemma:Agreement}
     \begin{itemize}
         \item If \(\G\V \tau::K@A\), then \(\G\V K \iskind@A \).
         \item If \(\G\V M:\tau@A\), then \(\G\V \tau::*@A\).
-        \item If \(\G\V K\E J@A\), then \(\G\V K @A\) and \(\G\V J @A\).
-        \item If \(\G\V \tau\E \sigma :: K@A\), then \(\G\V \tau::K@A\) and \(\G\V \sigma::K@A\).
-        \item If \(\G\V M\E N : \tau@A\), then \(\G\V M:\tau@A\) and \(\G\V N:\tau@A\).
+        \item If \(\G\V K\E K'@A\), then \(\G\V K \iskind @A\) and \(\G\V K' \iskind @A\).
+        \item If \(\G\V \tau\E \tau':: K@A\), then \(\G\V \tau::K@A\) and \(\G\V \tau'::K@A\).
+        \item If \(\G\V M\E M' : \tau@A\), then \(\G\V M:\tau@A\) and \(\G\V M':\tau@A\).
     \end{itemize}
 \end{lemma}
 \begin{proof}
